@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html>
+<title>IPL 2023 - Point Calculator</title>
+<head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+</head>
+
+<body>
+      <script>
+            var app = angular.module("myShoppingList", []);
+            app.controller("myCtrl", function ($scope, $http, $window) {
+
+                  var objDetail = {};
+
+                  $scope.totalOptions = 0;
+                  $scope.innerWidth = $window.innerWidth;
+                  $scope.nextLevel = [];
+                  $scope.excZero = false;
+
+                  $scope.totalOptionsRoot = 0;
+
+                  $scope.nextLevelCounter = 0;
+
+                  const d = new Date();
+                  let ms = d.getMilliseconds();
+                  $scope.loading = true;
+                  $http.get('data/initData.json?q=' + ms.toString()).
+                        then(function (response) {
+                              console.log(response);
+                              $scope.loading = false;
+                              teams = response.data.currentPoints;
+                              $scope.nextLevelCounter = response.data.nextLevelCounter;
+                              teams.sort((a, b) => (b.point == a.point ? parseFloat(b.runrate) - parseFloat(a.runrate) : b.point - a.point));
+
+                              
+                              $scope.textFooter = response.data.textFooter;
+                              $scope.linkFooter = response.data.linkFooter;
+                              
+                              initialize();
+                              console.log('222');
+
+                              $scope.rootPos = response.data.rootPos;
+
+                              $scope.upcomingMatches = $scope.upcomingMatches.slice(response.data.removeMatch);
+                        });
+
+
+                  var teams = [
+                        { name: 'GT', desc: 'Gujarat', point: 8, won: 0, lost: 0 },
+                        { name: 'RR', desc: 'Rajasdan Royals', point: 6, won: 0, lost: 0 },
+                        { name: 'LSG', desc: 'Lucknow Super Giants', point: 10, won: 0, lost: 0 },
+                        { name: 'DC', desc: 'Delhi Capitals', point: 6, won: 0, lost: 0 },
+                        { name: 'RCB', desc: 'Royal Challengers', point: 10, won: 0, lost: 0 },
+                        { name: 'KKR', desc: 'Kolkota Knight Riders', point: 8, won: 0, lost: 0 },
+                        { name: 'PBKS', desc: 'Punjab', point: 12, won: 0, lost: 0 },
+                        { name: 'SRH', desc: 'Sun Risers Hydrabad', point: 6, won: 0, lost: 0 },
+                        { name: 'CSK', desc: 'Chennai Super Kings', point: 0, won: 0, lost: 0 },
+                        { name: 'MI', desc: 'Mumbai', point: 10, won: 0, lost: 0 },
+                  ];
+
+
+                  $scope.teams = teams;
+
+                  $scope.detailedTeam = "gt";
+                  $scope.detailedPos = "-1";
+                  $scope.detailedType = "point";
+
+
+                  $scope.myPointFilter = function (item, arr) {
+                        return arr < 11 || item == 'Run Rate';
+                  };
+
+                  var teamsObj = {
+                        'GT': { point: [], runrate: [] },
+                        'RR': { point: [], runrate: [] },
+                        'LSG': { point: [], runrate: [] },
+                        'DC': { point: [], runrate: [] },
+                        'RCB': { point: [], runrate: [] },
+                        'KKR': { point: [], runrate: [] },
+                        'PBKS': { point: [], runrate: [] },
+                        'SRH': { point: [], runrate: [] },
+                        'CSK': { point: [], runrate: [] },
+                        'MI': { point: [], runrate: [] },
+
+                  };
+
+
+
+
+                  initialize();
+
+                  function initialize() {
+
+                        $scope.teams = teams;
+
+                        for (var i = 0; i < teams.length; i++) {
+                              teamsObj[teams[i].name].currentPoint = teams[i].point;
+                              teamsObj[teams[i].name].point = teams[i].point;
+                              teamsObj[teams[i].name].desc = teams[i].desc;
+                              teamsObj[teams[i].name].won = teams[i].won;
+                              teamsObj[teams[i].name].lost = teams[i].lost;
+                              teamsObj[teams[i].name].runrate = teams[i].runrate;
+                              teamsObj[teams[i].name].pointSeries = [];
+                              teamsObj[teams[i].name].runrateSeries = [];
+                              teamsObj[teams[i].name].played = teams[i].aplayed;
+                              teamsObj[teams[i].name].totallost = teams[i].aplayed;
+                        }
+                        $scope.teamsObj = teamsObj;
+                        $scope.teamsObjRoot = JSON.parse(JSON.stringify(teamsObj));
+
+                        $scope.teamsObjFuture = JSON.parse(JSON.stringify(teamsObj));
+
+
+                  }
+                  var flowIndex = 0;
+                  var matchIndex = 0;
+                  var objResult = [];
+                  objResult[0] = {};
+                  var globalNu = 0;
+
+                  var posPoint = 3;
+
+
+                  //recurMatch(0, 0, '');
+
+                  //$scope.teamsObjNew = teamsObjNew;
+
+                  $scope.teamNames = Object.keys(teamsObj).sort();
+                  $scope.teamNamesNew = Object.keys(teamsObj).map(e => e.toString().toLowerCase()).sort();
+                  //$scope.teamNamesNew = Object.keys(teamsObjNew);
+                  $scope.teamNames.unshift('All');
+                  //console.log('$scope.teamNamesNew');
+
+                  //console.log($scope.teamNames);
+                  //console.log($scope.teamNamesNew);
+
+                  var teams1;
+
+
+                  
+                  $scope.upcomingMatches = [
+                        { date: '20-May 19:30', team1: 'KKR', team2: 'LSG', result: '', SlNo: '68' },
+                        { date: '21-May 15:30', team1: 'MI', team2: 'SRH', result: '', SlNo: '69' },
+                        { date: '21-May 19:30', team1: 'RCB', team2: 'GT', result: '', SlNo: '70' }
+                  ];
+
+                  $scope.curMatchPos = 0;
+                  //$scope.curMatch = $scope.curMatchPos;
+
+                  $scope.positionVisible = [1, 2];
+                  $scope.currentMatch = 0;
+            });
+      </script>
+
+      <div ng-app="myShoppingList" ng-controller="myCtrl" class="container">
+<div  ng-class="loading ? 'loader' : ''"></div>
+<p class="text-primary" style="
+    text-align: center;
+    padding-top: 0px;
+    /* padding-bottom: 5px; */
+    font-size: 21px;
+    font-family: Calibri;
+    color: cornflowerblue;
+    margin-bottom: 0px;
+">IPL 2023 - Point Calculator</p>
+<p class="text-secondary" style="
+    text-align: center;
+    /* padding-top: 20px; */
+    /* padding-bottom: 5px; */
+    font-size: 13px;
+    font-family: Calibri;
+    /* color: cornflowerblue; */
+">Calculates points and position for each team based all possible outcome of the series from now.
+</p>
+            <div class="row" style="border-radius: 10px;border: 1px solid #337ab7;padding-top: 10px;padding-bottom: 10px;">
+                  <span style="
+    /* background-color: white; */
+    margin: -20px 0px 0px 10px;
+    display: block;
+"><span style="padding:0px 5px 0px 5px;
+    background-color: white;
+">Points as of today</span></span>
+                  <div ng-repeat="obj in teams"  class="innerTeam">
+                        <span class="spanTeamNameHeader">{{obj.name}}</span>
+                        <div style="
+    display: inline-block;
+    border: 1px solid #337ab7;
+    border-radius: 5px;
+    padding: 0px 4px 0px 4px;
+    background: linear-gradient(110deg, #d9edf7 40%, #ffed4b8f  30%);
+    width: 70px;">
+
+                              <span class="ng-binding" style="
+    display: inline-block;
+    width: 25%;
+    text-align: center;
+">{{obj.point}}</span><span class="ng-binding" style="
+    display: inline-block;
+    width: 75%;font-size:12px;
+    text-align: right;
+">{{obj.runrate}}
+<!--
+{{teamsObj[obj.name].point + teamsObj[obj.name].won + teamsObj[obj.name].lost}}
+    -->                   
+                        </span></div>
+                  </div>
+                  <div style="display:inline-block;padding-left:10px;font-size:10px">
+                        <span class="glyphicon glyphicon-unchecked" style="border: 1px solid #337ab7;color:#d9edf7;background-color:#d9edf7;border-radius:3px"></span>&nbsp;
+                        Current Points &nbsp;&nbsp;
+                        <span class="glyphicon glyphicon-unchecked" style="border: 1px solid #337ab7;color:#ffed4b8f;background-color:#ffed4b8f;border-radius:3px"></span>&nbsp;Run
+                        Rate
+                  </div>
+            </div>
+            <br>
+            <div ng-class="teamsNewPoint ? 'row displayPoints' : 'row'" style="border-radius: 10px;border: 1px solid #337ab7;opacity:0; transition: opacity 1s;height:0px;">
+
+                  <span style="
+    /* background-color: white; */
+    margin: -20px 0px 0px 10px;
+    display: block;
+"><span style="padding:0px 5px 0px 5px;
+    background-color: white;
+">Points after selected match</span></span>
+
+                  <div ng-repeat="obj in teamsNewPoint" class="innerTeam">
+                        <span class="spanTeamNameHeaderPoints">{{obj.name}}</span>
+                        <div style="
+    display: inline-block;
+    border: 1px solid #337ab7;
+    border-radius: 5px;
+    padding: 0px 4px 0px 4px;
+    text-align: center;
+    background: linear-gradient(110deg, #d9edf7 100%, #ffed4b8f  30%);
+    width: 40px;"><span class="ng-binding" style="
+    display: inline-block;
+    text-align: center;
+">{{obj.point}}</span>
+                        </div>
+                  </div>
+            </div>
+
+
+            
+                  
+
+                  
+                  <p class="text-primary" style="
+    text-align: center;
+    padding-top: 0px;
+    /* padding-bottom: 5px; */
+    font-size: 21px;
+    font-family: Calibri;
+    color: cornflowerblue;
+    margin-bottom: 0px;
+">Thanks for all the cricket fans for the support. Congrats for the teams and fans who made it to playoff. For others, better luck next time. See you all again at IPL 2024. </p>
+
+                  <br>
+                  <br>
+
+
+<div style="margin-left: -15px;margin-right: -15px;">
+      Disclaimer: Thanks for visiting the site. Above information provided is for illustration purpose only.
+      IPLCalc.com is not responsible for any error in the above data presentated. Please provide your suggessions/issues/feedback to iplcalc@gmail.com.
+    <span ng-if="textFooter[0]">{{textFooter[0]}}</span><a ng-if="linkFooter[0].link" target="_blank" href="{{linkFooter[0].link}}">{{linkFooter[0].text}}</a>
+    <span ng-if="textFooter[1]">{{textFooter[1]}}</span><a ng-if="linkFooter[1].link"  target="_blank" href="{{linkFooter[1].link}}">{{linkFooter[1].text}}</a>
+    <span ng-if="textFooter[2]">{{textFooter[2]}}</span><a ng-if="linkFooter[2].link"  target="_blank" href="{{linkFooter[2].link}}">{{linkFooter[2].text}}</a>
+    <span ng-if="textFooter[3]">{{textFooter[3]}}</span><a ng-if="linkFooter[3].link"  target="_blank" href="{{linkFooter[3].link}}">{{linkFooter[3].text}}</a>
+</div>
+
+
+<footer class="bg-info text-center text-lg-start fixed-bottom" style="margin-left: -15px;margin-right: -15px;">
+  <!-- Copyright -->
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);text-align:left;padding-left:10px">
+    © 2023 Copyright
+    <a class="text-dark" style="text-align:right;float: right;padding-right: 10px;" href="mailto:iplcalc@gmail.com">Contact Us at iplcalc@gmail.com</a>
+  </div>
+  <!-- Copyright -->
+</footer>
+
+                  </div>
+
+</body>
+<style>
+      .isDisabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+      }
+
+      .isDisabled>a {
+            color: currentColor;
+            display: inline-block;
+            /* For IE11/ MS Edge bug */
+            pointer-events: none;
+            text-decoration: none;
+      }
+
+      .posArrow {
+            color: green;
+      }
+
+      .negArrow {
+            color: red;
+      }
+
+      body .row {
+            margin-left: -10px;
+            margin-right: -10px;
+      }
+
+
+      .clsSelectedPointOption {
+            padding-left: 10px;
+      }
+
+      .clsSelectedTeamDropDown {
+            padding-left: 10px;
+      }
+
+      .clsSelectedPos {
+            padding-left: 10px;
+      }
+
+            .innerTeamActive {
+                  background-color: lavender;
+            }
+
+
+
+      @media (min-width: 0px) and (max-width: 650px) {
+            .innerTeam {
+                  display: inline-block;
+                  padding: 2px;
+                  border: 1px solid #d7cdcd;
+                  border-radius: 5px;
+                  margin-left: 5px;
+            }
+
+            .spanTeamNameHeader {
+                  font-size: 14px;
+                  font-weight: 600;
+                  color: #286090;
+                  padding-right: 5px;
+                  min-width: 40px;
+                  max-width: 40px;
+                  display: inline-block
+            }
+
+            .spanTeamNameHeaderPoints {
+                  font-size: 14px;
+                  font-weight: 600;
+                  color: #286090;
+                  padding-right: 5px;
+                  min-width: 35px;
+                  max-width: 35px;
+                  display: inline-block
+            }
+
+            .clsHideDetailView {
+                  float: right;
+                  padding-right: 0px;
+                  padding-top: 10px;
+                  color: red;
+            }
+
+            .clsNextMatch {
+                  width: 100%;
+                  text-align: center;
+            }
+
+            .clsNextMatchHypen {
+                  display: none;
+            }
+
+            .clsNextMatchPer {
+                  display: inline-block;
+                  text-align: right;
+                  width: 70%;
+            }
+
+            .clsNextMatchArr {
+                  display: inline-block;
+            }
+
+            .clsCurMatch {
+                  width: 100%;
+                  text-align: center;
+            }
+
+            .clsCurMatchPer {
+                  display: inline-block;
+                  text-align: center;
+                  width: 100%;
+            }
+      }
+
+      @media (min-width: 650px) and (max-width: 5000px) {
+            .innerTeam {
+                  display: inline-block;
+                  padding: 5px;
+                  border: 1px solid #d7cdcd;
+                  border-radius: 5px;
+                  margin: 5px;
+            }
+
+            .spanTeamNameHeader {
+                  font-size: 14px;
+                  font-weight: 600;
+                  color: #286090;
+                  padding-right: 5px;
+                  min-width: 45px;
+                  display: inline-block
+            }
+
+            .spanTeamNameHeaderPoints {
+                  font-size: 14px;
+                  font-weight: 600;
+                  color: #286090;
+                  padding-right: 5px;
+                  min-width: 40px;
+                  max-width: 40px;
+                  display: inline-block
+            }
+
+
+
+            .clsSelectedPointOption {
+                  padding-left: 5px;
+            }
+
+            .clsSelectedTeamDropDown {
+                  padding-left: 5px;
+            }
+
+            .clsSelectedPos {
+                  padding-left: 5px;
+            }
+
+
+            .clsHideDetailView {
+                  float: right;
+                  padding-right: 5px;
+                  padding-top: 10px;
+                  color: red;
+            }
+
+
+            .clsNextMatch {
+                  display: inline-block;
+                  width: 58%;
+                  text-align: right;
+            }
+
+            .clsNextMatchHypen {
+                  display: inline-block;
+                  width: 5%;
+                  text-align: center
+            }
+
+            .clsNextMatchPer {
+                  display: inline-block;
+                  width: 25%;
+                  text-align: right;
+            }
+
+            .clsNextMatchArr {
+                  display: inline-block;
+                  width: 5%;
+            }
+
+
+            .clsCurMatch {
+                  display: inline-block;
+                  width: 70%;
+                  text-align: right;
+            }
+
+            .clsCurMatchPer {
+                  display: inline-block;
+                  width: 20%;
+                  text-align: right
+            }
+      }
+
+      .loader{
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background: url('loading.gif') 50% 50% no-repeat rgb(249,249,249);
+  opacity:0.5;
+}
+
+      .spanTeamNameHeader1 {
+            font-size: 12px;
+            font-weight: 600;
+            color: #286090;
+            padding-right: 5px;
+      }
+
+
+      body a {
+
+            cursor:pointer;
+      }
+
+      
+      body input {
+
+            cursor:pointer;
+      }
+
+      body select {
+
+            cursor:pointer;
+      }
+
+      .glyphicon-remove-circle {
+
+            cursor:pointer;
+      }
+
+      .displayPoints {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+            opacity: 1!important;      
+            height: auto!important;
+            }
+
+      .spanTeamNameHeaderActive {
+            color:maroon;
+      }      
+      
+</style>
+
+
+</html>
