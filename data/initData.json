@@ -1,8 +1,8 @@
-{"currentPoints": [{"name": "GT", "desc": "Gujarat", "point": 18, "won": 0, "lost": 0,"runrate":"+0.835","awon":0,"alost":0,"aplayed":0},
+{"currentPoints": [{"name": "GT", "desc": "Gujarat", "point": 20, "won": 0, "lost": 0,"runrate":"+0.809","awon":0,"alost":0,"aplayed":0},
 { "name": "RR", "desc": "Rajasdan Royals", "point": 14, "won": 0, "lost": 0,"runrate":"+0.148","awon":0,"alost":0,"aplayed":0 },
 { "name": "LSG", "desc": "Lucknow Super Giants", "point": 17, "won": 0, "lost": 0 ,"runrate":"+0.284","awon":0,"alost":0,"aplayed":0},
 { "name": "DC", "desc": "Delhi Capitals", "point": 10, "won": 0, "lost": 0 ,"runrate":"-0.808","awon":0,"alost":0,"aplayed":0},
-{ "name": "RCB", "desc": "Royal Challengers", "point":14, "won": 0, "lost": 0 ,"runrate":"+0.180","awon":0,"alost":0,"aplayed":0},
+{ "name": "RCB", "desc": "Royal Challengers", "point":14, "won": 0, "lost": 0 ,"runrate":"+0.135","awon":0,"alost":0,"aplayed":0},
 { "name": "KKR", "desc": "Kolkota Knight Riders", "point": 12, "won": 0, "lost": 0 ,"runrate":"-0.239","awon":0,"alost":0,"aplayed":0},
 { "name": "PBKS", "desc": "Punjab", "point": 12, "won": 0, "lost": 0 ,"runrate":"-0.304","awon":0,"alost":0,"aplayed":0},
 { "name": "SRH", "desc": "Sun Risers Hydrabad", "point": 8, "won": 0, "lost": 0 ,"runrate":"-0.590","awon":0,"alost":0,"aplayed":0},
@@ -21,9 +21,4 @@
 {"link":"Link2","text":"Text2"},
 {"link":"","text":"Text3"},{"link":"","text":"Text4"}]
 ,"textFooter1": ["Test1","","Test3","Test4"]
-
-
 }
-
-
- 
