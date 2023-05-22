@@ -1,0 +1,111 @@
+<html><head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+$('.data').hide();
+  var maxElement = 0;
+    var secC = 0;
+    var secCMax = 0;
+    var dSec;
+    var dAry;
+  
+  $("#root").click(function(){
+$('.data').hide();
+    var s = $("#data").val();
+    dSec = s.split('@');
+    dAry = dSec[0].split('|');
+    secC = 0;
+    secCMax = dSec.length;
+    //$('#h1').val(dAry[i]);
+maxElement = dAry.length;
+    for (var i=0;i<dAry.length;i++)
+    {
+      $('#l' + i).text(dAry[i]);
+    }
+
+    showOneByOne(0);   
+
+   	
+
+  });
+  
+function showOneByOne(val) 
+{
+  if (val >= maxElement) {
+      if (secC == secCMax - 1)
+      {
+          return;
+      }
+      else
+      {
+    setTimeout(function(){
+                  $('.data').hide();
+          secC = secC + 1;
+          dAry = dSec[secC].split('|');
+          maxElement = dAry.length;
+    for (var i=0;i<dAry.length;i++)
+    {
+      $('#l' + i).text(dAry[i]);
+    }
+
+        showOneByOne(0);},4000);
+       
+    return;
+      
+      }
+  }
+  console.log('hi');
+  $('#l' + val).fadeIn(3000,function() {showOneByOne(val+1)});
+  //$('#l' + val).show();
+}
+
+});
+</script>
+<style>
+
+.data {
+width:100%;
+text-align:left;
+padding-bottom:30px;
+padding-left:10px;
+font-family:calibri;
+}
+
+.header {
+font-size: 55px;
+    font-weight: 800;
+text-align:center!important;
+padding-bottom:30px;
+}
+
+.item {
+font-size: 50px;
+font-weight: normal;
+
+}
+</style>
+
+</head>
+<body style="
+    background-color: mintcream;
+">
+<div id="root" style="height:1800px;padding-top:40px;padding-left: 50px;padding-right: 50px;">
+<div class="data header" id="l0" style="">Day 30 (After match 40 Of 74)</div>
+<ul>
+<li class="data item" id="l1" style="">4 Teams (DC,SRH,KKR,PBKS) have slim chance not to qualify for PlayOffs even if they win all their remaining matches</li>
+<li class="data  item" id="l2" style="">GT has slim chance to qualify PlayOff without wining any remaining games</li>
+<li class="data  item" id="l3" style="">All teams have probabilities to get any position i.e GT to last position, DC to first position)</li>
+<li class="data  item" id="l4" style=""></li>
+<li class="data  item" id="l5" style=""></li>
+<li class="data  item" id="l6" style=""></li>
+<li class="data  item" id="l7" style=""></li>
+</ul>
+</div>
+<h2>This is a heading</h2>
+<input id="data" type="text" style="height:100px;width:250px" value="Day 30 (After match 40 Of 74)|4 Teams (DC,SRH,KKR,PBKS) have slim chance not to qualify for PlayOffs even if they win all their remaining matches|GT has slim chance to qualify PlayOff without wining any remaining games|All teams have probabilities to get any position i.e GT to last position, DC to first position)">
+
+<button>Play</button>
+
+
+
+</body></html>
