@@ -1,0 +1,29 @@
+{"currentPoints": [{"name": "GT", "desc": "Gujarat", "point": 2, "won": 0, "lost": 0,"runrate":"+0.951","awon":0,"alost":0,"aplayed":0},
+{ "name": "RR", "desc": "Rajasdan Royals", "point": 2, "won": 0, "lost": 0,"runrate":"+0.633","awon":0,"alost":0,"aplayed":0 },
+{ "name": "LSG", "desc": "Lucknow Super Giants", "point": 4, "won": 0, "lost": 0 ,"runrate":"+0.294","awon":0,"alost":0,"aplayed":0},
+{ "name": "DC", "desc": "Delhi Capitals", "point": 2, "won": 0, "lost": 0 ,"runrate":"-0.605","awon":0,"alost":0,"aplayed":0},
+{ "name": "RCB", "desc": "Royal Challengers", "point":4, "won": 0, "lost": 0 ,"runrate":"-0.345","awon":0,"alost":0,"aplayed":0},
+{ "name": "KKR", "desc": "Kolkota Knight Riders", "point": 4, "won": 0, "lost": 0 ,"runrate":"-0.357","awon":0,"alost":0,"aplayed":0},
+{ "name": "PBKS", "desc": "Punjab", "point": 2, "won": 0, "lost": 0 ,"runrate":"-0.441","awon":0,"alost":0,"aplayed":0},
+{ "name": "SRH", "desc": "Sun Risers Hydrabad", "point": 0, "won": 0, "lost": 0 ,"runrate":"-0.472","awon":0,"alost":0,"aplayed":0},
+{ "name": "CSK", "desc": "Chennai Super Kings", "point": 0, "won": 0, "lost": 0 ,"runrate":"+0.493","awon":0,"alost":0,"aplayed":0},
+{ "name": "MI", "desc": "Mumbai", "point": 0, "won": 0, "lost": 0 ,"runrate":"-0.255","awon":0,"alost":0,"aplayed":0}],
+
+"rootPos" : 1,
+"removeMatch" : 0,
+"nextLevelCounter":2,
+"commentssction" : "rootPos : 1, removeMatch1 : 29, removeMatch : 0, nextLevelCounter:3",
+"textFooter": ["No cookies are used to capture any user/system/network data.","","",""],
+"linkFooter": [{"link":"https://www.youtube.com/@IPLCalc","text":"Visit our channel for more details"},
+{"link":"Link2","text":""},
+{"link":"Link3","text":""},{"link":"","text":""}]
+,"linkFooter1": [{"link":"Link1","text":"Text1"},
+{"link":"Link2","text":"Text2"},
+{"link":"","text":"Text3"},{"link":"","text":"Text4"}]
+,"textFooter1": ["Test1","","Test3","Test4"]
+
+
+}
+
+
+ 
