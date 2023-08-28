@@ -590,7 +590,7 @@
                               $scope.selectDetailView(team, pos, type, level);
                               $scope.highlightbar1 = '';
                         }
-                        , 200);
+                        , 250);
 
                   }     
 
@@ -1080,6 +1080,7 @@
                                                             <div class="barcls-container2 barcls-barcolor{{x+1}} barcls-right barcls-contentpercentage{{x+1}}"
                                                             style="width:{{getPercentageBar((positionObj[curMatch + x][obj][arr][type.value]),(x>1?1:x) + 1)}}!important"
                                                             style2="width:0.10%!important"
+                                                            ng-class="highlightbar1 == (obj.toString() + '-' + arr + '-' + type.value + '-' + (x+1)) ? 'highlightbartopleft' : ''"
                                                             >
                                                             .
                                                             </div>
@@ -2066,8 +2067,12 @@ color:transparent;
       }
 
       .highlightbar {
-            border: 1px solid red;z-index: 5000;
-            background-color: transparent!important;
+            border: 1px solid black;
+      }
+
+      .highlightbartopleft {
+            border-top : 1px solid black;
+            border-left : 1px solid black;
       }
 </style>
 
