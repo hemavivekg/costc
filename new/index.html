@@ -15,7 +15,7 @@
 <body>
       <script>
             var app = angular.module("myShoppingList", []);
-            app.controller("myCtrl", function ($scope, $http, $window) {
+            app.controller("myCtrl", function ($scope, $http, $window, $timeout) {
 
                   var objDetail = {};
 
@@ -581,6 +581,20 @@
 
                   }
 
+                  $scope.selectDetailViewPre = function (team, pos, type, level) {
+                        $scope.highlightbar1 = team.toString() + '-' + pos + '-' + type + '-' + (level);
+                        console.log('comes');
+                        //$timeout($scope.selectDetailView(team, pos, type, level), 5000);
+
+                        $timeout(function() {
+                              $scope.selectDetailView(team, pos, type, level);
+                              $scope.highlightbar1 = '';
+                        }
+                        , 200);
+
+                  }     
+
+
                   $scope.selectDetailView = function (team, pos, type, level) {
                         $scope.detailedLevelActual = level;
                         if (level > 1)
@@ -1060,7 +1074,7 @@
                                                       <tbody>
                                                       <tr ng-repeat="x in [0,1,2]" ng-if="x > -1" >
                                                             <td style="padding-bottom:10px">
-                                                <div class="barclsHeader" ng-click="selectDetailView(obj.toString(),arr,type.value,x+1)" >
+                                                <div class="barclsHeader {{obj.toString() + '-' + arr + '-' + type.value + '-' + x+1}}" ng-click="selectDetailViewPre(obj.toString(),arr,type.value,x+1)">
                                                       <div class="barcls-light-grey" 
                                                             style="position: relative;">
                                                             <div class="barcls-container2 barcls-barcolor{{x+1}} barcls-right barcls-contentpercentage{{x+1}}"
@@ -1070,7 +1084,7 @@
                                                             .
                                                             </div>
                                                             <div class="barcls-contentright">{{getPercentage((positionObj[curMatch + x][obj][arr][type.value]),(x>1?1:x) + 1)}} - {{getNumberFormat(positionObj[curMatch+x][obj][arr][type.value])}}</div>
-                                                            <div class="barcls-contentfillgap">.</div>
+                                                            <div class="barcls-contentfillgap" ng-class="highlightbar1 == (obj.toString() + '-' + arr + '-' + type.value + '-' + (x+1)) ? 'highlightbar' : ''">.</div>
                                                       </div>
                                                 </div>
                                                             
@@ -2049,6 +2063,11 @@ color:transparent;
       
       .barclsHeader {
             position:relative;display:block;height:15px;cursor: pointer;
+      }
+
+      .highlightbar {
+            border: 1px solid red;z-index: 5000;
+            background-color: transparent!important;
       }
 </style>
 
