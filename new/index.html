@@ -1036,7 +1036,11 @@
                                     </tr>
                                     <tr>
                                           <th style="text-align: center">
-                                                Current
+                                                <div class="headerCurrent">Current</div>
+                                          </th>
+                                          <th style="text-align: center">
+                                                Winner : <div class="headerNext1">{{upcomingMatches[curMatchPos].team1}}</div>
+                                                <div class="headerNext2">{{upcomingMatches[curMatchPos].team2}}</div>
                                           </th>
                                           <!--
                                           <th style="text-align: center">
@@ -1069,7 +1073,7 @@
                                                 == "All" && arr != '11' && arr != '12' ? "*" : "") }}
                                           </td>
 
-                                          <td width="88%">
+                                          <td colspan="3" width="88%">
                                                 <table style="width:100%">
                                                       <tbody>
                                                       <tr ng-repeat="x in [0,1,2]" ng-if="x > -1" >
@@ -1081,9 +1085,7 @@
                                                             style="width:{{getPercentageBar((positionObj[curMatch + x][obj][arr][type.value]),(x>1?1:x) + 1)}}!important"
                                                             style2="width:0.10%!important"
                                                             ng-class="highlightbar1 == (obj.toString() + '-' + arr + '-' + type.value + '-' + (x+1)) ? 'highlightbartopleft' : ''"
-                                                            >
-                                                            .
-                                                            </div>
+                                                            > {{(x == 0 ? "" : (x == 1 ? upcomingMatches[curMatchPos].team1 : upcomingMatches[curMatchPos].team2))}} </div>
                                                             <div class="barcls-contentright">{{getPercentage((positionObj[curMatch + x][obj][arr][type.value]),(x>1?1:x) + 1)}} - {{getNumberFormat(positionObj[curMatch+x][obj][arr][type.value])}}</div>
                                                             <div class="barcls-contentfillgap" ng-class="highlightbar1 == (obj.toString() + '-' + arr + '-' + type.value + '-' + (x+1)) ? 'highlightbar' : ''">.</div>
                                                       </div>
@@ -2026,15 +2028,18 @@
       }
 
       .barcls-contentpercentage1 {
-            width: 85%;position: absolute;z-index: 2223;color:transparent
+            width: 85%;position: absolute;z-index: 2223;color:#555;
+            text-align: left!important;
       }
 
       .barcls-contentpercentage2 {
-            width: 85%;position: absolute;z-index: 2223;color:transparent
+            width: 85%;position: absolute;z-index: 2223;color:#555;
+            text-align: left!important;
       }
 
       .barcls-contentpercentage3 {
-            width: 85%;position: absolute;z-index: 2223;color:transparent
+            width: 85%;position: absolute;z-index: 2223;color:#555;
+            text-align: left!important;
       }
 
       .barcls-barcolor1,
@@ -2074,6 +2079,30 @@ color:transparent;
             border-top : 1px solid black;
             border-left : 1px solid black;
       }
+      .headerCurrent {
+        border:1px solid blue;
+        padding:8px;
+        display:inline-block;
+        border-radius: 10px;
+        background-color:#4CAF50;
+      }
+      .headerNext1 {
+        border:1px solid blue;
+        padding:8px;
+        display:inline-block;
+        border-radius: 10px;
+        background-color:#d9ede4;
+
+      }
+      .headerNext2 {
+        border:1px solid blue;
+        padding:8px;
+        display:inline-block;
+        border-radius: 10px;
+        background-color: #fff59a;
+
+      }
+      
 </style>
 
 
