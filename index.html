@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <title>IPL 2023 - Point Calculator</title>
+
 <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,14 +15,79 @@
 <body>
       <script>
             var app = angular.module("myShoppingList", []);
-            app.controller("myCtrl", function ($scope, $http, $window) {
+            app.controller("myCtrl", function ($scope, $http, $window, $timeout, $interval) {
 
                   var objDetail = {};
-
+                  console.log('hi')
                   $scope.totalOptions = 0;
                   $scope.innerWidth = $window.innerWidth;
                   $scope.nextLevel = [];
                   $scope.excZero = false;
+
+
+                  $interval(function() {
+                        $scope.newsClass = "hideNews";
+                        $timeout(function() {
+                              $scope.newsClass = "showNews";
+                              if ($scope.newsCount == $scope.news.length -1)
+                                   $scope.newsCount = 0;
+                              else
+                                    $scope.newsCount++;    
+                        },550);
+                  }
+                  , 5000);
+
+
+                  function GetWinDataFromServer(pos) {
+                        var parm = '';
+                        $scope.loading = true;
+                        $http.get('data/detailedwin_' + pos + '.json?' + (new Date()).getMilliseconds().toString()).
+                              then(function (response) {
+                                    $scope.detailedWin = JSON.parse(response.data[0].name);
+                                    $scope.loading = false;
+                              });
+                  }
+
+
+                  function GetDataFromServer(pos) {
+                        var parm = '';
+                        console.log(pos + ' - ' + $scope.rootPos);
+                        if (pos) {
+                              parm = "?pos=" + pos;
+                        }
+                        $scope.loading = true;
+                        $http.get('data/summary_' + pos + '.json?' + (new Date()).getMilliseconds().toString()).
+                              then(function (response) {
+
+                                    $scope.greeting = response.data;
+                                    objDetail = {};
+                                    var firstobj;
+                                    $scope.loading = false;
+                                    if (pos) {
+                                          $scope.positionObj = [];
+                                    }
+                                    else {
+                                          $scope.rootPos = 1;
+                                          $scope.positionObj = [];
+                                    }
+
+                                    if (!pos)
+                                          pos = 1;
+
+                                    $scope.posAry = [pos, pos * 2, (pos * 2) + 1];
+                                    $scope.totalOptions = 2 ** ($scope.upcomingMatches.length - $scope.curMatchPos);
+                                    $scope.totalCurrentMatch = ($scope.upcomingMatches.length - $scope.curMatchPos);
+                                    $scope.totalOptionsNext = 2 ** ($scope.upcomingMatches.length - $scope.curMatchPos - 1);
+                                    $scope.totalNextMatch = ($scope.upcomingMatches.length - $scope.curMatchPos - 1);
+                                    $scope.curMatch = 0;
+                                    for (var x = 0; x < response.data.length; x++) {
+                                          $scope.positionObj.push(JSON.parse(response.data[x].name));
+                                    }
+                                    if (!$scope.totalOptionsRoot)
+                                          $scope.totalOptionsRoot = $scope.totalOptions;
+                                    console.log($scope.positionObj);
+                              });
+                  }
 
                   $scope.totalOptionsRoot = 0;
 
@@ -30,6 +96,8 @@
                   const d = new Date();
                   let ms = d.getMilliseconds();
                   $scope.loading = true;
+                  console.log('before init');
+                  console.log('data/initData.json?q=' + ms.toString());
                   $http.get('data/initData.json?q=' + ms.toString()).
                         then(function (response) {
                               console.log(response);
@@ -38,30 +106,43 @@
                               $scope.nextLevelCounter = response.data.nextLevelCounter;
                               teams.sort((a, b) => (b.point == a.point ? parseFloat(b.runrate) - parseFloat(a.runrate) : b.point - a.point));
 
-                              
+
                               $scope.textFooter = response.data.textFooter;
                               $scope.linkFooter = response.data.linkFooter;
-                              
+                              $scope.news = [
+  'If PBKS wins next match, Team : DC would be the highest scorer.',
+  'If PBKS wins next match, Team : MI would be the lowest scorer.',
+  'If PBKS wins next match, Team : SRH would not get to the first position.',
+  'If PBKS wins next match, Team : LSG would not get to last position.',
+  'If PBKS wins next match, Teams : GT,MI would get to elimination round.',
+  'If PBKS wins next match, Team : CSK with one more loss would get to elimation round (must win all remaining matches.)',
+  'If GT wins next match, Team : GT would qualify for quarter finals.',
+  'If GT wins next match, Team : DC would not qualify for quarter finals.'
+];
+                              $scope.newsCount = 0;      
                               initialize();
                               console.log('222');
 
                               $scope.rootPos = response.data.rootPos;
 
                               $scope.upcomingMatches = $scope.upcomingMatches.slice(response.data.removeMatch);
+
+                              GetDataFromServer($scope.rootPos);
+                              GetWinDataFromServer($scope.rootPos);
                         });
 
 
                   var teams = [
-                        { name: 'GT', desc: 'Gujarat', point: 8, won: 0, lost: 0 },
-                        { name: 'RR', desc: 'Rajasdan Royals', point: 6, won: 0, lost: 0 },
-                        { name: 'LSG', desc: 'Lucknow Super Giants', point: 10, won: 0, lost: 0 },
-                        { name: 'DC', desc: 'Delhi Capitals', point: 6, won: 0, lost: 0 },
-                        { name: 'RCB', desc: 'Royal Challengers', point: 10, won: 0, lost: 0 },
-                        { name: 'KKR', desc: 'Kolkota Knight Riders', point: 8, won: 0, lost: 0 },
-                        { name: 'PBKS', desc: 'Punjab', point: 12, won: 0, lost: 0 },
-                        { name: 'SRH', desc: 'Sun Risers Hydrabad', point: 6, won: 0, lost: 0 },
-                        { name: 'CSK', desc: 'Chennai Super Kings', point: 0, won: 0, lost: 0 },
-                        { name: 'MI', desc: 'Mumbai', point: 10, won: 0, lost: 0 },
+                        { name: 'BAN', desc: 'Gujarat', point: 8, won: 0, lost: 0 },
+                        { name: 'SA', desc: 'Rajasdan Royals', point: 6, won: 0, lost: 0 },
+                        { name: 'IND', desc: 'Lucknow Super Giants', point: 10, won: 0, lost: 0 },
+                        { name: 'AUS', desc: 'Delhi Capitals', point: 6, won: 0, lost: 0 },
+                        { name: 'PAK', desc: 'Royal Challengers', point: 10, won: 0, lost: 0 },
+                        { name: 'ENG', desc: 'Kolkota Knight Riders', point: 8, won: 0, lost: 0 },
+                        { name: 'NZ', desc: 'Punjab', point: 12, won: 0, lost: 0 },
+                        { name: 'SL', desc: 'Sun Risers Hydrabad', point: 6, won: 0, lost: 0 },
+                        { name: 'AFG', desc: 'Chennai Super Kings', point: 0, won: 0, lost: 0 },
+                        { name: 'NED', desc: 'Mumbai', point: 10, won: 0, lost: 0 },
                   ];
 
 
@@ -77,16 +158,16 @@
                   };
 
                   var teamsObj = {
-                        'GT': { point: [], runrate: [] },
-                        'RR': { point: [], runrate: [] },
-                        'LSG': { point: [], runrate: [] },
-                        'DC': { point: [], runrate: [] },
-                        'RCB': { point: [], runrate: [] },
-                        'KKR': { point: [], runrate: [] },
-                        'PBKS': { point: [], runrate: [] },
-                        'SRH': { point: [], runrate: [] },
-                        'CSK': { point: [], runrate: [] },
-                        'MI': { point: [], runrate: [] },
+                        'BAN': { point: [], runrate: [] },
+                        'SA': { point: [], runrate: [] },
+                        'IND': { point: [], runrate: [] },
+                        'AUS': { point: [], runrate: [] },
+                        'PAK': { point: [], runrate: [] },
+                        'ENG': { point: [], runrate: [] },
+                        'NZ': { point: [], runrate: [] },
+                        'SL': { point: [], runrate: [] },
+                        'AFG': { point: [], runrate: [] },
+                        'NED': { point: [], runrate: [] },
 
                   };
 
@@ -143,15 +224,698 @@
                   var teams1;
 
 
-                  
+                  $scope.getKeys = function (mat) {
+                        var arr = [];
+                        var keysArr = Object.keys(mat)
+                        for (var x = 0; x < keysArr.length; x++) {
+                              if (!teamsObj[keysArr[x]]) {
+                                    arr.push(keysArr[x]);
+                              }
+                        }
+                        return arr;
+                  }
+
+                  $scope.showTeamSummaryPoint = function (name, obj, isRunRate) {
+
+                        $scope.showDetail = true;
+
+                        $scope.currentTeamObj = JSON.parse(JSON.stringify(obj));
+                        if (isRunRate) {
+                              $scope.currentTeamObj.point = obj.runrate;
+                        }
+                        $scope.selectedTeam = name;
+                        teams1 = teams1.sort((a, b) => b.point - a.point);
+                  }
+
+                  $scope.selectedTeamDropDown = "All";
+                  $scope.calculatePoints = function (obj) {
+                        if (obj.showPointSummary) {
+                              obj.showPointSummary = false;
+                        }
+                        else {
+                              obj.showPointSummary = true;
+                              if (!obj.resultPointSummary) {
+                                    var teams1 = JSON.parse(JSON.stringify(teams));
+                                    for (var j = 0; j < teams1.length; j++) {
+                                          if (parseInt(obj.points[teams1[j].name]) > 0)
+                                                teams1[j].point = teams1[j].point + parseInt(obj.points[teams1[j].name]);
+                                    }
+                                    //$scope.showPointSummary = true;
+                                    obj.resultPointSummary = teams1;
+                              }
+
+
+                        }
+                  }
+
+                  $scope.getPercentage = function (val, level) {
+                        if (level == -1) {
+                              return parseFloat((val / $scope.detailedWin[$scope.winTeam][$scope.winNumber * 2].PosCount) * 100).toFixed(2) + '%';
+                              //return '%';
+                        }
+                        else if (level == 1)
+                              return parseFloat((val / $scope.totalOptions) * 100).toFixed(2) + '%';
+                        else
+                              return parseFloat((val / $scope.totalOptionsNext) * 100).toFixed(2) + '%';
+
+                  }
+
+                  $scope.getPercentageBar = function (val, level) {
+                        var rtnValue = '';
+                        if (level == -1) {
+                              rtnValue = parseFloat((val / $scope.detailedWin[$scope.winTeam][$scope.winNumber * 2].PosCount) * 100).toFixed(2);
+                              //return '%';
+                        }
+                        else if (level == 1)
+                              rtnValue = parseFloat((val / $scope.totalOptions) * 100).toFixed(2);
+                        else
+                              rtnValue = parseFloat((val / $scope.totalOptionsNext) * 100).toFixed(2);
+
+                        if (rtnValue < 0.4 && val > 0)
+                              rtnValue = "0.4";
+                        /*      
+                        if (rtnValue < 10 && val > 0)
+                              rtnValue = "10";
+                        */
+      
+                        return rtnValue + '%'            
+
+                  }
+
+
+                  $scope.showArrow = function (val, val1, val2, level) {
+                        if (level == 1) {
+                              if (parseFloat((val1 / $scope.totalOptions) * 100) > parseFloat((val2 / $scope.totalOptions) * 100))
+                                    return "+";
+                              else if (parseFloat((val1 / $scope.totalOptions) * 100) < parseFloat((val2 / $scope.totalOptions) * 100))
+                                    return "-";
+
+                        }
+                        else if (level == 2) {
+                              if (parseFloat((val1 / $scope.totalOptions) * 100) > parseFloat((val2 / $scope.totalOptions) * 100))
+                                    return "-";
+                              else if (parseFloat((val1 / $scope.totalOptions) * 100) < parseFloat((val2 / $scope.totalOptions) * 100))
+                                    return "+";
+                        }
+                  }
+
+                  function truncateDecimals(number, digits) {
+                        var multiplier = Math.pow(10, digits),
+                              adjustedNum = number * multiplier,
+                              truncatedNum = Math[adjustedNum < 0 ? 'ceil' : 'floor'](adjustedNum);
+
+                        return truncatedNum / multiplier;
+                  };
+
+
+                  $scope.setExcZeroValue = function () {
+                        $scope.excZero = !$scope.excZero;
+                  };
+                  $scope.getNumberFormat = function (val,mobileFormat) {
+                        if (!val)
+                              return;
+                        var x = val;
+                        var cro1 = 10000000;
+                        var cro100 = 1000000000;
+                        var lakh1 = 100000;
+                        var tenk = 10000;
+                        if ($scope.innerWidth < 650 || mobileFormat) {
+
+                              var returnVal = '';
+                              if (val > cro1) {
+                                    returnVal = (val / cro1).toString().substring(0, 4) + ' Cr';
+                              }
+                              else if (val > lakh1) {
+                                    returnVal = (val / lakh1).toString().substring(0, 4) + ' L';
+                              }
+                              else if (val > tenk) {
+                                    returnVal = (val / tenk).toString().substring(0, 4) + ' K';
+                              }
+                              if (returnVal)
+                                    return returnVal.replace(". ", " ");
+                        }
+
+                        x = x.toString();
+                        var lastThree = x.substring(x.length - 3);
+                        var otherNumbers = x.substring(0, x.length - 3);
+                        if (otherNumbers != '')
+                              lastThree = ',' + lastThree;
+                        return otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
+                  }
+
+                  $scope.matchSelected = false;
+                  $scope.selectResult = function (result) {
+                        console.log('comers here ');
+                        $scope.matchSelected = true;
+                        $scope.teamsObj[$scope.upcomingMatches[$scope.curMatchPos].team1].lost = 0;
+                        $scope.teamsObj[$scope.upcomingMatches[$scope.curMatchPos].team2].lost = 0;
+
+                        //$scope.teams.filter(e => e.name == $scope.upcomingMatches[$scope.curMatchPos].team1)[0].lost = 0;
+                        //$scope.teams.filter(e => e.name == $scope.upcomingMatches[$scope.curMatchPos].team2)[0].lost = 0;
+
+                        if (result == 1) {
+                              //$scope.teams.filter(e => e.name == $scope.upcomingMatches[$scope.curMatchPos].team1)[0].lost =  2;
+                              $scope.teamsObj[$scope.upcomingMatches[$scope.curMatchPos].team1].lost = 2;
+                              //$scope.upcomingMatches[$scope.curMatchPos]
+                        }
+                        else if (result == 2) {
+                              //$scope.teams.filter(e => e.name == $scope.upcomingMatches[$scope.curMatchPos].team2)[0].lost =  2;
+                              $scope.teamsObj[$scope.upcomingMatches[$scope.curMatchPos].team2].lost = 2;
+                        }
+                        else {
+                              $scope.teamsObj[$scope.upcomingMatches[$scope.curMatchPos].team1].lost = 1;
+                              $scope.teamsObj[$scope.upcomingMatches[$scope.curMatchPos].team2].lost = 1;
+
+                              //$scope.teams.filter(e => e.name == $scope.upcomingMatches[$scope.curMatchPos].team1)[0].lost = 1;
+                              //$scope.teams.filter(e => e.name == $scope.upcomingMatches[$scope.curMatchPos].team2)[0].lost = 1;
+
+                        }
+
+                        //$scope.teamsObj.map(e => e.newpoint = e.won + e.lost + e.point);
+                        var keys = Object.keys($scope.teamsObj);
+                        $scope.teamsNewPoint = keys.map(e => ({ name: e, point: $scope.teamsObj[e].won + $scope.teamsObj[e].lost + $scope.teamsObj[e].point, runrate: $scope.teamsObj[e].runrate }));
+                        $scope.teamsNewPoint.sort((a, b) => (b.point == a.point ? parseFloat(b.runrate) - parseFloat(a.runrate) : b.point - a.point));
+
+                        //$scope.curMatch = result;        
+                  }
+
+                  /*
+                  $scope.getLossCount = function (opt) {
+                        var ar = Object.keys(opt.matches);
+                        var resultCount = 0;
+                        for (var i = 0; i < ar.length; i++) {
+                              if ($scope.matchesObj[ar[i]][opt.matches[ar[i]]] == $scope.selectedTeam)
+                                    resultCount = resultCount + 1;
+                        }
+                        return resultCount;
+                  }
+                  */
+
+                  $scope.positionList = ["All", "1", "1 - 2", "2", "3", "3 - 4", "4", "5", "6", "7", "8", "9", "10", "Top 2", "Top 3-4", "Top 4"];
+                  $scope.selectedPos = "1 - 2";
+
+                  $scope.positionList2 = ["All", "1", "1 - 2", "2", "3", "3 - 4", "4", "5", "6", "7", "8", "9", "10", "Top 2", "Top 4"];
+
+                  $scope.pointOptions = [{ name: 'Point', value: 'point' }, { name: 'Run Rate', value: 'rr' }];
+
+                  $scope.changeOption = function () {
+                        //alert($scope.selectedPos);
+                        var sss = $scope.winNumber;
+                        if ($scope.selectedPos == "All")
+                              $scope.positionVisible = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+                        else if ($scope.selectedPos == "Top 2")
+                              $scope.positionVisible = [11];
+                        else if ($scope.selectedPos == "Top 3-4")
+                              $scope.positionVisible = [12];
+                        else if ($scope.selectedPos == "Top 4")
+                              $scope.positionVisible = [11, 12];
+                        else
+                              $scope.positionVisible = $scope.selectedPos.toString().split(" - ");
+
+                  }
+
+                  $scope.selectedPointOption = "All";
+
+                  $scope.changePointOption = function () {
+                        //alert($scope.selectedPointOption);
+
+                        if ($scope.selectedPointOption == "All")
+                              $scope.pointOptions = [{ name: 'Point', value: 'point' }, { name: 'Run Rate', value: 'rr' }];
+                        else if ($scope.selectedPointOption == "Point")
+                              $scope.pointOptions = [{ name: 'Point', value: 'point' }];
+                        else if ($scope.selectedPointOption == "Run Rate")
+                              $scope.pointOptions = [{ name: 'Run Rate', value: 'rr' }];
+
+                  }
+
+                  $scope.changeOptionTeam = function () {
+                        if ($scope.selectedTeamDropDown == 'All')
+                              $scope.teamNamesNew = $scope.teamNames.filter(e => e != 'All').map(e => e.toString().toLowerCase());
+                        else
+                              $scope.teamNamesNew = $scope.teamNames.filter(e => e == $scope.selectedTeamDropDown.toUpperCase()).map(e => e.toString().toLowerCase());
+                        //$scope.selectedTeamDropDown = $scope.selectedPos.toString().split(" - ");
+                  }
+
+                  $scope.changeOptionTeamWin = function () {
+                        $scope.selectWinDetails($scope.winTeamCaps.toLowerCase());
+                  }
+
                   $scope.upcomingMatches = [
-                        { date: '20-May 19:30', team1: 'KKR', team2: 'LSG', result: '', SlNo: '68' },
-                        { date: '21-May 15:30', team1: 'MI', team2: 'SRH', result: '', SlNo: '69' },
-                        { date: '21-May 19:30', team1: 'RCB', team2: 'GT', result: '', SlNo: '70' }
-                  ];
+{ date: '13-Oct 14.00', team1: 'NZ', team2: 'BAN', result: '',SlNo: '11' },
+{ date: '14-Oct 14.00', team1: 'IND', team2: 'PAK', result: '',SlNo: '12' },
+{ date: '15-Oct 14.00', team1: 'ENG', team2: 'AFG', result: '',SlNo: '13' },
+{ date: '16-Oct 14.00', team1: 'AUS', team2: 'SL', result: '',SlNo: '14' },
+{ date: '17-Oct 14.00', team1: 'SA', team2: 'NED', result: '',SlNo: '15' },
+{ date: '18-Oct 14.00', team1: 'NZ', team2: 'AFG', result: '',SlNo: '16' },
+{ date: '19-Oct 14.00', team1: 'IND', team2: 'BAN', result: '',SlNo: '17' },
+{ date: '20-Oct 14.00', team1: 'AUS', team2: 'PAK', result: '',SlNo: '18' },
+{ date: '21-Oct 10.30', team1: 'NED', team2: 'SL', result: '',SlNo: '19' },
+{ date: '21-Oct 14.00', team1: 'ENG', team2: 'SA', result: '',SlNo: '20' },
+{ date: '22-Oct 14.00', team1: 'IND', team2: 'NZ', result: '',SlNo: '21' },
+{ date: '23-Oct 14.00', team1: 'PAK', team2: 'AFG', result: '',SlNo: '22' },
+{ date: '24-Oct 14.00', team1: 'SA', team2: 'BAN', result: '',SlNo: '23' },
+{ date: '25-Oct 14.00', team1: 'AUS', team2: 'NED', result: '',SlNo: '24' },
+{ date: '26-Oct 14.00', team1: 'ENG', team2: 'SL', result: '',SlNo: '25' },
+{ date: '27-Oct 14.00', team1: 'PAK', team2: 'SA', result: '',SlNo: '26' },
+{ date: '28-Oct 10.30', team1: 'AUS', team2: 'NZ', result: '',SlNo: '27' },
+{ date: '28-Oct 14.00', team1: 'NED', team2: 'BAN', result: '',SlNo: '28' },
+{ date: '29-Oct 14.00', team1: 'IND', team2: 'ENG', result: '',SlNo: '29' },
+{ date: '30-Oct 14.00', team1: 'AFG', team2: 'SL', result: '',SlNo: '30' },
+{ date: '31-Oct 14.00', team1: 'PAK', team2: 'BAN', result: '',SlNo: '31' },
+{ date: '1-Nov 14.00', team1: 'NZ', team2: 'SA', result: '',SlNo: '32' },
+{ date: '2-Nov 14.00', team1: 'IND', team2: 'SL', result: '',SlNo: '33' },
+{ date: '3-Nov 14.00', team1: 'NED', team2: 'AFG', result: '',SlNo: '34' },
+{ date: '4-Nov 10.30', team1: 'NZ', team2: 'PAK', result: '',SlNo: '35' },
+{ date: '4-Nov 14.00', team1: 'ENG', team2: 'AUS', result: '',SlNo: '36' },
+{ date: '5-Nov 14.00', team1: 'IND', team2: 'SA', result: '',SlNo: '37' },
+{ date: '6-Nov 14.00', team1: 'BAN', team2: 'SL', result: '',SlNo: '38' },
+{ date: '7-Nov 14.00', team1: 'AUS', team2: 'AFG', result: '',SlNo: '39' },
+{ date: '8-Nov 14.00', team1: 'ENG', team2: 'NED', result: '',SlNo: '40' },
+{ date: '9-Nov 14.00', team1: 'NZ', team2: 'SL', result: '',SlNo: '41' },
+{ date: '10-Nov 14.00', team1: 'SA', team2: 'AFG', result: '',SlNo: '42' },
+{ date: '11-Nov 10.30', team1: 'AUS', team2: 'BAN', result: '',SlNo: '43' },
+{ date: '11-Nov 14.00', team1: 'ENG', team2: 'PAK', result: '',SlNo: '44' },
+{ date: '12-Nov 14.00', team1: 'IND', team2: 'NED', result: '',SlNo: '45' }                  ];
 
                   $scope.curMatchPos = 0;
                   //$scope.curMatch = $scope.curMatchPos;
+
+                  $scope.goToPrevious = function () {
+                        //if ($scope.curMatch > $scope.curMatchPos)
+                        //      $scope.curMatch = $scope.curMatch - 1;
+                        if ($scope.curMatchPos > 0) {
+                              //if ($scope.curMatchPos < $scope.upcomingMatches.length - 1) {
+                              $scope.teamsObj[$scope.nextLevel[$scope.nextLevel.length - 1]].won = $scope.teamsObj[$scope.nextLevel[$scope.nextLevel.length - 1]].won - 2;
+                              $scope.nextLevel.pop();
+                              $scope.teamsObj[$scope.upcomingMatches[$scope.curMatchPos].team1].lost = 0;
+                              $scope.teamsObj[$scope.upcomingMatches[$scope.curMatchPos].team2].lost = 0;
+                              $scope.curMatchPos = $scope.curMatchPos - 1;
+                              GetDataFromServer(Math.floor($scope.posAry[0] / 2));
+                              GetWinDataFromServer(Math.floor($scope.posAry[0] / 2));
+                              $scope.selectedOption = null;
+                              $scope.matchSelected = false;
+                        }
+                  };
+
+
+                  $scope.goToNext = function () {
+                        if ($scope.curMatchPos < $scope.nextLevelCounter - 1 && $scope.selectedOption) {
+                              //if ($scope.curMatchPos < $scope.upcomingMatches.length - 1) {
+                              if ($scope.selectedOption == 1) {
+                                    $scope.teamsObj[$scope.upcomingMatches[$scope.curMatchPos].team1].won = $scope.teamsObj[$scope.upcomingMatches[$scope.curMatchPos].team1].won + 2;
+                                    //$scope.teams.filter(e => e.name == $scope.upcomingMatches[$scope.curMatchPos].team1)[0].won = $scope.teams.filter(e => e.name == $scope.upcomingMatches[$scope.curMatchPos].team1)[0].won + 2;
+                                    //$scope.upcomingMatches[$scope.curMatchPos]
+                                    $scope.nextLevel.push($scope.upcomingMatches[$scope.curMatchPos].team1.toUpperCase());
+                              }
+                              else if ($scope.selectedOption == 2) {
+                                    $scope.teamsObj[$scope.upcomingMatches[$scope.curMatchPos].team2].won = $scope.teamsObj[$scope.upcomingMatches[$scope.curMatchPos].team2].won + 2;
+                                    $scope.nextLevel.push($scope.upcomingMatches[$scope.curMatchPos].team2.toUpperCase());
+                              }
+                              else {
+                                    $scope.teamsObj[$scope.upcomingMatches[$scope.curMatchPos].team1].won = $scope.teamsObj[$scope.upcomingMatches[$scope.curMatchPos].team1].won + 1;
+                                    $scope.teamsObj[$scope.upcomingMatches[$scope.curMatchPos].team2].won = $scope.teamsObj[$scope.upcomingMatches[$scope.curMatchPos].team2].won + 1;
+
+                                    //$scope.teams.filter(e => e.name == $scope.upcomingMatches[$scope.curMatchPos].team1)[0].won = $scope.teams.filter(e => e.name == $scope.upcomingMatches[$scope.curMatchPos].team1)[0].won + 1;
+                                    //$scope.teams.filter(e => e.name == $scope.upcomingMatches[$scope.curMatchPos].team2)[0].won = $scope.teams.filter(e => e.name == $scope.upcomingMatches[$scope.curMatchPos].team2)[0].won + 1;
+
+                              }
+                              $scope.teamsObj[$scope.upcomingMatches[$scope.curMatchPos].team1].lost = 0;
+                              $scope.teamsObj[$scope.upcomingMatches[$scope.curMatchPos].team2].lost = 0;
+
+                              //$scope.teams.filter(e => e.name == $scope.upcomingMatches[$scope.curMatchPos].team1)[0].lost = 0;
+                              //$scope.teams.filter(e => e.name == $scope.upcomingMatches[$scope.curMatchPos].team2)[0].lost = 0;
+
+
+
+
+                              $scope.curMatchPos = $scope.curMatchPos + 1;
+                              GetDataFromServer($scope.posAry[$scope.selectedOption]);
+                              GetWinDataFromServer($scope.posAry[$scope.selectedOption]);
+                              $scope.selectedOption = null;
+                              $scope.matchSelected = false;
+
+                        }
+
+                  };
+
+                  $scope.detPosAry = [];
+
+                  $scope.hideDetailView = function () {
+                        $scope.detailedPos = -1;
+
+                  }
+                  $scope.detailedLevel = 0;
+
+                  $scope.winNumber = "0";
+
+                  $scope.changeWinNumber = function () {
+                        //$scope.winNumber = x;
+                        var s = $scope.selectedPos;
+                        $scope.winPos = Object.keys($scope.detailedWin[$scope.winTeam][$scope.winNumber * 2]);
+                  }
+
+                  $scope.winRemainingAry = [];
+
+
+                  $scope.selectWinDetailsNew = function (team) {
+
+                        $scope.winNumber = "0";
+                        $scope.showWin = true;
+                        $scope.winTeam = team;
+                        $scope.winTeamCaps = team.toUpperCase();
+                        $scope.winPos = Object.keys($scope.detailedWin[team][$scope.winNumber]);
+                        var startFromMatch = parseInt($scope.upcomingMatches[0].SlNo) + parseInt($scope.curMatchPos);
+                        $scope.winRemaining = $scope.upcomingMatches.filter(e => e.SlNo >= startFromMatch && (e.team1 == team.toUpperCase() || e.team2 == team.toUpperCase())).length;
+
+                        //$scope.winRemaining = $scope.upcomingMatches.filter(e => (e.team1 == team.toUpperCase() || e.team2 == team.toUpperCase())).length;
+
+
+                        $scope.winRemainingAry = [];
+                        for (var v = 0; v <= $scope.winRemaining; v++) {
+                              $scope.winRemainingAry.push(v.toString());
+                        }
+
+                  }
+
+                  $scope.selectWinDetails = function (team) {
+
+                        if ($scope.detailedWin) {
+                              $scope.selectWinDetailsNew(team);
+                        }
+                        else {
+
+                        }
+
+
+                  }
+
+                  $scope.selectDetailViewPre = function (team, pos, type, level) {
+                        $scope.highlightbar1 = team.toString() + '-' + pos + '-' + type + '-' + (level);
+                        console.log('comes');
+                        //$timeout($scope.selectDetailView(team, pos, type, level), 5000);
+
+                        $timeout(function() {
+                              $scope.selectDetailView(team, pos, type, level);
+                              $scope.highlightbar1 = '';
+                        }
+                        , 250);
+
+                  }     
+
+
+                  $scope.selectDetailView = function (team, pos, type, level) {
+                        $scope.detailedLevelActual = level;
+                        if (level > 1)
+                              $scope.detailedLevel = 1;
+                        else
+                              $scope.detailedLevel = 0;
+                        if (objDetail[$scope.posAry[level - 1]]) {
+                              $scope.currentMatchDetail = objDetail[$scope.posAry[level - 1]];
+
+                              refreshCurrentMatch(team, pos, type, level);
+                        }
+                        else {
+                              $scope.loading = true;
+                              $http.get('data/detailed_' + $scope.posAry[level - 1] + '.json?' + (new Date()).getMilliseconds().toString()).
+                                    //$http.get('http://localhost:8000/getDataDetailView?' + 'pos=' + $scope.posAry[level - 1]).
+                                    then(function (response) {
+                                          $scope.loading = false;
+                                          //alert('hi');
+                                          objDetail[$scope.posAry[level - 1]] = JSON.parse(response.data[0].name);
+                                          $scope.currentMatchDetail = JSON.parse(response.data[0].name);
+                                          refreshCurrentMatch(team, pos, type, level);
+                                    });
+
+                        }
+
+                        /*            
+                        $scope.detailedTeam = team;
+                        $scope.detailedPos = pos;
+                        $scope.detailedType = type;
+                        $scope.detPosAry = [];
+                        $scope.detPosAry = Object.keys($scope.currentMatchDetail[team][pos][type]);
+                        $scope.detPosAry.sort((a, b) => a - b);
+                        */
+                        //console.log(detPosAry);
+                  }
+
+                  function refreshCurrentMatch(team, pos, type, level) {
+
+
+                        $scope.detailedTeam = team;
+                        $scope.detailedPos = pos;
+                        $scope.detailedType = type;
+                        $scope.detailedPlayed = $scope.teamsObj[team.toUpperCase()].played;
+                        $scope.detailedPoint = $scope.teamsObj[team.toUpperCase()].point;
+                        var winPoints = $scope.nextLevel.filter(e => e == team.toUpperCase()).length * 2;
+                        var startFromMatch = parseInt($scope.upcomingMatches[0].SlNo) + parseInt($scope.curMatchPos) + parseInt($scope.detailedLevel);
+                        if (level > 1) {
+                              var startValue = parseInt($scope.curMatchPos);
+                              if (level == 2 && team.toUpperCase() == $scope.upcomingMatches[startValue].team1.toUpperCase())
+                                    winPoints = winPoints + 2;
+                              if (level == 3 && team.toUpperCase() == $scope.upcomingMatches[startValue].team2.toUpperCase())
+                                    winPoints = winPoints + 2;
+                        }
+
+                        $scope.detailedPoint = $scope.detailedPoint + winPoints;
+
+                        //alert(startFromMatch);
+                        $scope.detailedRemaining = $scope.upcomingMatches.filter(e => e.SlNo >= startFromMatch && (e.team1 == team.toUpperCase() || e.team2 == team.toUpperCase())).length;
+                        $scope.detPosAry = [];
+                        $scope.detPosAry = Object.keys($scope.currentMatchDetail[team][pos][type]);
+                        $scope.detPosAry.sort((a, b) => a - b);
+                        //console.log(detPosAry);
+                  }
+
+                  $scope.sampleCount = 0;
+
+                  $scope.sampleWinObj = null;
+
+                  $scope.overwriteAry = {};
+
+                  $scope.overwriteSample = function (pos, team1, team2) {
+                        team1 = team1.toLowerCase();
+                        team2 = team2.toLowerCase();
+                        if ($scope.overwriteAry[pos]) {
+                              $scope.sampleMatch[pos] = ($scope.overwriteAry[pos] == team1 ? team2 : team1);
+                              $scope.overwriteAry[pos] = false;
+                        }
+                        else {
+                              $scope.overwriteAry[pos] = ($scope.sampleMatch[pos] == team1 ? team2 : team1);
+                              $scope.sampleMatch[pos] = $scope.overwriteAry[pos];
+
+                        }
+
+
+                        var teamCur = '';
+
+                        $scope.teamsObjSample = JSON.parse(JSON.stringify($scope.teamsObj));
+
+                        if (!$scope.showWin) {
+                              if ($scope.detailedLevelActual == 2) {
+                                    teamCur = $scope.upcomingMatches[$scope.curMatchPos].team1.toUpperCase();
+                                    $scope.teamsObjSample[teamCur].point = $scope.teamsObjSample[teamCur].point + 2;
+                              }
+                              else if ($scope.detailedLevelActual == 3) {
+                                    teamCur = $scope.upcomingMatches[$scope.curMatchPos].team2.toUpperCase();
+                                    $scope.teamsObjSample[teamCur].point = $scope.teamsObjSample[teamCur].point + 2;
+                              }
+                        }
+
+
+
+                        var obkeys = Object.keys($scope.teamsObjSample);
+
+
+                        for (var key1 = 0; key1 < obkeys.length; key1++) {
+                              var key = obkeys[key1];
+                              $scope.teamsObjSample[key].point = $scope.teamsObjSample[key].point + $scope.teamsObjSample[key].won;
+                              $scope.teamsObjSample[key].won = 0;
+                              $scope.teamsObjSample[key].lost = $scope.teamsObjSample[key].point;
+                        }
+
+                        for (var i = 0; i < $scope.sampleMatch.length; i++) {
+                              var tName = $scope.sampleMatch[i].toString().toUpperCase();
+                              $scope.teamsObjSample[tName].won = $scope.teamsObjSample[tName].won + 2;
+                              $scope.teamsObjSample[tName].lost = $scope.teamsObjSample[tName].lost + 2;
+                        }
+
+                        console.log($scope.teamsObjSample);
+
+                        $scope.teamsObjSampleAry = Object.keys($scope.teamsObjSample);
+
+                        $scope.teamsObjSampleAry.sort((a, b) => (($scope.teamsObjSample[b].lost) == ($scope.teamsObjSample[a].lost) ? parseFloat($scope.teamsObj[b.toUpperCase()].runrate) - parseFloat($scope.teamsObj[a.toUpperCase()].runrate) : ($scope.teamsObjSample[b].lost) - ($scope.teamsObjSample[a].lost)));
+
+                  }
+
+
+                  $scope.selectDetailViewSampleWin = function (pos, count, objS) {
+                        if (count == -1 || count > $scope.sampleCount)
+                              return;
+
+                        $scope.overwriteAry = {};
+
+
+                        if (objS) {
+                              $scope.sampleWinObj = JSON.parse(JSON.stringify(objS));
+                        }
+                        else if ($scope.sampleWinObj) {
+                              objS = JSON.parse(JSON.stringify($scope.sampleWinObj));
+                        }
+
+                        var sampleMatch;
+                        if (!count) {
+                              $scope.detPosPoint = pos;
+                              //$scope.detailedWin[$scope.winTeam][$scope.winNumber * 2]
+                              //console.log($scope.currentMatchDetail[$scope.detailedTeam][$scope.detailedPos][$scope.detailedType][pos]);
+                              sampleMatch = objS.Match[0];
+                              $scope.sampleCount = objS.Match.length;
+                              $scope.samplePosition = 1;
+                        }
+                        else {
+                              sampleMatch = objS.Match[count - 1];
+                              $scope.samplePosition = count;
+                        }
+
+                        $scope.detailedViewSample = true;
+                        $scope.showWin = false;
+                        $scope.fromShowWin = true;
+                        $scope.sampleMatch = sampleMatch.substring(1).split(',');
+
+                        //$scope.teamsObjSample = JSON.parse(JSON.stringify($scope.teamsObjRoot));
+
+                        $scope.teamsObjSample = JSON.parse(JSON.stringify($scope.teamsObj));
+
+
+                        /*
+                        var teamCur = '';
+                        if ($scope.detailedLevelActual == 2) {
+                              teamCur = $scope.upcomingMatches[$scope.curMatchPos].team1.toUpperCase();
+                              $scope.teamsObjSample[teamCur].point = $scope.teamsObjSample[teamCur].point + 2;
+                        }
+                        else if ($scope.detailedLevelActual == 3) {
+                              teamCur = $scope.upcomingMatches[$scope.curMatchPos].team2.toUpperCase();
+                              $scope.teamsObjSample[teamCur].point = $scope.teamsObjSample[teamCur].point + 2;
+                        }
+                        */
+
+
+
+                        var obkeys = Object.keys($scope.teamsObjSample)
+
+
+                        for (var key1 = 0; key1 < obkeys.length; key1++) {
+                              var key = obkeys[key1];
+                              $scope.teamsObjSample[key].point = $scope.teamsObjSample[key].point + $scope.teamsObjSample[key].won;
+                              $scope.teamsObjSample[key].won = 0;
+                              $scope.teamsObjSample[key].lost = $scope.teamsObjSample[key].point;
+                        }
+
+                        for (var i = 0; i < $scope.sampleMatch.length; i++) {
+                              var tName = $scope.sampleMatch[i].toString().toUpperCase();
+                              $scope.teamsObjSample[tName].won = $scope.teamsObjSample[tName].won + 2;
+                              $scope.teamsObjSample[tName].lost = $scope.teamsObjSample[tName].lost + 2;
+                        }
+                        console.log('$scope.teamsObjSample');
+
+                        console.log($scope.teamsObjSample);
+
+                        $scope.detPosPoint = $scope.teamsObjSample[$scope.winTeam.toUpperCase()].point + $scope.teamsObjSample[$scope.winTeam.toUpperCase()].won;
+                        $scope.detailedTeam = $scope.winTeam.toUpperCase();
+                        $scope.teamsObjSampleAry = Object.keys($scope.teamsObjSample);
+
+                        $scope.teamsObjSampleAry.sort((a, b) => ($scope.teamsObjSample[b].lost) - ($scope.teamsObjSample[a].lost));
+
+                        $scope.teamsObjSampleAry.sort((a, b) => (($scope.teamsObjSample[b].lost) == ($scope.teamsObjSample[a].lost) ? parseFloat($scope.teamsObj[b.toUpperCase()].runrate) - parseFloat($scope.teamsObj[a.toUpperCase()].runrate) : ($scope.teamsObjSample[b].lost) - ($scope.teamsObjSample[a].lost)));
+
+                        //$scope.teamsObjSampleAry.sort((a, b) => (($scope.teamsObjSample[b].lost) == ($scope.teamsObjSample[a].lost) ? parseFloat($scope.teamsObj[b.toUpperCase()].runrate) - parseFloat($scope.teamsObj[a.toUpperCase()].runrate)  : ($scope.teamsObjSample[b].lost) - ($scope.teamsObjSample[a].lost)));
+
+
+                        console.log('$scope.teamsObjSampleAry');
+                        console.log($scope.teamsObjSampleAry);
+
+
+
+                  }
+
+
+                  $scope.selectDetailViewSample = function (pos, count) {
+                        if (count == -1 || count > $scope.sampleCount)
+                              return;
+                        var sampleMatch;
+                        if (!count) {
+                              $scope.detPosPoint = pos;
+                              //console.log($scope.currentMatchDetail[$scope.detailedTeam][$scope.detailedPos][$scope.detailedType][pos]);
+                              sampleMatch = $scope.currentMatchDetail[$scope.detailedTeam][$scope.detailedPos][$scope.detailedType][pos].Match[0];
+                              $scope.sampleCount = $scope.currentMatchDetail[$scope.detailedTeam][$scope.detailedPos][$scope.detailedType][pos].Match.length;
+                              $scope.samplePosition = 1;
+                        }
+                        else {
+                              sampleMatch = $scope.currentMatchDetail[$scope.detailedTeam][$scope.detailedPos][$scope.detailedType][pos].Match[count - 1];
+                              $scope.samplePosition = count;
+                        }
+
+                        $scope.overwriteAry = {};
+
+                        $scope.fromShowWin = false;
+                        $scope.detailedViewSample = true;
+                        $scope.sampleMatch = sampleMatch.substring(1).split(',');
+
+                        $scope.teamsObjSample = JSON.parse(JSON.stringify($scope.teamsObj));
+
+
+                        var teamCur = '';
+                        if ($scope.detailedLevelActual == 2) {
+                              teamCur = $scope.upcomingMatches[$scope.curMatchPos].team1.toUpperCase();
+                              $scope.teamsObjSample[teamCur].point = $scope.teamsObjSample[teamCur].point + 2;
+                        }
+                        else if ($scope.detailedLevelActual == 3) {
+                              teamCur = $scope.upcomingMatches[$scope.curMatchPos].team2.toUpperCase();
+                              $scope.teamsObjSample[teamCur].point = $scope.teamsObjSample[teamCur].point + 2;
+                        }
+
+
+
+                        var obkeys = Object.keys($scope.teamsObjSample)
+
+
+                        for (var key1 = 0; key1 < obkeys.length; key1++) {
+                              var key = obkeys[key1];
+                              $scope.teamsObjSample[key].point = $scope.teamsObjSample[key].point + $scope.teamsObjSample[key].won;
+                              $scope.teamsObjSample[key].won = 0;
+                              $scope.teamsObjSample[key].lost = $scope.teamsObjSample[key].point;
+                        }
+
+                        for (var i = 0; i < $scope.sampleMatch.length; i++) {
+                              var tName = $scope.sampleMatch[i].toString().toUpperCase();
+                              $scope.teamsObjSample[tName].won = $scope.teamsObjSample[tName].won + 2;
+                              $scope.teamsObjSample[tName].lost = $scope.teamsObjSample[tName].lost + 2;
+                        }
+
+                        console.log($scope.teamsObjSample);
+
+                        $scope.teamsObjSampleAry = Object.keys($scope.teamsObjSample);
+                        //if ($scope.detailedLevel > 0)
+                        //      $scope.teamsObjSample[$scope.detailedTeam.toUpperCase()].point = $scope.teamsObjSample[$scope.detailedTeam.toUpperCase()].point + 2; 
+                        //$scope.sampleMatch.reverse();
+
+                        //$scope.teamsObjSampleAry.sort((a,b) => ($scope.teamsObjSample[b].point + $scope.teamsObjSample[b].lost) - ($scope.teamsObjSample[a].point + $scope.teamsObjSample[a].lost));
+                        //$scope.teamsObjSampleAry.sort((a, b) => ($scope.teamsObjSample[b].lost) - ($scope.teamsObjSample[a].lost));
+
+                        $scope.teamsObjSampleAry.sort((a, b) => (($scope.teamsObjSample[b].lost) == ($scope.teamsObjSample[a].lost) ? parseFloat($scope.teamsObj[b.toUpperCase()].runrate) - parseFloat($scope.teamsObj[a.toUpperCase()].runrate) : ($scope.teamsObjSample[b].lost) - ($scope.teamsObjSample[a].lost)));
+
+
+                  }
+
+                  $scope.hideDetailViewSample = function (showWin) {
+                        $scope.detailedViewSample = false;
+                        if ($scope.fromShowWin) {
+                              $scope.showWin = true;
+                              $scope.fromShowWin = false;
+                        }
+
+
+                  }
 
                   $scope.positionVisible = [1, 2];
                   $scope.currentMatch = 0;
@@ -159,8 +923,8 @@
       </script>
 
       <div ng-app="myShoppingList" ng-controller="myCtrl" class="container">
-<div  ng-class="loading ? 'loader' : ''"></div>
-<p class="text-primary" style="
+            <div ng-class="loading ? 'loader' : ''"></div>
+            <p class="text-primary" style="
     text-align: center;
     padding-top: 0px;
     /* padding-bottom: 5px; */
@@ -169,7 +933,7 @@
     color: cornflowerblue;
     margin-bottom: 0px;
 ">IPL 2023 - Point Calculator</p>
-<p class="text-secondary" style="
+            <p class="text-secondary" style="
     text-align: center;
     /* padding-top: 20px; */
     /* padding-bottom: 5px; */
@@ -177,7 +941,7 @@
     font-family: Calibri;
     /* color: cornflowerblue; */
 ">Calculates points and position for each team based all possible outcome of the series from now.
-</p>
+            </p>
             <div class="row" style="border-radius: 10px;border: 1px solid #337ab7;padding-top: 10px;padding-bottom: 10px;">
                   <span style="
     /* background-color: white; */
@@ -185,8 +949,8 @@
     display: block;
 "><span style="padding:0px 5px 0px 5px;
     background-color: white;
-">Final Points</span></span>
-                  <div ng-repeat="obj in teams"  class="innerTeam">
+">Points as of today</span></span>
+                  <div ng-repeat="obj in teams" class="innerTeam">
                         <span class="spanTeamNameHeader">{{obj.name}}</span>
                         <div style="
     display: inline-block;
@@ -244,50 +1008,726 @@
                         </div>
                   </div>
             </div>
+            <div class="row" style="/* padding-top:5px; */padding-bottom:10pxpadding-top: 0px;padding-bottom: 0px;margin-top: -15px;">
+                  <div class="col-sm-12 {{newsClass}}"  style="border: 0px solid darkred;border-radius: 5px;padding: 0px;min-height: 60px;max-height: 60px;overflow: visible;background-color: white;">
+                        <span style="background-color: white">{{news[newsCount]}}</span>
+                  </div>
+            </div>
+            <div class="row">
+                  <div class="col-12"><span style="padding-bottom:10px" class="spanTeamNameHeader">Position:</span>
+                        <select class="clsSelectedPos" ng-model="selectedPos" ng-options="x for x in positionList" ng-change="changeOption()">
+                        </select>
+                        <span style="padding-bottom:10px" class="spanTeamNameHeader">Teams:</span>
+                        <select class="clsSelectedTeamDropDown" ng-model="selectedTeamDropDown" ng-options="x for x in teamNames" ng-change="changeOptionTeam()">
+                        </select>
+                        <span style="padding-bottom:10px" class="spanTeamNameHeader">Show:</span>
+                        <select class="clsSelectedPointOption" ng-model="selectedPointOption" ng-options="x for x in ['All','Point','Run Rate']"
+                              ng-change="changePointOption()">
+                        </select>
 
+                        <div style="display:inline-block;border: 1px solid grey;padding: 4px 10px 4px 10px;border-radius: 5px;">
+                              <span class="spanTeamNameHeader1">Next Match ({{upcomingMatches[curMatchPos].SlNo}}/70) </span>
+                              <a ng-click="goToPrevious()" ng-class="curMatchPos > 0 ? '' : 'isDisabled'">
+                                    <span class="glyphicon glyphicon-chevron-left"></span>
+                              </a><span class="spanTeamNameHeader1">{{upcomingMatches[curMatchPos].date}}</span>
+                              <input class="spanTeamNameHeader1" ng-change="selectResult(1)" type="radio" ng-model="selectedOption" ng-value="1">                              <span class="spanTeamNameHeader1"> {{upcomingMatches[curMatchPos].team1}}</span>
+                              <input ng-change="selectResult(2)" type="radio" ng-model="selectedOption" ng-value="2">
+                              <span class="spanTeamNameHeader1"> {{upcomingMatches[curMatchPos].team2}}</span>
+                              <!--<input ng-change="selectResult(3)" type="radio" ng-model="selectedOption" ng-value="3"> NA
+                              -->
 
-            
-                  
-
-                  
-                  <p class="text-primary" style="
-    text-align: center;
-    padding-top: 0px;
-    /* padding-bottom: 5px; */
-    font-size: 21px;
-    font-family: Calibri;
-    color: cornflowerblue;
-    margin-bottom: 0px;
-">Thanks for all the cricket fans for the support. Congrats for the teams and fans who made it to playoff. For others, better luck next time. See you all again at IPL 2024...</p>
-
-                  <br>
-                  <br>
-
-
-<div style="margin-left: -15px;margin-right: -15px;">
-      Disclaimer: Thanks for visiting the site. Above information provided is for illustration purpose only.
-      IPLCalc.com is not responsible for any error in the above data presentated. Please provide your suggessions/issues/feedback to iplcalc@gmail.com.
-    <span ng-if="textFooter[0]">{{textFooter[0]}}</span><a ng-if="linkFooter[0].link" target="_blank" href="{{linkFooter[0].link}}">{{linkFooter[0].text}}</a>
-    <span ng-if="textFooter[1]">{{textFooter[1]}}</span><a ng-if="linkFooter[1].link"  target="_blank" href="{{linkFooter[1].link}}">{{linkFooter[1].text}}</a>
-    <span ng-if="textFooter[2]">{{textFooter[2]}}</span><a ng-if="linkFooter[2].link"  target="_blank" href="{{linkFooter[2].link}}">{{linkFooter[2].text}}</a>
-    <span ng-if="textFooter[3]">{{textFooter[3]}}</span><a ng-if="linkFooter[3].link"  target="_blank" href="{{linkFooter[3].link}}">{{linkFooter[3].text}}</a>
-</div>
-
-
-<footer class="bg-info text-center text-lg-start fixed-bottom" style="margin-left: -15px;margin-right: -15px;">
-  <!-- Copyright -->
-  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);text-align:left;padding-left:10px">
-    © 2023 Copyright
-    <a class="text-dark" style="text-align:right;float: right;padding-right: 10px;" href="https://twitter.com/iplcalc">@IPLCalc</a>
-    &nbsp;&nbsp;
-    <a class="text-dark" style="text-align:right;float: right;padding-right: 10px;" href="mailto:iplcalc@gmail.com">Contact Us at iplcalc@gmail.com</a>
-
-    
-  </div>
-  <!-- Copyright -->
-</footer>
+                              <a ng-click="goToNext()" ng-class="matchSelected && curMatchPos < (nextLevelCounter - 1) ? '' : 'isDisabled'">
+          <span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
+                        </div>
 
                   </div>
+            </div>
+            <br>
+
+
+            <div class="row" ng-show="detailedPos==-1 && !showWin && !detailedViewSample ">
+                  <div class="col-sm-12" style="border: 1px solid darkred;border-radius: 5px;padding: 10px;">
+                        <table class="table table-striped" style="padding-right:10px!important;padding-left:10px!important;margin-bottom: 0px;">
+                              <thead>
+                                    <tr>
+                                          <th rowspan="2">
+                                                Team & <br> Position
+                                          </th>
+                                          <th colspan="4" style="text-align:center">
+                                                Possible options Current <a href="#highlight1"><sup>1</sup></a> and After
+                                                next match <a href="#highlight2"><sup>2</sup></a>
+                                          </th>
+
+                                    </tr>
+                                    <tr>
+                                          <th style="text-align: center">
+                                                <div class="headerCurrent">Current</div>
+                                          </th>
+                                          <th style="text-align: center">
+                                                Winner : <div class="headerNext1">{{upcomingMatches[curMatchPos].team1}}</div>
+                                                <div class="headerNext2">{{upcomingMatches[curMatchPos].team2}}</div>
+                                          </th>
+                                          <!--
+                                          <th style="text-align: center">
+                                                if {{upcomingMatches[curMatchPos].team1}} wins
+                                          </th>
+                                          <th style="text-align: center">
+                                                if {{upcomingMatches[curMatchPos].team2}} wins
+                                          </th>
+                                          -->
+                                          <!--Uncomment for Draw
+                                          <th>
+                                                Draw
+                                          </th>-->
+
+                                    </tr>
+                              </thead>
+                              <tbody>
+                                    <tr ng-repeat-start="obj in teamNamesNew">
+                                    </tr>
+                                    <tr ng-repeat-start="arr in positionVisible">
+                                    </tr>
+                                    <!--<tr ng-repeat="type in pointOptions.filter(e => arr < 11 || e.name == 'Run Rate')">
+                                    <tr ng-repeat="type in pointOptions" >
+                                          -->
+                                    <tr ng-repeat="type in pointOptions" ng-show="arr < 11 || type.name == 'Run Rate'" ng-show="!excZero || positionObj[curMatch][obj][arr][type.value] > 0">
+                                          <td width="12%">
+                                                <!--{{obj.toString().toUpperCase()}} <span ng-if="innerWidth > 500">- </span>{{(arr < 11 ? arr : (arr == '11' : 'Top2' ? (arr == '12' : 'Top4': '')))}} {{(type.name == "Run Rate" && selectedPointOption == "All" ? "*" : "") }}-->
+                                                <a ng-click="selectWinDetails(obj.toString())">{{obj.toString().toUpperCase()}}</a>                                                <span ng-if="innerWidth > 650">- </span>{{(arr == '11' ? 'Top 1-2' : (arr
+                                                == '12' ? 'Top 3-4': arr))}} {{(type.name == "Run Rate" && selectedPointOption
+                                                == "All" && arr != '11' && arr != '12' ? "*" : "") }}
+                                          </td>
+
+                                          <td colspan="3" width="88%">
+                                                <table style="width:100%">
+                                                      <tbody>
+                                                      <tr ng-repeat="x in [0,1,2]" ng-if="x > -1" >
+                                                            <td style="padding-bottom:10px">
+                                                <div class="barclsHeader {{obj.toString() + '-' + arr + '-' + type.value + '-' + x+1}}" ng-click="selectDetailViewPre(obj.toString(),arr,type.value,x+1)">
+                                                      <div class="barcls-light-grey" 
+                                                            style="position: relative;">
+                                                            <div class="barcls-container2 barcls-barcolor{{x+1}} barcls-right barcls-contentpercentage{{x+1}}"
+                                                            style="width:{{getPercentageBar((positionObj[curMatch + x][obj][arr][type.value]),(x>1?1:x) + 1)}}!important"
+                                                            style2="width:0.10%!important"
+                                                            ng-class="highlightbar1 == (obj.toString() + '-' + arr + '-' + type.value + '-' + (x+1)) ? 'highlightbartopleft' : ''"
+                                                            > {{(x == 0 ? "." : (x == 1 ? upcomingMatches[curMatchPos].team1 : upcomingMatches[curMatchPos].team2))}} </div>
+                                                            <div class="barcls-contentright"><div ng-if="innerWidth > 650" style="display:inline">({{getNumberFormat(positionObj[curMatch+x][obj][arr][type.value],true)}})&nbsp;&nbsp;&nbsp;&nbsp;</div>{{getNumberFormat(positionObj[curMatch+x][obj][arr][type.value])}} - {{getPercentage((positionObj[curMatch + x][obj][arr][type.value]),(x>1?1:x) + 1)}}&nbsp;&nbsp;</div>
+                                                            <div class="barcls-contentfillgap" ng-class="highlightbar1 == (obj.toString() + '-' + arr + '-' + type.value + '-' + (x+1)) ? 'highlightbar' : ''">.</div>
+                                                      </div>
+                                                </div>
+                                                            
+                                                      </td></tr></tbody>
+                                                <!--                  
+                                                      <tr><td>
+                                                <div>
+                                                <div class="barcls-light-grey" style="position: relative;">
+                                                      <div class="barcls-container barcls-green barcls-right barcls-contentpercentage">.</div>
+                                                      <div class="barcls-contentright">Test</div>
+                                                      <div class="barcls-contentfillgap">Test</div>
+                                                </div>
+                                                </div>
+                                                            
+                                                      </td></tr>
+                                                       -->
+                                                </table>
+                                                
+                                          </td>
+
+
+                                          <!--            
+                                          <td width="28%">
+                                                <a ng-click="selectDetailView(obj.toString(),arr,type.value,1)">
+                                                      <div class="clsCurMatch">{{getNumberFormat(positionObj[curMatch][obj][arr][type.value])}}
+                                                      </div>
+                                                      <div class="clsNextMatchHypen"> -
+                                                      </div>
+                                                      <div class="clsCurMatchPer">{{getPercentage((positionObj[curMatch][obj][arr][type.value]),1)}}
+                                                      </div>
+                                                </a>
+                                          </td>
+                                          <td width="30%">
+                                                <a ng-click="selectDetailView(obj.toString(),arr,type.value,2)">
+                                                      <div class="clsNextMatch">{{getNumberFormat(positionObj[curMatch+1][obj][arr][type.value])}}</div>
+                                                      <div class="clsNextMatchHypen"> -
+                                                      </div>
+                                                      <div class="clsNextMatchPer">{{getPercentage((positionObj[curMatch + 1][obj][arr][type.value]),2)}}</div>
+                                                      <div class="clsNextMatchArr">
+                                                            <span ng-class="{'glyphicon glyphicon-arrow-up posArrow': showArrow(positionObj[curMatch][obj][arr][type.value],positionObj[curMatch + 1][obj][arr][type.value],positionObj[curMatch + 2][obj][arr][type.value],1) == '+'}"></span>
+                                                            <span ng-class="{'glyphicon glyphicon-arrow-down negArrow': showArrow(positionObj[curMatch][obj][arr][type.value],positionObj[curMatch + 1][obj][arr][type.value],positionObj[curMatch + 2][obj][arr][type.value],1) == '-'}"></span>
+                                                      </div>
+                                                </a>
+                                          </td>
+                                          <td width="30%">
+                                                <a ng-click="selectDetailView(obj.toString(),arr,type.value,3)">
+                                                      <div class="clsNextMatch">{{getNumberFormat(positionObj[curMatch+2][obj][arr][type.value])}}</div>
+                                                      <div class="clsNextMatchHypen"> -
+                                                      </div>
+                                                      <div class="clsNextMatchPer">{{getPercentage((positionObj[curMatch + 2][obj][arr][type.value]),2)}}</div>
+                                                      <div class="clsNextMatchArr">
+                                                            <span ng-class="{'glyphicon glyphicon-arrow-up posArrow': showArrow(positionObj[curMatch][obj][arr][type.value],positionObj[curMatch + 1][obj][arr][type.value],positionObj[curMatch + 2][obj][arr][type.value],2) == '+'}"></span>
+                                                            <span ng-class="{'glyphicon glyphicon-arrow-down negArrow': showArrow(positionObj[curMatch][obj][arr][type.value],positionObj[curMatch + 1][obj][arr][type.value],positionObj[curMatch + 2][obj][arr][type.value],2) == '-'}"></span>
+                                                      </div>
+                                                </a>
+                                          </td>
+                                          -->
+                                          <!--Uncomment for Draw
+                                          <td>
+                                                {{positionObj[curMatch+3][obj][arr][type.value]}}
+                                          </td>
+                                          -->
+                                    </tr>
+                                    <tr ng-repeat-end>
+                                    </tr>
+                                    <tr ng-repeat-end>
+                                    </tr>
+                              </tbody>
+                        </table>
+                  </div>
+                  <input type="checkbox" ng-model="excZero" ng-click="setExcZeroValue()">&nbsp;Exclude rows having zero value
+            </div>
+
+            <div class="row" ng-show="detailedPos==-1 && !showWin && !detailedViewSample">
+                  <div style="padding-top:10px"> <span ng-if="selectedPointOption == 'All'">* Run Rate (based on the run rate, position can go up or down)<br></span>
+                        <sup id="highlight1">1</sup> Total Current Possible Options - {{getNumberFormat(totalOptions)}} (2<sup>{{totalCurrentMatch}}</sup>                        Remaining Matches - {{totalCurrentMatch}} )
+                        <br><sup id="highlight2">2</sup> Total Possible Option after next match - {{getNumberFormat(totalOptionsNext)}}
+                        (2
+                        <sup>{{totalNextMatch}}</sup> Remaining Matches after next match - {{totalNextMatch}})
+                        <br>Top 1-2 : Covers the positions 1 & 2 based on point and run rate (* run rate only ranging between
+                        1 - 2, not covering position beyond 2) <a ng-click="showTop2 = !showTop2">Example</a>
+                        <div ng-if="showTop2">
+                              <div style="padding-top:10px">
+                                    <b>Covered Scenarios:</b>
+                                    <table class="table table-striped" style="padding-top:10px;padding-bottom:10px;padding-right:10px!important;padding-left:10px!important;margin-bottom: 0px;width:auto;border:1px solid gray;">
+                                          <thead>
+                                                <tr>
+                                                      <th>
+                                                            CSK
+                                                      </th>
+
+                                                      <th>
+                                                            DC
+                                                      </th>
+                                                      <th>
+                                                            GT
+                                                      </th>
+                                                      <th>
+                                                            KKR
+                                                      </th>
+                                                      <th>
+                                                            LSG
+                                                      </th>
+                                                      <th>
+                                                            MI
+                                                      </th>
+                                                      <th>
+                                                            PBKS
+                                                      </th>
+                                                      <th>
+                                                            RCB
+                                                      </th>
+                                                      <th>
+                                                            RR
+                                                      </th>
+                                                      <th>
+                                                            SRH
+                                                      </th>
+                                                </tr>
+                                          </thead>
+                                          <tbody>
+                                                <tr>
+                                                      <td style="font-weight:700;color:navy">20</td>
+                                                      <td>18</td>
+                                                      <td>16</td>
+                                                      <td>16</td>
+                                                      <td>12</td>
+                                                      <td>12</td>
+                                                      <td>10</td>
+                                                      <td>10</td>
+                                                      <td>10</td>
+                                                      <td>8</td>
+                                                </tr>
+
+                                                <tr>
+                                                      <td>20</td>
+                                                      <td style="font-weight:700;color:navy">18</td>
+                                                      <td>16</td>
+                                                      <td>16</td>
+                                                      <td>12</td>
+                                                      <td>12</td>
+                                                      <td>10</td>
+                                                      <td>10</td>
+                                                      <td>10</td>
+                                                      <td>8</td>
+                                                </tr>
+                                                <tr>
+                                                      <td style="font-weight:700;color:navy">20</td>
+                                                      <td style="font-weight:700;color:navy">20</td>
+                                                      <td>16</td>
+                                                      <td>16</td>
+                                                      <td>12</td>
+                                                      <td>12</td>
+                                                      <td>10</td>
+                                                      <td>10</td>
+                                                      <td>10</td>
+                                                      <td>8</td>
+                                                </tr>
+
+                                          </tbody>
+                                    </table>
+
+
+
+                              </div>
+
+                              <div style="padding-top:10px">
+                                    <b>Not Covered Scenarios:</b>
+                                    <table class="table table-striped" style="padding-top:10px;padding-bottom:10px;padding-right:10px!important;padding-left:10px!important;margin-bottom: 0px;width:auto;border:1px solid gray;">
+                                          <thead>
+                                                <tr>
+                                                      <th>
+                                                            CSK
+                                                      </th>
+
+                                                      <th>
+                                                            DC
+                                                      </th>
+                                                      <th>
+                                                            GT
+                                                      </th>
+                                                      <th>
+                                                            KKR
+                                                      </th>
+                                                      <th>
+                                                            LSG
+                                                      </th>
+                                                      <th>
+                                                            MI
+                                                      </th>
+                                                      <th>
+                                                            PBKS
+                                                      </th>
+                                                      <th>
+                                                            RCB
+                                                      </th>
+                                                      <th>
+                                                            RR
+                                                      </th>
+                                                      <th>
+                                                            SRH
+                                                      </th>
+                                                </tr>
+                                          </thead>
+                                          <tbody>
+                                                <tr>
+                                                      <td style="font-weight:700;color:navy">20</td>
+                                                      <td style="font-weight:700;color:navy">20</td>
+                                                      <td style="font-weight:700;color:navy">20</td>
+                                                      <td>16</td>
+                                                      <td>12</td>
+                                                      <td>12</td>
+                                                      <td>10</td>
+                                                      <td>10</td>
+                                                      <td>10</td>
+                                                      <td>8</td>
+                                                </tr>
+
+                                                <tr>
+                                                      <td>20</td>
+                                                      <td>18</td>
+                                                      <td style="font-weight:700;color:navy">16</td>
+                                                      <td>16</td>
+                                                      <td>12</td>
+                                                      <td>12</td>
+                                                      <td>10</td>
+                                                      <td>10</td>
+                                                      <td>10</td>
+                                                      <td>8</td>
+                                                </tr>
+                                                <tr>
+                                                      <td>20</td>
+                                                      <td style="font-weight:700;color:navy">16</td>
+                                                      <td style="font-weight:700;color:navy">16</td>
+                                                      <td style="font-weight:700;color:navy">16</td>
+                                                      <td>16</td>
+                                                      <td>12</td>
+                                                      <td>12</td>
+                                                      <td>10</td>
+                                                      <td>10</td>
+                                                      <td>10</td>
+
+                                                </tr>
+
+                                          </tbody>
+                                    </table>
+
+                              </div>
+                        </div>
+
+                        <br>Top 3-4 : Covers the positions 3 & 4 based on point and run rate (* run rate only ranging between
+                        1 - 4 i.e 1-3,1-4,2-3,2-4,3-4. not covering position beyond 4) <a ng-click="showTop4 = !showTop4">Example</a>
+
+
+
+                        <div ng-if="showTop4" style="padding-top:10px">
+                              <div>
+                                    <b>Covered Scenarios:</b>
+                                    <table class="table table-striped" style="padding-top:10px;padding-bottom:10px;padding-right:10px!important;padding-left:10px!important;margin-bottom: 0px;width:auto;border:1px solid gray">
+                                          <thead>
+                                                <tr>
+                                                      <th>
+                                                            CSK
+                                                      </th>
+
+                                                      <th>
+                                                            DC
+                                                      </th>
+                                                      <th>
+                                                            GT
+                                                      </th>
+                                                      <th>
+                                                            KKR
+                                                      </th>
+                                                      <th>
+                                                            LSG
+                                                      </th>
+                                                      <th>
+                                                            MI
+                                                      </th>
+                                                      <th>
+                                                            PBKS
+                                                      </th>
+                                                      <th>
+                                                            RCB
+                                                      </th>
+                                                      <th>
+                                                            RR
+                                                      </th>
+                                                      <th>
+                                                            SRH
+                                                      </th>
+                                                </tr>
+                                          </thead>
+                                          <tbody>
+                                                <tr>
+                                                      <td>20</td>
+                                                      <td>18</td>
+                                                      <td style="font-weight:700;color:navy">16</td>
+                                                      <td>14</td>
+                                                      <td>12</td>
+                                                      <td>12</td>
+                                                      <td>10</td>
+                                                      <td>10</td>
+                                                      <td>10</td>
+                                                      <td>8</td>
+                                                </tr>
+
+                                                <tr>
+                                                      <td>20</td>
+                                                      <td>18</td>
+                                                      <td style="font-weight:700;color:navy">16</td>
+                                                      <td style="font-weight:700;color:navy">16</td>
+                                                      <td>12</td>
+                                                      <td>12</td>
+                                                      <td>10</td>
+                                                      <td>10</td>
+                                                      <td>10</td>
+                                                      <td>8</td>
+                                                </tr>
+                                                <tr>
+                                                      <td>20</td>
+                                                      <td style="font-weight:700;color:navy">16</td>
+                                                      <td style="font-weight:700;color:navy">16</td>
+                                                      <td style="font-weight:700;color:navy">16</td>
+                                                      <td>12</td>
+                                                      <td>12</td>
+                                                      <td>10</td>
+                                                      <td>10</td>
+                                                      <td>10</td>
+                                                      <td>8</td>
+                                                </tr>
+
+                                          </tbody>
+                                    </table>
+
+
+
+                              </div>
+
+                              <div style="padding-top:10px">
+                                    <b>Not Covered Scenarios:</b>
+                                    <table class="table table-striped" style="padding-top:10px;padding-bottom:10px;padding-right:10px!important;padding-left:10px!important;margin-bottom: 0px;width:auto;border:1px solid gray;">
+                                          <thead>
+                                                <tr>
+                                                      <th>
+                                                            CSK
+                                                      </th>
+
+                                                      <th>
+                                                            DC
+                                                      </th>
+                                                      <th>
+                                                            GT
+                                                      </th>
+                                                      <th>
+                                                            KKR
+                                                      </th>
+                                                      <th>
+                                                            LSG
+                                                      </th>
+                                                      <th>
+                                                            MI
+                                                      </th>
+                                                      <th>
+                                                            PBKS
+                                                      </th>
+                                                      <th>
+                                                            RCB
+                                                      </th>
+                                                      <th>
+                                                            RR
+                                                      </th>
+                                                      <th>
+                                                            SRH
+                                                      </th>
+                                                </tr>
+                                          </thead>
+                                          <tbody>
+                                                <tr>
+                                                      <td style="font-weight:700;color:navy">20</td>
+                                                      <td style="font-weight:700;color:navy">20</td>
+                                                      <td style="font-weight:700;color:navy">20</td>
+                                                      <td style="font-weight:700;color:navy">20</td>
+                                                      <td style="font-weight:700;color:navy">20</td>
+                                                      <td>12</td>
+                                                      <td>10</td>
+                                                      <td>10</td>
+                                                      <td>10</td>
+                                                      <td>8</td>
+                                                </tr>
+
+                                                <tr>
+                                                      <td>20</td>
+                                                      <td>18</td>
+                                                      <td style="font-weight:700;color:navy">16</td>
+                                                      <td style="font-weight:700;color:navy">16</td>
+                                                      <td style="font-weight:700;color:navy">16</td>
+                                                      <td style="font-weight:700;color:navy">16</td>
+                                                      <td style="font-weight:700;color:navy">16</td>
+                                                      <td style="font-weight:700;color:navy">16</td>
+                                                      <td>10</td>
+                                                      <td>8</td>
+                                                </tr>
+                                                <tr>
+                                                      <td>20</td>
+                                                      <td style="font-weight:700;color:navy">16</td>
+                                                      <td style="font-weight:700;color:navy">16</td>
+                                                      <td style="font-weight:700;color:navy">16</td>
+                                                      <td style="font-weight:700;color:navy">16</td>
+                                                      <td>12</td>
+                                                      <td>12</td>
+                                                      <td>10</td>
+                                                      <td>10</td>
+                                                      <td>10</td>
+
+                                                </tr>
+
+                                          </tbody>
+                                    </table>
+
+                              </div>
+                        </div>
+
+
+
+                        <div style="padding-top:2px" ng-if="innerWidth < 650">Cr - Crores<br>L - Lakhs<br>K - Thousands</div>
+                  </div>
+            </div>
+
+
+
+            <div class="row" ng-show="showWin">
+                  <div class="col-sm-12" style="border: 1px solid darkred;border-radius: 5px;padding: 0px;">
+                        <span style="padding: 10px 0px 0px 10px;display: inline-block;width: 95%;">If Team : <b><select class="clsSelectedTeamDropDown" ng-model="winTeamCaps" ng-options="x for x in teamNames" ng-change="changeOptionTeamWin()">
+                        </select></b> wins  
+<select ng-model="winNumber" ng-options="v for v in winRemainingAry" ng-change="changeWinNumber()"></select>                   
+                        of the remaining matches : <b>{{winRemaining }}</b>.</span>
+                        <span ng-click="showWin = false;" class="glyphicon glyphicon-remove-circle clsHideDetailView"></span>
+                        <table class="table table-striped">
+                              <thead>
+                                    <tr>
+                                          <th>
+                                                Position
+                                          </th>
+                                          <th>
+                                                Options
+                                          </th>
+                                    </tr>
+                              </thead>
+                              <tbody>
+                                    <tr ng-repeat-start="detPos in winPos">
+                                    </tr>
+                                    <tr ng-repeat="type in pointOptions" ng-if='detailedWin[winTeam][winNumber*2][detPos][type.value][(winNumber * 2) + teamsObj[winTeam.toUpperCase()].point + teamsObj[winTeam.toUpperCase()].won]["Count"]'>
+
+                                          <th>
+                                                {{(detPos == '11' ? 'Top 1-2' : (detPos == '12' ? 'Top 3-4': detPos))}} {{(detPos == '11' || detPos == '12' ? '' : type.name)}}
+                                          </th>
+                                          <th style="text-align: right;padding-right:10px">
+                                                <a ng-click="selectDetailViewSampleWin(detPos,null,detailedWin[winTeam][winNumber*2][detPos][type.value][(winNumber * 2) + teamsObj[winTeam.toUpperCase()].point + teamsObj[winTeam.toUpperCase()].won])">
+                                                    {{getNumberFormat(detailedWin[winTeam][winNumber*2][detPos][type.value][(winNumber * 2) + teamsObj[winTeam.toUpperCase()].point + teamsObj[winTeam.toUpperCase()].won]["Count"])}} - 
+                                                    {{getPercentage(detailedWin[winTeam][winNumber*2][detPos][type.value][(winNumber * 2) + teamsObj[winTeam.toUpperCase()].point + teamsObj[winTeam.toUpperCase()].won]["Count"],-1)}}
+                                                      </a>
+                                          </th>
+                                    </tr>
+                                    <tr ng-repeat-end>
+                                    </tr>
+
+                              </tbody>
+                        </table>
+                  </div>
+            </div>
+
+
+
+            <div class="row" ng-show="detailedPos!=-1 && !detailedViewSample">
+                  <div class="col-sm-12" style="border: 1px solid darkred;border-radius: 5px;padding: 0px;">
+                        <span style="padding: 10px 0px 0px 10px;display: inline-block;width: 95%;">Points required for Team : <b>{{detailedTeam.toString().toUpperCase()}}</b> for position : <b>{{(detailedPos == '11' ? 'Top 1-2' : (detailedPos == '12' ? 'Top 3-4': detailedPos))}}</b> based on <b>{{(detailedPos == '11' || detailedPos == '12' ? 'Point / ' : '' )}} {{(detailedType == 'rr' ? 'Run Rate' : 'Point')}}</b>.[Current Points : <b>{{ detailedPoint }}</b>] Remaining matches : <b>{{detailedRemaining}}</b></span>
+                        <span ng-click="hideDetailView()" class="glyphicon glyphicon-remove-circle clsHideDetailView"></span>
+                        <table class="table table-striped">
+                              <thead>
+                                    <tr>
+                                          <th>
+                                                Total Points
+                                          </th>
+                                          <th>
+                                                Requires
+                                          </th>
+                                          <th>
+                                                Options
+                                          </th>
+
+                                    </tr>
+                              </thead>
+                              <tbody>
+                                    <tr ng-repeat="detPos in detPosAry">
+                                          <th>
+                                                {{detPos}}
+                                          </th>
+                                          <th>
+                                                {{(detPos - detailedPoint)/2}} Win - {{detPos - detailedPoint}} Points
+                                          </th>
+                                          <th style="text-align: right;padding-right:10px">
+                                                <a ng-click="selectDetailViewSample(detPos)">
+                                                      
+                                                {{getNumberFormat(currentMatchDetail[detailedTeam][detailedPos][detailedType][detPos].Count)}}
+                                                 - 
+                                                {{getPercentage(currentMatchDetail[detailedTeam][detailedPos][detailedType][detPos].Count,detailedLevel+1)}}
+      
+                                                      </a>
+                                          </th>
+                                    </tr>
+                              </tbody>
+                        </table>
+                  </div>
+            </div>
+
+
+            <div class="row" ng-if="detailedViewSample">
+                  <div class="col-sm-12" style="border: 1px solid darkred;border-radius: 5px;padding: 0px;">
+
+                        <a ng-show="!fromShowWin" style="display: inline-block;margin-top: 10px;margin-left: 10px;" " ng-click="selectDetailViewSample(detPosPoint,samplePosition-1)
+                              " ng-class="samplePosition> 1  ? '' : 'isDisabled'"><span class="glyphicon glyphicon-chevron-left"></span>
+                              </a>
+                        <a ng-show="fromShowWin" style="display: inline-block;margin-top: 10px;margin-left: 10px;" " ng-click="selectDetailViewSampleWin(detPosPoint,samplePosition-1)
+                              " ng-class="samplePosition> 1  ? '' : 'isDisabled'">
+                                    <span class="glyphicon glyphicon-chevron-left"></span>
+                              </a><span class="spanTeamNameHeader1">{{"Sample " + samplePosition + ' Of ' + sampleCount}}</span>
+                        <a ng-show="!fromShowWin" ng-click="selectDetailViewSample(detPosPoint,samplePosition+1)" ng-class="samplePosition < sampleCount  ? '' : 'isDisabled'">
+          <span class="glyphicon glyphicon-chevron-right"></span></a>
+                        <a ng-show="fromShowWin" ng-click="selectDetailViewSampleWin(detPosPoint,samplePosition+1)" ng-class="samplePosition < sampleCount  ? '' : 'isDisabled'">
+          <span class="glyphicon glyphicon-chevron-right"></span></a>
+                        <span ng-click="hideDetailViewSample()" class="glyphicon glyphicon-remove-circle" style="float: right;padding-right: 10px;padding-top: 10px;color: red;"></span>
+
+
+
+                        <table class="table  table-striped">
+                              <thead>
+                                    <tr>
+                                          <th>
+                                                Match Details
+                                          </th>
+                                          <th>
+                                                Winner
+                                          </th>
+                                          <th>
+                                          </th>
+
+                                    </tr>
+                              </thead>
+                              <tbody>
+                                    <tr ng-repeat="next in upcomingMatches.slice(curMatchPos + (fromShowWin ? 0 : detailedLevel)) track by $index">
+                                          <th>
+                                                Match : {{next.SlNo + " - " + next.date + " " }}
+                                          </th>
+                                          <th>
+                                                {{sampleMatch[$index].toString().toUpperCase()}} <span style="font-size: 12px;font-weight: 100;"> vs {{(next.team1.toString().toLowerCase() == sampleMatch[$index] ? next.team2 : next.team1)}}  </span>
+                                          </th>
+                                          <th>
+                                                <div style="height:25px;width:25px;background-size: contain;background-repeat: no-repeat;" ng-style="overwriteAry[$index] && {'background-image': 'url(1.png)'} ||  {'background-image': 'url(2.png)'}"
+                                                      ng-click="overwriteSample($index,next.team1,next.team2)"></div>
+                                          </th>
+                                    </tr>
+                              </tbody>
+                        </table>
+
+                        &nbsp;&nbsp;Result: <br>
+                        <div ng-repeat="obj in teamsObjSampleAry" class="innerTeam" ng-class="((teamsObjSample[obj].point + teamsObjSample[obj].won) == detPosPoint ? 'innerTeamActive' : '')">
+                              <span class="spanTeamNameHeader" ng-class="(detailedTeam.toUpperCase() == obj ? 'spanTeamNameHeaderActive' : '')">{{obj}}</span>
+                              <div style="
+    display: inline-block;
+    border: 1px solid #337ab7;
+    border-radius: 5px;
+    padding: 0px 5px 0px 5px;
+    background: linear-gradient(110deg, #d9edf7 100%);
+    width: 30px;
+"><span class="ng-binding" style="
+    display: inline-block;
+    width: 50%;
+    text-align: center;
+">{{teamsObjSample[obj].point + teamsObjSample[obj].won}}
+  </span></div>
+                        </div>
+
+
+
+                  </div>
+            </div>
+
+            <br>
+            <br>
+
+
+            <div style="margin-left: -15px;margin-right: -15px;">
+                  Disclaimer: Thanks for visiting the site. Above information provided is for illustration purpose only. IPLCalc.com is not
+                  responsible for any error in the above data presentated. Please provide your suggessions/issues/feedback
+                  to iplcalc@gmail.com.
+                  <span ng-if="textFooter[0]">{{textFooter[0]}}</span><a ng-if="linkFooter[0].link" target="_blank" href="{{linkFooter[0].link}}">{{linkFooter[0].text}}</a>
+                  <span ng-if="textFooter[1]">{{textFooter[1]}}</span><a ng-if="linkFooter[1].link" target="_blank" href="{{linkFooter[1].link}}">{{linkFooter[1].text}}</a>
+                  <span ng-if="textFooter[2]">{{textFooter[2]}}</span><a ng-if="linkFooter[2].link" target="_blank" href="{{linkFooter[2].link}}">{{linkFooter[2].text}}</a>
+                  <span ng-if="textFooter[3]">{{textFooter[3]}}</span><a ng-if="linkFooter[3].link" target="_blank" href="{{linkFooter[3].link}}">{{linkFooter[3].text}}</a>
+            </div>
+
+
+            <footer class="bg-info text-center text-lg-start fixed-bottom" style="margin-left: -15px;margin-right: -15px;">
+                  <!-- Copyright -->
+                  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);text-align:left;padding-left:10px">
+                        © 2023 Copyright
+                        <a class="text-dark" style="text-align:right;float: right;padding-right: 10px;" href="mailto:iplcalc@gmail.com">Contact Us at iplcalc@gmail.com</a>
+                  </div>
+                  <!-- Copyright -->
+            </footer>
+
+      </div>
 
 </body>
 <style>
@@ -330,9 +1770,9 @@
             padding-left: 10px;
       }
 
-            .innerTeamActive {
-                  background-color: lavender;
-            }
+      .innerTeamActive {
+            background-color: lavender;
+      }
 
 
 
@@ -491,16 +1931,16 @@
             }
       }
 
-      .loader{
-  position: fixed;
-  left: 0px;
-  top: 0px;
-  width: 100%;
-  height: 100%;
-  z-index: 9999;
-  background: url('loading.gif') 50% 50% no-repeat rgb(249,249,249);
-  opacity:0.5;
-}
+      .loader {
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background: url('loading.gif') 50% 50% no-repeat rgb(249, 249, 249);
+            opacity: 0.5;
+      }
 
       .spanTeamNameHeader1 {
             font-size: 12px;
@@ -512,37 +1952,191 @@
 
       body a {
 
-            cursor:pointer;
+            cursor: pointer;
       }
 
-      
+
       body input {
 
-            cursor:pointer;
+            cursor: pointer;
       }
 
       body select {
 
-            cursor:pointer;
+            cursor: pointer;
       }
 
       .glyphicon-remove-circle {
 
-            cursor:pointer;
+            cursor: pointer;
       }
 
       .displayPoints {
             padding-top: 10px;
             padding-bottom: 10px;
             margin-bottom: 10px;
-            opacity: 1!important;      
+            opacity: 1!important;
             height: auto!important;
-            }
+      }
 
       .spanTeamNameHeaderActive {
-            color:maroon;
-      }      
+            color: maroon;
+      }
+
+
+      .barcls-center {
+            text-align: center!important
+      }
+
+      .barcls-right {
+            text-align: right!important
+      }
+
+      .barcls-green,
+      .barcls-hover-green:hover {
+            color: #fff!important;
+            background-color: #4CAF50!important
+      }
+
+      .barcls-light-grey,
+      .barcls-hover-light-grey:hover,
+      .barcls-light-gray,
+      .barcls-hover-light-gray:hover {
+            color: #000!important;
+            background-color: #f1f1f1!important
+      }
+
+      .barcls-container,
+      .barcls-panel {
+            padding: 0.01em 16px
+      }
+
+      .barcls-panel {
+            margin-top: 16px;
+            margin-bottom: 16px
+      }
+
+      .barcls-container:after,
+      .barcls-container:before,
+      .barcls-panel:after,
+      .barcls-panel:before,
+      .barcls-row:after,
+      .barcls-row:before,
+      .barcls-row-padding:after,
+      .barcls-row-padding:before,
+      .barcls-cell-row:before,
+      .barcls-cell-row:after,
+      .barcls-clear:after,
+      .barcls-clear:before,
+      .barcls-bar:before,
+      .barcls-bar:after {
+            content: "";
+            display: table;
+            clear: both
+      }
+
+      .barcls-red,
+      .barcls-hover-red:hover {
+            color: #fff!important;
+            background-color: #f44336!important
+      }
+
+      .barcls-blue,
+      .barcls-hover-blue:hover {
+            color: #fff!important;
+            background-color: #2196F3!important
+      }
+      .barcls-contentright {
+            position: absolute;
+            z-index: 2225;
+            right: 0;
+            background-color: transparent;
+      }
+
+      .barcls-contentpercentage1 {
+            width: 85%;position: absolute;z-index: 2223;color:transparent;
+            text-align: left!important;
+      }
+
+      .barcls-contentpercentage2 {
+            width: 85%;position: absolute;z-index: 2223;color:#555;
+            text-align: left!important;
+      }
+
+      .barcls-contentpercentage3 {
+            width: 85%;position: absolute;z-index: 2223;color:#555;
+            text-align: left!important;
+      }
+
+      .barcls-barcolor1,
+      .barcls-hover-barcolor1:hover {
+            background-color: #4CAF50!important
+      }
+
+      .barcls-barcolor2,
+      .barcls-hover-barcolor2:hover {
+            background-color:#d9ede4!important
+      }
+
+      .barcls-barcolor3,
+      .barcls-hover-barcolor3:hover {
+            background-color: #fff59a!important
+      }
+
+
+      .barcls-contentfillgap {
+            position: absolute;
+            color:transparent;
+            z-index: 2221;
+            right: 0;
+            z-index: 100;
+            background-color: lightgrey;
+            width:100%;      
+      }
       
+      .barclsHeader {
+            position:relative;display:block;height:15px;cursor: pointer;
+      }
+
+      .highlightbar {
+            border: 1px solid black;
+      }
+
+      .highlightbartopleft {
+            border-top : 1px solid black;
+            border-left : 1px solid black;
+      }
+      .headerCurrent {
+        border:1px solid blue;
+        padding:8px;
+        display:inline-block;
+        border-radius: 10px;
+        background-color:#4CAF50;
+      }
+      .headerNext1 {
+        border:1px solid blue;
+        padding:8px;
+        display:inline-block;
+        border-radius: 10px;
+        background-color:#d9ede4;
+
+      }
+      .headerNext2 {
+        border:1px solid blue;
+        padding:8px;
+        display:inline-block;
+        border-radius: 10px;
+        background-color: #fff59a;
+
+      }
+
+      .hideNews {
+            opacity:0; transition: opacity 1s;     
+      }
+      
+      .showNews {
+            opacity:1; transition: opacity 1s;     
+      }
 </style>
 
 
