@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title>IPL 2023 - Point Calculator</title>
+<title>ODI World Cup 2023 - Point Calculator</title>
 
 <head>
       <meta charset="utf-8">
@@ -291,8 +291,8 @@
                         else
                               rtnValue = parseFloat((val / $scope.totalOptionsNext) * 100).toFixed(2);
 
-                        if (rtnValue < 0.4 && val > 0)
-                              rtnValue = "0.4";
+                        if (rtnValue < 0.9 && val > 0)
+                              rtnValue = "0.9";
                         /*      
                         if (rtnValue < 10 && val > 0)
                               rtnValue = "10";
@@ -932,7 +932,7 @@
     font-family: Calibri;
     color: cornflowerblue;
     margin-bottom: 0px;
-">IPL 2023 - Point Calculator</p>
+">ODI World Cup 2023 - Point Calculator</p>
             <p class="text-secondary" style="
     text-align: center;
     /* padding-top: 20px; */
@@ -1046,7 +1046,7 @@
             <br>
 
 
-            <div class="row" ng-show="detailedPos==-1 && !showWin && !detailedViewSample ">
+            <div class="row" ng-if="detailedPos==-1 && !showWin && !detailedViewSample ">
                   <div class="col-sm-12" style="border: 1px solid darkred;border-radius: 5px;padding: 10px;">
                         <table class="table table-striped" style="padding-right:10px!important;padding-left:10px!important;margin-bottom: 0px;">
                               <thead>
@@ -1061,6 +1061,17 @@
 
                                     </tr>
                                     <tr>
+                                          <th colspan="4" style="text-align: left;font-size: 10px;">
+                                                <span class="spanCurrent" >.</span>
+                                                Current possible options 
+                                                <span class="spanNext1">.</span>
+                                                if P wins next match 
+                                                <span  class="spanNext2">.</span>
+                                                if A wins next match.
+                                          </th>
+                                          
+
+                                          <!--
                                           <th style="text-align: center">
                                                 <div class="headerCurrent">Current</div>
                                           </th>
@@ -1068,7 +1079,6 @@
                                                 Winner : <div class="headerNext1">{{upcomingMatches[curMatchPos].team1}}</div>
                                                 <div class="headerNext2">{{upcomingMatches[curMatchPos].team2}}</div>
                                           </th>
-                                          <!--
                                           <th style="text-align: center">
                                                 if {{upcomingMatches[curMatchPos].team1}} wins
                                           </th>
@@ -1091,7 +1101,7 @@
                                     <!--<tr ng-repeat="type in pointOptions.filter(e => arr < 11 || e.name == 'Run Rate')">
                                     <tr ng-repeat="type in pointOptions" >
                                           -->
-                                    <tr ng-repeat="type in pointOptions" ng-show="arr < 11 || type.name == 'Run Rate'" ng-show="!excZero || positionObj[curMatch][obj][arr][type.value] > 0">
+                                    <tr ng-repeat="type in pointOptions" ng-if="arr < 11 || type.name == 'Run Rate'" ng-show="!excZero || positionObj[curMatch][obj][arr][type.value] > 0">
                                           <td width="12%">
                                                 <!--{{obj.toString().toUpperCase()}} <span ng-if="innerWidth > 500">- </span>{{(arr < 11 ? arr : (arr == '11' : 'Top2' ? (arr == '12' : 'Top4': '')))}} {{(type.name == "Run Rate" && selectedPointOption == "All" ? "*" : "") }}-->
                                                 <a ng-click="selectWinDetails(obj.toString())">{{obj.toString().toUpperCase()}}</a>                                                <span ng-if="innerWidth > 650">- </span>{{(arr == '11' ? 'Top 1-2' : (arr
@@ -1187,7 +1197,7 @@
                   <input type="checkbox" ng-model="excZero" ng-click="setExcZeroValue()">&nbsp;Exclude rows having zero value
             </div>
 
-            <div class="row" ng-show="detailedPos==-1 && !showWin && !detailedViewSample">
+            <div class="row" ng-if="detailedPos==-1 && !showWin && !detailedViewSample">
                   <div style="padding-top:10px"> <span ng-if="selectedPointOption == 'All'">* Run Rate (based on the run rate, position can go up or down)<br></span>
                         <sup id="highlight1">1</sup> Total Current Possible Options - {{getNumberFormat(totalOptions)}} (2<sup>{{totalCurrentMatch}}</sup>                        Remaining Matches - {{totalCurrentMatch}} )
                         <br><sup id="highlight2">2</sup> Total Possible Option after next match - {{getNumberFormat(totalOptionsNext)}}
@@ -2075,7 +2085,7 @@
 
       .barcls-barcolor2,
       .barcls-hover-barcolor2:hover {
-            background-color:#d9ede4!important
+            background-color:#f8f1e9!important
       }
 
       .barcls-barcolor3,
@@ -2083,6 +2093,31 @@
             background-color: #fff59a!important
       }
 
+      
+      .spanCurrent {
+            padding:5px;
+            background-color: #4CAF50!important;
+            color: #4CAF50!important;
+            font-size: 1px;vertical-align: super;
+            margin-right: 5px;
+      }
+
+
+      .spanNext1 {
+            padding:5px;
+            background-color: #f8f1e9!important;
+            color: #f8f1e9!important;
+            font-size: 1px;vertical-align: super;
+            margin-right: 5px;
+      }
+
+      .spanNext2 {
+            padding:5px;
+            background-color: #fff59a!important;
+            color: #fff59a!important;
+            font-size: 1px;vertical-align: super;
+            margin-right: 5px;
+      }
 
       .barcls-contentfillgap {
             position: absolute;
@@ -2118,7 +2153,7 @@
         padding:8px;
         display:inline-block;
         border-radius: 10px;
-        background-color:#d9ede4;
+        background-color:#f8f1e9;
 
       }
       .headerNext2 {
