@@ -15,14 +15,28 @@
 <body>
       <script>
             var app = angular.module("myShoppingList", []);
-            app.controller("myCtrl", function ($scope, $http, $window, $timeout) {
+            app.controller("myCtrl", function ($scope, $http, $window, $timeout, $interval) {
 
                   var objDetail = {};
-
+                  console.log('hi')
                   $scope.totalOptions = 0;
                   $scope.innerWidth = $window.innerWidth;
                   $scope.nextLevel = [];
                   $scope.excZero = false;
+
+
+                  $interval(function() {
+                        $scope.newsClass = "hideNews";
+                        $timeout(function() {
+                              $scope.newsClass = "showNews";
+                              if ($scope.newsCount == $scope.news.length -1)
+                                   $scope.newsCount = 0;
+                              else
+                                    $scope.newsCount++;    
+                        },550);
+                  }
+                  , 5000);
+
 
                   function GetWinDataFromServer(pos) {
                         var parm = '';
@@ -82,6 +96,8 @@
                   const d = new Date();
                   let ms = d.getMilliseconds();
                   $scope.loading = true;
+                  console.log('before init');
+                  console.log('data/initData.json?q=' + ms.toString());
                   $http.get('data/initData.json?q=' + ms.toString()).
                         then(function (response) {
                               console.log(response);
@@ -93,7 +109,17 @@
 
                               $scope.textFooter = response.data.textFooter;
                               $scope.linkFooter = response.data.linkFooter;
-
+                              $scope.news = [
+  'If PBKS wins next match, Team : DC would be the highest scorer.',
+  'If PBKS wins next match, Team : MI would be the lowest scorer.',
+  'If PBKS wins next match, Team : SRH would not get to the first position.',
+  'If PBKS wins next match, Team : LSG would not get to last position.',
+  'If PBKS wins next match, Teams : GT,MI would get to elimination round.',
+  'If PBKS wins next match, Team : CSK with one more loss would get to elimation round (must win all remaining matches.)',
+  'If GT wins next match, Team : GT would qualify for quarter finals.',
+  'If GT wins next match, Team : DC would not qualify for quarter finals.'
+];
+                              $scope.newsCount = 0;      
                               initialize();
                               console.log('222');
 
@@ -107,16 +133,16 @@
 
 
                   var teams = [
-                        { name: 'GT', desc: 'Gujarat', point: 8, won: 0, lost: 0 },
-                        { name: 'RR', desc: 'Rajasdan Royals', point: 6, won: 0, lost: 0 },
-                        { name: 'LSG', desc: 'Lucknow Super Giants', point: 10, won: 0, lost: 0 },
-                        { name: 'DC', desc: 'Delhi Capitals', point: 6, won: 0, lost: 0 },
-                        { name: 'RCB', desc: 'Royal Challengers', point: 10, won: 0, lost: 0 },
-                        { name: 'KKR', desc: 'Kolkota Knight Riders', point: 8, won: 0, lost: 0 },
-                        { name: 'PBKS', desc: 'Punjab', point: 12, won: 0, lost: 0 },
-                        { name: 'SRH', desc: 'Sun Risers Hydrabad', point: 6, won: 0, lost: 0 },
-                        { name: 'CSK', desc: 'Chennai Super Kings', point: 0, won: 0, lost: 0 },
-                        { name: 'MI', desc: 'Mumbai', point: 10, won: 0, lost: 0 },
+                        { name: 'BAN', desc: 'Gujarat', point: 8, won: 0, lost: 0 },
+                        { name: 'SA', desc: 'Rajasdan Royals', point: 6, won: 0, lost: 0 },
+                        { name: 'IND', desc: 'Lucknow Super Giants', point: 10, won: 0, lost: 0 },
+                        { name: 'AUS', desc: 'Delhi Capitals', point: 6, won: 0, lost: 0 },
+                        { name: 'PAK', desc: 'Royal Challengers', point: 10, won: 0, lost: 0 },
+                        { name: 'ENG', desc: 'Kolkota Knight Riders', point: 8, won: 0, lost: 0 },
+                        { name: 'NZ', desc: 'Punjab', point: 12, won: 0, lost: 0 },
+                        { name: 'SL', desc: 'Sun Risers Hydrabad', point: 6, won: 0, lost: 0 },
+                        { name: 'AFG', desc: 'Chennai Super Kings', point: 0, won: 0, lost: 0 },
+                        { name: 'NED', desc: 'Mumbai', point: 10, won: 0, lost: 0 },
                   ];
 
 
@@ -132,16 +158,16 @@
                   };
 
                   var teamsObj = {
-                        'GT': { point: [], runrate: [] },
-                        'RR': { point: [], runrate: [] },
-                        'LSG': { point: [], runrate: [] },
-                        'DC': { point: [], runrate: [] },
-                        'RCB': { point: [], runrate: [] },
-                        'KKR': { point: [], runrate: [] },
-                        'PBKS': { point: [], runrate: [] },
-                        'SRH': { point: [], runrate: [] },
-                        'CSK': { point: [], runrate: [] },
-                        'MI': { point: [], runrate: [] },
+                        'BAN': { point: [], runrate: [] },
+                        'SA': { point: [], runrate: [] },
+                        'IND': { point: [], runrate: [] },
+                        'AUS': { point: [], runrate: [] },
+                        'PAK': { point: [], runrate: [] },
+                        'ENG': { point: [], runrate: [] },
+                        'NZ': { point: [], runrate: [] },
+                        'SL': { point: [], runrate: [] },
+                        'AFG': { point: [], runrate: [] },
+                        'NED': { point: [], runrate: [] },
 
                   };
 
@@ -305,13 +331,15 @@
                   $scope.setExcZeroValue = function () {
                         $scope.excZero = !$scope.excZero;
                   };
-                  $scope.getNumberFormat = function (val) {
+                  $scope.getNumberFormat = function (val,mobileFormat) {
+                        if (!val)
+                              return;
                         var x = val;
                         var cro1 = 10000000;
                         var cro100 = 1000000000;
                         var lakh1 = 100000;
                         var tenk = 10000;
-                        if ($scope.innerWidth < 650) {
+                        if ($scope.innerWidth < 650 || mobileFormat) {
 
                               var returnVal = '';
                               if (val > cro1) {
@@ -433,41 +461,41 @@
                   }
 
                   $scope.upcomingMatches = [
-{ date: '13-Oct 14.00', team1: 'PBKS', team2: 'GT', result: '',SlNo: '11' },
-{ date: '14-Oct 14.00', team1: 'LSG', team2: 'RCB', result: '',SlNo: '12' },
-{ date: '15-Oct 14.00', team1: 'KKR', team2: 'CSK', result: '',SlNo: '13' },
-{ date: '16-Oct 14.00', team1: 'DC', team2: 'SRH', result: '',SlNo: '14' },
-{ date: '17-Oct 14.00', team1: 'RR', team2: 'MI', result: '',SlNo: '15' },
-{ date: '18-Oct 14.00', team1: 'PBKS', team2: 'CSK', result: '',SlNo: '16' },
-{ date: '19-Oct 14.00', team1: 'LSG', team2: 'GT', result: '',SlNo: '17' },
-{ date: '20-Oct 14.00', team1: 'DC', team2: 'RCB', result: '',SlNo: '18' },
-{ date: '21-Oct 10.30', team1: 'MI', team2: 'SRH', result: '',SlNo: '19' },
-{ date: '21-Oct 14.00', team1: 'KKR', team2: 'RR', result: '',SlNo: '20' },
-{ date: '22-Oct 14.00', team1: 'LSG', team2: 'PBKS', result: '',SlNo: '21' },
-{ date: '23-Oct 14.00', team1: 'RCB', team2: 'CSK', result: '',SlNo: '22' },
-{ date: '24-Oct 14.00', team1: 'RR', team2: 'GT', result: '',SlNo: '23' },
-{ date: '25-Oct 14.00', team1: 'DC', team2: 'MI', result: '',SlNo: '24' },
-{ date: '26-Oct 14.00', team1: 'KKR', team2: 'SRH', result: '',SlNo: '25' },
-{ date: '27-Oct 14.00', team1: 'RCB', team2: 'RR', result: '',SlNo: '26' },
-{ date: '28-Oct 10.30', team1: 'DC', team2: 'PBKS', result: '',SlNo: '27' },
-{ date: '28-Oct 14.00', team1: 'MI', team2: 'GT', result: '',SlNo: '28' },
-{ date: '29-Oct 14.00', team1: 'LSG', team2: 'KKR', result: '',SlNo: '29' },
-{ date: '30-Oct 14.00', team1: 'CSK', team2: 'SRH', result: '',SlNo: '30' },
-{ date: '31-Oct 14.00', team1: 'RCB', team2: 'GT', result: '',SlNo: '31' },
-{ date: '1-Nov 14.00', team1: 'PBKS', team2: 'RR', result: '',SlNo: '32' },
-{ date: '2-Nov 14.00', team1: 'LSG', team2: 'SRH', result: '',SlNo: '33' },
-{ date: '3-Nov 14.00', team1: 'MI', team2: 'CSK', result: '',SlNo: '34' },
-{ date: '4-Nov 10.30', team1: 'PBKS', team2: 'RCB', result: '',SlNo: '35' },
-{ date: '4-Nov 14.00', team1: 'KKR', team2: 'DC', result: '',SlNo: '36' },
-{ date: '5-Nov 14.00', team1: 'LSG', team2: 'RR', result: '',SlNo: '37' },
-{ date: '6-Nov 14.00', team1: 'GT', team2: 'SRH', result: '',SlNo: '38' },
-{ date: '7-Nov 14.00', team1: 'DC', team2: 'CSK', result: '',SlNo: '39' },
-{ date: '8-Nov 14.00', team1: 'KKR', team2: 'MI', result: '',SlNo: '40' },
-{ date: '9-Nov 14.00', team1: 'PBKS', team2: 'SRH', result: '',SlNo: '41' },
-{ date: '10-Nov 14.00', team1: 'RR', team2: 'CSK', result: '',SlNo: '42' },
-{ date: '11-Nov 10.30', team1: 'DC', team2: 'GT', result: '',SlNo: '43' },
-{ date: '11-Nov 14.00', team1: 'KKR', team2: 'RCB', result: '',SlNo: '44' },
-{ date: '12-Nov 14.00', team1: 'LSG', team2: 'MI', result: '',SlNo: '45' }                  ];
+{ date: '13-Oct 14.00', team1: 'NZ', team2: 'BAN', result: '',SlNo: '11' },
+{ date: '14-Oct 14.00', team1: 'IND', team2: 'PAK', result: '',SlNo: '12' },
+{ date: '15-Oct 14.00', team1: 'ENG', team2: 'AFG', result: '',SlNo: '13' },
+{ date: '16-Oct 14.00', team1: 'AUS', team2: 'SL', result: '',SlNo: '14' },
+{ date: '17-Oct 14.00', team1: 'SA', team2: 'NED', result: '',SlNo: '15' },
+{ date: '18-Oct 14.00', team1: 'NZ', team2: 'AFG', result: '',SlNo: '16' },
+{ date: '19-Oct 14.00', team1: 'IND', team2: 'BAN', result: '',SlNo: '17' },
+{ date: '20-Oct 14.00', team1: 'AUS', team2: 'PAK', result: '',SlNo: '18' },
+{ date: '21-Oct 10.30', team1: 'NED', team2: 'SL', result: '',SlNo: '19' },
+{ date: '21-Oct 14.00', team1: 'ENG', team2: 'SA', result: '',SlNo: '20' },
+{ date: '22-Oct 14.00', team1: 'IND', team2: 'NZ', result: '',SlNo: '21' },
+{ date: '23-Oct 14.00', team1: 'PAK', team2: 'AFG', result: '',SlNo: '22' },
+{ date: '24-Oct 14.00', team1: 'SA', team2: 'BAN', result: '',SlNo: '23' },
+{ date: '25-Oct 14.00', team1: 'AUS', team2: 'NED', result: '',SlNo: '24' },
+{ date: '26-Oct 14.00', team1: 'ENG', team2: 'SL', result: '',SlNo: '25' },
+{ date: '27-Oct 14.00', team1: 'PAK', team2: 'SA', result: '',SlNo: '26' },
+{ date: '28-Oct 10.30', team1: 'AUS', team2: 'NZ', result: '',SlNo: '27' },
+{ date: '28-Oct 14.00', team1: 'NED', team2: 'BAN', result: '',SlNo: '28' },
+{ date: '29-Oct 14.00', team1: 'IND', team2: 'ENG', result: '',SlNo: '29' },
+{ date: '30-Oct 14.00', team1: 'AFG', team2: 'SL', result: '',SlNo: '30' },
+{ date: '31-Oct 14.00', team1: 'PAK', team2: 'BAN', result: '',SlNo: '31' },
+{ date: '1-Nov 14.00', team1: 'NZ', team2: 'SA', result: '',SlNo: '32' },
+{ date: '2-Nov 14.00', team1: 'IND', team2: 'SL', result: '',SlNo: '33' },
+{ date: '3-Nov 14.00', team1: 'NED', team2: 'AFG', result: '',SlNo: '34' },
+{ date: '4-Nov 10.30', team1: 'NZ', team2: 'PAK', result: '',SlNo: '35' },
+{ date: '4-Nov 14.00', team1: 'ENG', team2: 'AUS', result: '',SlNo: '36' },
+{ date: '5-Nov 14.00', team1: 'IND', team2: 'SA', result: '',SlNo: '37' },
+{ date: '6-Nov 14.00', team1: 'BAN', team2: 'SL', result: '',SlNo: '38' },
+{ date: '7-Nov 14.00', team1: 'AUS', team2: 'AFG', result: '',SlNo: '39' },
+{ date: '8-Nov 14.00', team1: 'ENG', team2: 'NED', result: '',SlNo: '40' },
+{ date: '9-Nov 14.00', team1: 'NZ', team2: 'SL', result: '',SlNo: '41' },
+{ date: '10-Nov 14.00', team1: 'SA', team2: 'AFG', result: '',SlNo: '42' },
+{ date: '11-Nov 10.30', team1: 'AUS', team2: 'BAN', result: '',SlNo: '43' },
+{ date: '11-Nov 14.00', team1: 'ENG', team2: 'PAK', result: '',SlNo: '44' },
+{ date: '12-Nov 14.00', team1: 'IND', team2: 'NED', result: '',SlNo: '45' }                  ];
 
                   $scope.curMatchPos = 0;
                   //$scope.curMatch = $scope.curMatchPos;
@@ -980,8 +1008,11 @@
                         </div>
                   </div>
             </div>
-
-
+            <div class="row" style="padding-top:5px;padding-bottom:10pxpadding-top: 0px;padding-bottom: 0px;margin-top: -15px;">
+                  <div class="col-sm-12 {{newsClass}}"  style="border: 0px solid darkred;border-radius: 5px;padding: 10px;">
+                        <span>{{news[newsCount]}}</span>
+                  </div>
+            </div>
             <div class="row">
                   <div class="col-12"><span style="padding-bottom:10px" class="spanTeamNameHeader">Position:</span>
                         <select class="clsSelectedPos" ng-model="selectedPos" ng-options="x for x in positionList" ng-change="changeOption()">
@@ -1014,13 +1045,8 @@
             </div>
             <br>
 
-            <div class="row">
-                  <div class="col-sm-12" style="border: 1px solid darkred;border-radius: 5px;padding: 10px;">
-                        Teams may not qualify for playoff even if they win all remaining matches:
-                  </div>
-            </div>
 
-            <div class="row" ng-if="detailedPos==-1 && !showWin && !detailedViewSample ">
+            <div class="row" ng-show="detailedPos==-1 && !showWin && !detailedViewSample ">
                   <div class="col-sm-12" style="border: 1px solid darkred;border-radius: 5px;padding: 10px;">
                         <table class="table table-striped" style="padding-right:10px!important;padding-left:10px!important;margin-bottom: 0px;">
                               <thead>
@@ -1065,7 +1091,7 @@
                                     <!--<tr ng-repeat="type in pointOptions.filter(e => arr < 11 || e.name == 'Run Rate')">
                                     <tr ng-repeat="type in pointOptions" >
                                           -->
-                                    <tr ng-repeat="type in pointOptions" ng-if="arr < 11 || type.name == 'Run Rate'" ng-show="!excZero || positionObj[curMatch][obj][arr][type.value] > 0">
+                                    <tr ng-repeat="type in pointOptions" ng-show="arr < 11 || type.name == 'Run Rate'" ng-show="!excZero || positionObj[curMatch][obj][arr][type.value] > 0">
                                           <td width="12%">
                                                 <!--{{obj.toString().toUpperCase()}} <span ng-if="innerWidth > 500">- </span>{{(arr < 11 ? arr : (arr == '11' : 'Top2' ? (arr == '12' : 'Top4': '')))}} {{(type.name == "Run Rate" && selectedPointOption == "All" ? "*" : "") }}-->
                                                 <a ng-click="selectWinDetails(obj.toString())">{{obj.toString().toUpperCase()}}</a>                                                <span ng-if="innerWidth > 650">- </span>{{(arr == '11' ? 'Top 1-2' : (arr
@@ -1085,8 +1111,8 @@
                                                             style="width:{{getPercentageBar((positionObj[curMatch + x][obj][arr][type.value]),(x>1?1:x) + 1)}}!important"
                                                             style2="width:0.10%!important"
                                                             ng-class="highlightbar1 == (obj.toString() + '-' + arr + '-' + type.value + '-' + (x+1)) ? 'highlightbartopleft' : ''"
-                                                            > {{(x == 0 ? "" : (x == 1 ? upcomingMatches[curMatchPos].team1 : upcomingMatches[curMatchPos].team2))}} </div>
-                                                            <div class="barcls-contentright">{{getPercentage((positionObj[curMatch + x][obj][arr][type.value]),(x>1?1:x) + 1)}} - {{getNumberFormat(positionObj[curMatch+x][obj][arr][type.value])}}</div>
+                                                            > {{(x == 0 ? "." : (x == 1 ? upcomingMatches[curMatchPos].team1 : upcomingMatches[curMatchPos].team2))}} </div>
+                                                            <div class="barcls-contentright"><div ng-if="innerWidth > 650" style="display:inline">({{getNumberFormat(positionObj[curMatch+x][obj][arr][type.value],true)}})&nbsp;&nbsp;&nbsp;&nbsp;</div>{{getNumberFormat(positionObj[curMatch+x][obj][arr][type.value])}} - {{getPercentage((positionObj[curMatch + x][obj][arr][type.value]),(x>1?1:x) + 1)}}&nbsp;&nbsp;</div>
                                                             <div class="barcls-contentfillgap" ng-class="highlightbar1 == (obj.toString() + '-' + arr + '-' + type.value + '-' + (x+1)) ? 'highlightbar' : ''">.</div>
                                                       </div>
                                                 </div>
@@ -1161,7 +1187,7 @@
                   <input type="checkbox" ng-model="excZero" ng-click="setExcZeroValue()">&nbsp;Exclude rows having zero value
             </div>
 
-            <div class="row" ng-if="detailedPos==-1 && !showWin && !detailedViewSample">
+            <div class="row" ng-show="detailedPos==-1 && !showWin && !detailedViewSample">
                   <div style="padding-top:10px"> <span ng-if="selectedPointOption == 'All'">* Run Rate (based on the run rate, position can go up or down)<br></span>
                         <sup id="highlight1">1</sup> Total Current Possible Options - {{getNumberFormat(totalOptions)}} (2<sup>{{totalCurrentMatch}}</sup>                        Remaining Matches - {{totalCurrentMatch}} )
                         <br><sup id="highlight2">2</sup> Total Possible Option after next match - {{getNumberFormat(totalOptionsNext)}}
@@ -1563,7 +1589,7 @@
 
 
 
-            <div class="row" ng-if="detailedPos!=-1 && !detailedViewSample">
+            <div class="row" ng-show="detailedPos!=-1 && !detailedViewSample">
                   <div class="col-sm-12" style="border: 1px solid darkred;border-radius: 5px;padding: 0px;">
                         <span style="padding: 10px 0px 0px 10px;display: inline-block;width: 95%;">Points required for Team : <b>{{detailedTeam.toString().toUpperCase()}}</b> for position : <b>{{(detailedPos == '11' ? 'Top 1-2' : (detailedPos == '12' ? 'Top 3-4': detailedPos))}}</b> based on <b>{{(detailedPos == '11' || detailedPos == '12' ? 'Point / ' : '' )}} {{(detailedType == 'rr' ? 'Run Rate' : 'Point')}}</b>.[Current Points : <b>{{ detailedPoint }}</b>] Remaining matches : <b>{{detailedRemaining}}</b></span>
                         <span ng-click="hideDetailView()" class="glyphicon glyphicon-remove-circle clsHideDetailView"></span>
@@ -2028,7 +2054,7 @@
       }
 
       .barcls-contentpercentage1 {
-            width: 85%;position: absolute;z-index: 2223;color:#555;
+            width: 85%;position: absolute;z-index: 2223;color:transparent;
             text-align: left!important;
       }
 
@@ -2059,13 +2085,14 @@
 
 
       .barcls-contentfillgap {
-position: absolute;
-color:transparent;
-    z-index: 2221;
-    right: 0;
-    z-index: 100;
-    background-color: lightgrey;
-    width:100%;      }
+            position: absolute;
+            color:transparent;
+            z-index: 2221;
+            right: 0;
+            z-index: 100;
+            background-color: lightgrey;
+            width:100%;      
+      }
       
       .barclsHeader {
             position:relative;display:block;height:15px;cursor: pointer;
@@ -2102,7 +2129,14 @@ color:transparent;
         background-color: #fff59a;
 
       }
+
+      .hideNews {
+            opacity:0; transition: opacity 1s;     
+      }
       
+      .showNews {
+            opacity:1; transition: opacity 1s;     
+      }
 </style>
 
 
