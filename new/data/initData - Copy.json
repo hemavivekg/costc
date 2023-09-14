@@ -14,7 +14,7 @@
 "nextLevelCounter":6,
 "commentssction" : "rootPos : 1, removeMatch1 : 29, removeMatch : 0, nextLevelCounter:3",
 "textFooter": ["No cookies are used to capture any user/system/network data.","","",""],
-"linkFooter": [{"link":"https://www.youtube.com/@IPLCalc","text":"Visit our channel for more details"},
+"linkFooter": [{"link":"https://www.youtube.com/\IPLCalc","text":"Visit our channel for more details"},
 {"link":"Link2","text":""},
 {"link":"Link3","text":""},{"link":"","text":""}]
 ,"linkFooter1": [{"link":"Link1","text":"Text1"},
