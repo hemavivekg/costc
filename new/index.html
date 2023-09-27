@@ -572,6 +572,7 @@
                         //$scope.winNumber = x;
                         var s = $scope.selectedPos;
                         $scope.winPos = Object.keys($scope.detailedWin[$scope.winTeam][$scope.winNumber * 2]);
+                        //$scope.winPos = $scope.winPos.filter(e => e != "13");
                   }
 
                   $scope.winRemainingAry = [];
@@ -584,6 +585,7 @@
                         $scope.winTeam = team;
                         $scope.winTeamCaps = team.toUpperCase();
                         $scope.winPos = Object.keys($scope.detailedWin[team][$scope.winNumber]);
+                        //$scope.winPos = $scope.winPos.filter(e => e != "13");
                         var startFromMatch = parseInt($scope.upcomingMatches[0].SlNo) + parseInt($scope.curMatchPos);
                         $scope.winRemaining = $scope.upcomingMatches.filter(e => e.SlNo >= startFromMatch && (e.team1 == team.toUpperCase() || e.team2 == team.toUpperCase())).length;
 
@@ -1062,12 +1064,12 @@
                                     </tr>
                                     <tr>
                                           <th colspan="4" style="text-align: left;font-size: 10px;">
-                                                <span class="spanCurrent" >.</span>
-                                                Current possible options 
-                                                <span class="spanNext1">.</span>
-                                                if P wins next match 
-                                                <span  class="spanNext2">.</span>
-                                                if A wins next match.
+                                                <div style="display:inline-block"><span class="spanCurrent" >.</span>
+                                                Current possible options </div>
+                                                <div style="display:inline-block"><span class="spanNext1">.</span>
+                                                if {{upcomingMatches[curMatchPos].team1}} wins next match </div>
+                                                <div style="display:inline-block"><span  class="spanNext2">.</span>
+                                                if {{upcomingMatches[curMatchPos].team2}} wins next match</div>
                                           </th>
                                           
 
@@ -2085,7 +2087,7 @@
 
       .barcls-barcolor2,
       .barcls-hover-barcolor2:hover {
-            background-color:#f8f1e9!important
+            background-color:#f38630!important
       }
 
       .barcls-barcolor3,
@@ -2105,8 +2107,8 @@
 
       .spanNext1 {
             padding:5px;
-            background-color: #f8f1e9!important;
-            color: #f8f1e9!important;
+            background-color: #f38630!important;
+            color: #f38630!important;
             font-size: 1px;vertical-align: super;
             margin-right: 5px;
       }
@@ -2153,7 +2155,7 @@
         padding:8px;
         display:inline-block;
         border-radius: 10px;
-        background-color:#f8f1e9;
+        background-color:#f38630;
 
       }
       .headerNext2 {
