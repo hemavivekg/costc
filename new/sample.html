@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html>
+<title>ODI World Cup 2023 - Point Calculator</title>
+
+<head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+</head>
+
+<body>
+     
+
+      <div  class="container">
+            <div class="row" >
+                  <div style="padding-top:10px">
+                        <div>
+                              <div style="padding-top:10px">
+                                    <b>What is possible option?</b> 
+                                    <br>
+                                    Assume if there is only one match in a series (for the teams A & B), there will be only two possible options.
+                                    <table class="table table-striped" style="padding-top:10px;padding-bottom:10px;padding-right:10px!important;padding-left:10px!important;margin-bottom: 0px;width:auto;border:1px solid gray;">
+                                          <thead>
+                                                <tr>
+                                                      <th rowspan="2">
+                                                            
+                                                      </th>
+                                                      <th colspan="2">
+                                                            Possible Options
+                                                      </th>
+                                                </tr>
+                                                <tr>
+                                                      <th>
+                                                            1
+                                                      </th>
+                                                      <th>
+                                                            2
+                                                      </th>
+                                                </tr>
+                                          </thead>
+                                          <tbody>
+                                                <tr>
+                                                      <td>Match 1 Winner</td>
+                                                      <td>A</td>
+                                                      <td>B</td>
+                                                </tr>
+                                          </tbody>
+                                    </table>
+                                    <br>
+                                    <br>
+
+                                    Assume if there is two matches in a series, there will be only four possible options. 2<sup>2</sup> = 4
+                                    <table class="table table-striped" style="padding-top:10px;padding-bottom:10px;padding-right:10px!important;padding-left:10px!important;margin-bottom: 0px;width:auto;border:1px solid gray;">
+                                          <thead>
+                                                <tr>
+                                                      <th rowspan="2">
+                                                            
+                                                      </th>
+                                                      <th colspan="4">
+                                                            Possible Options
+                                                      </th>
+                                                </tr>
+                                                <tr>
+                                                      <th>
+                                                            1
+                                                      </th>
+                                                      <th>
+                                                            2
+                                                      </th>
+                                                      <th>
+                                                            3
+                                                      </th>
+                                                      <th>
+                                                            4
+                                                      </th>
+                                                </tr>
+                                          </thead>
+                                          <tbody>
+                                                <tr>
+                                                      <td>Match 1 Winner</td>
+                                                      <td>A</td>
+                                                      <td>A</td>
+                                                      <td>B</td>
+                                                      <td>B</td>
+                                                </tr>
+                                                <tr>
+                                                      <td>Match 2 Winner</td>
+                                                      <td>B</td>
+                                                      <td>A</td>
+                                                      <td>B</td>
+                                                      <td>A</td>
+                                                </tr>
+                                          </tbody>
+                                    </table>
+                                    <br>
+                                    <br>
+
+                                    Assume if there is three matches in a series, there will be only eight possible options. 2<sup>3</sup> = 8
+                                    <table class="table table-striped" style="padding-top:10px;padding-bottom:10px;padding-right:10px!important;padding-left:10px!important;margin-bottom: 0px;width:auto;border:1px solid gray;">
+                                          <thead>
+                                                <tr>
+                                                      <th rowspan="2">
+                                                            
+                                                      </th>
+                                                      <th colspan="8">
+                                                            Possible Options
+                                                      </th>
+                                                </tr>
+                                                <tr>
+                                                      <th>
+                                                            1
+                                                      </th>
+                                                      <th>
+                                                            2
+                                                      </th>
+                                                      <th>
+                                                            3
+                                                      </th>
+                                                      <th>
+                                                            4
+                                                      </th>
+                                                      <th>
+                                                            5
+                                                      </th>
+                                                      <th>
+                                                            6
+                                                      </th>
+                                                      <th>
+                                                            7
+                                                      </th>
+                                                      <th>
+                                                            8
+                                                      </th>
+                                                </tr>
+                                          </thead>
+                                          <tbody>
+                                                <tr>
+                                                      <td>Match 1 Winner</td>
+                                                      <td>A</td>
+                                                      <td>A</td>
+                                                      <td>A</td>
+                                                      <td>A</td>
+                                                      <td>B</td>
+                                                      <td>B</td>
+                                                      <td>B</td>
+                                                      <td>B</td>
+                                                </tr>
+                                                <tr>
+                                                      <td>Match 2 Winner</td>
+                                                      <td>A</td>
+                                                      <td>B</td>
+                                                      <td>A</td>
+                                                      <td>B</td>
+                                                      <td>A</td>
+                                                      <td>A</td>
+                                                      <td>B</td>
+                                                      <td>B</td>
+                                                </tr>
+                                                <tr>
+                                                      <td>Match 3 Winner</td>
+                                                      <td>A</td>
+                                                      <td>A</td>
+                                                      <td>B</td>
+                                                      <td>B</td>
+
+                                                      <td>A</td>
+                                                      <td>B</td>
+                                                      <td>A</td>
+                                                      <td>B</td>
+                                                </tr>
+                                          </tbody>
+                                    </table>
+                                    <br>
+                                    <br>
+
+                                    ODI World Cup 2023 has 45 matches. Total possible options are 35,184,372,088,832 (about 35 lakh crores, 35 trillions)  2<sup>45</sup> = 35 trillions.
+                                    <table class="table table-striped" style="padding-top:10px;padding-bottom:10px;padding-right:10px!important;padding-left:10px!important;margin-bottom: 0px;width:auto;border:1px solid gray;">
+                                          <thead>
+                                                <tr>
+                                                      <th rowspan="2">
+                                                            
+                                                      </th>
+                                                      <th colspan="4">
+                                                            Possible Options
+                                                      </th>
+                                                </tr>
+                                                <tr>
+                                                      <th>
+                                                            1
+                                                      </th>
+                                                      <th>
+                                                            2
+                                                      </th>
+                                                      <th>
+                                                            .
+                                                      </th>
+                                                      <th>
+                                                            .
+                                                      </th>
+                                                      <th>
+                                                            .
+                                                      </th>
+                                                      <th>
+                                                            Last record (i.e35 trillions)<br>
+                                                            35,184,372,088,832
+                                                      </th>
+                                                </tr>
+                                          </thead>
+                                          <tbody>
+                                                <tr>
+                                                      <td>Match 1 Winner</td>
+                                                      <td>A</td>
+                                                      <td>A</td>
+                                                      <td>.</td>
+                                                      <td>.</td>
+                                                      <td>.</td>
+                                                      <td>B</td>
+                                                </tr>
+                                                <tr>
+                                                      <td>Match 2 Winner</td>
+                                                      <td>A</td>
+                                                      <td>B</td>
+                                                      <td>.</td>
+                                                      <td>.</td>
+                                                      <td>.</td>
+                                                      <td>B</td>
+                                                </tr>
+                                                <tr>
+                                                      <td>.</td>
+                                                      <td>.</td>
+                                                      <td>.</td>
+                                                      <td>.</td>
+                                                      <td>.</td>
+                                                      <td>.</td>
+                                                      <td>.</td>
+                                                </tr>
+                                                <tr>
+                                                      <td>.</td>
+                                                      <td>.</td>
+                                                      <td>.</td>
+                                                      <td>.</td>
+                                                      <td>.</td>
+                                                      <td>.</td>
+                                                      <td>.</td>
+                                                </tr>
+                                                <tr>
+                                                      <td>.</td>
+                                                      <td>.</td>
+                                                      <td>.</td>
+                                                      <td>.</td>
+                                                      <td>.</td>
+                                                      <td>.</td>
+                                                      <td>.</td>
+                                                </tr>
+                                                <tr>
+                                                      <td>Match 45 Winner</td>
+                                                      <td>B</td>
+                                                      <td>A</td>
+                                                      <td>.</td>
+                                                      <td>.</td>
+                                                      <td>.</td>
+                                                      <td>B</td>
+                                                </tr>
+                                          </tbody>
+                                    </table>
+                                    <br>
+                                    <br>
+
+                                    IPLCalc.com calculates each team's points and its position for each possible options from the match 11 for the remaining 35 matches (remaining possible options are 2<sup>35</sup> (34,359,738,368 | 3.4 Thousands crores | 34 billions). Provides detailed report of how many remaining possible options would lead to each position (1st,2nd etc...) and what would be the total points for each team.
+
+                                    <br>
+                                    <br>
+                                    After 10th match in the series, If England scored 4 points, it has 14.67% of chances to get to first position based on points (i.e 504 Crores OR 5,04,22,78,342 in the remaining possible options 3.4 thousand crores).    
+                                    <br>
+                                    <br>If NZ wins in the next match (11th match), ENG would have 14.67% of chances to get to first position based on points (i.e 252 Crores OR 2,52,11,32,262 in the remaining possible options 1.7 thousand crores (2<sup>34</sup>)).    
+                                    <br>
+                                    <br>If BAN wins in the next match (11th match), ENG would have  14.67% of chances to get to first position based on points (i.e 252 Crores OR 2,52,11,46,080 in the remaining possible options 1.7 thousand crores (2<sup>34</sup>)).    
+                                    <br>
+                                    <img src="s1.jpg" />
+                                    <br>
+                                    <br>
+                                    Below screen shot is based on the run rate for the first position (many teams share the same points)
+                                    <img src="s2.jpg" />
+
+                              </div>
+
+
+
+                        <div style="padding-top:2px" ng-if="innerWidth < 650">Cr - Crores<br>L - Lakhs<br>K - Thousands</div>
+                  </div>
+            </div>
+
+
+      </div>
+
+
+            <footer class="bg-info text-center text-lg-start fixed-bottom" style="margin-left: -15px;margin-right: -15px;">
+                  <!-- Copyright -->
+                  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);text-align:left;padding-left:10px">
+                        © 2023 Copyright
+                        <a class="text-dark" style="text-align:right;float: right;padding-right: 10px;" href="mailto:iplcalc@gmail.com">Contact Us at iplcalc@gmail.com</a>
+                  </div>
+                  <!-- Copyright -->
+            </footer>
+
+      </div>
+
+</body>
+<style>
+      .isDisabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+      }
+
+      .isDisabled>a {
+            color: currentColor;
+            display: inline-block;
+            /* For IE11/ MS Edge bug */
+            pointer-events: none;
+            text-decoration: none;
+      }
+
+      .posArrow {
+            color: green;
+      }
+
+      .negArrow {
+            color: red;
+      }
+
+      body .row {
+            margin-left: -10px;
+            margin-right: -10px;
+      }
+
+
+      .clsSelectedPointOption {
+            padding-left: 10px;
+      }
+
+      .clsSelectedTeamDropDown {
+            padding-left: 10px;
+      }
+
+      .clsSelectedPos {
+            padding-left: 10px;
+      }
+
+      .innerTeamActive {
+            background-color: lavender;
+      }
+
+
+
+      @media (min-width: 0px) and (max-width: 650px) {
+            .innerTeam {
+                  display: inline-block;
+                  padding: 2px;
+                  border: 1px solid #d7cdcd;
+                  border-radius: 5px;
+                  margin-left: 5px;
+            }
+
+            .spanTeamNameHeader {
+                  font-size: 14px;
+                  font-weight: 600;
+                  color: #286090;
+                  padding-right: 5px;
+                  min-width: 40px;
+                  max-width: 40px;
+                  display: inline-block
+            }
+
+            .spanTeamNameHeaderPoints {
+                  font-size: 14px;
+                  font-weight: 600;
+                  color: #286090;
+                  padding-right: 5px;
+                  min-width: 35px;
+                  max-width: 35px;
+                  display: inline-block
+            }
+
+            .clsHideDetailView {
+                  float: right;
+                  padding-right: 0px;
+                  padding-top: 10px;
+                  color: red;
+            }
+
+            .clsNextMatch {
+                  width: 100%;
+                  text-align: center;
+            }
+
+            .clsNextMatchHypen {
+                  display: none;
+            }
+
+            .clsNextMatchPer {
+                  display: inline-block;
+                  text-align: right;
+                  width: 70%;
+            }
+
+            .clsNextMatchArr {
+                  display: inline-block;
+            }
+
+            .clsCurMatch {
+                  width: 100%;
+                  text-align: center;
+            }
+
+            .clsCurMatchPer {
+                  display: inline-block;
+                  text-align: center;
+                  width: 100%;
+            }
+      }
+
+      @media (min-width: 650px) and (max-width: 5000px) {
+            .innerTeam {
+                  display: inline-block;
+                  padding: 5px;
+                  border: 1px solid #d7cdcd;
+                  border-radius: 5px;
+                  margin: 5px;
+            }
+
+            .spanTeamNameHeader {
+                  font-size: 14px;
+                  font-weight: 600;
+                  color: #286090;
+                  padding-right: 5px;
+                  min-width: 45px;
+                  display: inline-block
+            }
+
+            .spanTeamNameHeaderPoints {
+                  font-size: 14px;
+                  font-weight: 600;
+                  color: #286090;
+                  padding-right: 5px;
+                  min-width: 40px;
+                  max-width: 40px;
+                  display: inline-block
+            }
+
+
+
+            .clsSelectedPointOption {
+                  padding-left: 5px;
+            }
+
+            .clsSelectedTeamDropDown {
+                  padding-left: 5px;
+            }
+
+            .clsSelectedPos {
+                  padding-left: 5px;
+            }
+
+
+            .clsHideDetailView {
+                  float: right;
+                  padding-right: 5px;
+                  padding-top: 10px;
+                  color: red;
+            }
+
+
+            .clsNextMatch {
+                  display: inline-block;
+                  width: 58%;
+                  text-align: right;
+            }
+
+            .clsNextMatchHypen {
+                  display: inline-block;
+                  width: 5%;
+                  text-align: center
+            }
+
+            .clsNextMatchPer {
+                  display: inline-block;
+                  width: 25%;
+                  text-align: right;
+            }
+
+            .clsNextMatchArr {
+                  display: inline-block;
+                  width: 5%;
+            }
+
+
+            .clsCurMatch {
+                  display: inline-block;
+                  width: 70%;
+                  text-align: right;
+            }
+
+            .clsCurMatchPer {
+                  display: inline-block;
+                  width: 20%;
+                  text-align: right
+            }
+      }
+
+      .loader {
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background: url('loading.gif') 50% 50% no-repeat rgb(249, 249, 249);
+            opacity: 0.5;
+      }
+
+      .spanTeamNameHeader1 {
+            font-size: 12px;
+            font-weight: 600;
+            color: #286090;
+            padding-right: 5px;
+      }
+
+
+      body a {
+
+            cursor: pointer;
+      }
+
+
+      body input {
+
+            cursor: pointer;
+      }
+
+      body select {
+
+            cursor: pointer;
+      }
+
+      .glyphicon-remove-circle {
+
+            cursor: pointer;
+      }
+
+      .displayPoints {
+            padding-top: 15px;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+            opacity: 1!important;
+            height: auto!important;
+      }
+
+      .spanTeamNameHeaderActive {
+            color: maroon;
+      }
+
+
+      .barcls-center {
+            text-align: center!important
+      }
+
+      .barcls-right {
+            text-align: right!important
+      }
+
+      .barcls-green,
+      .barcls-hover-green:hover {
+            color: #fff!important;
+            background-color: #4CAF50!important
+      }
+
+      .barcls-light-grey,
+      .barcls-hover-light-grey:hover,
+      .barcls-light-gray,
+      .barcls-hover-light-gray:hover {
+            color: #000!important;
+            background-color: #f1f1f1!important
+      }
+
+      .barcls-container,
+      .barcls-panel {
+            padding: 0.01em 16px
+      }
+
+      .barcls-panel {
+            margin-top: 16px;
+            margin-bottom: 16px
+      }
+
+      .barcls-container:after,
+      .barcls-container:before,
+      .barcls-panel:after,
+      .barcls-panel:before,
+      .barcls-row:after,
+      .barcls-row:before,
+      .barcls-row-padding:after,
+      .barcls-row-padding:before,
+      .barcls-cell-row:before,
+      .barcls-cell-row:after,
+      .barcls-clear:after,
+      .barcls-clear:before,
+      .barcls-bar:before,
+      .barcls-bar:after {
+            content: "";
+            display: table;
+            clear: both
+      }
+
+      .barcls-red,
+      .barcls-hover-red:hover {
+            color: #fff!important;
+            background-color: #f44336!important
+      }
+
+      .barcls-blue,
+      .barcls-hover-blue:hover {
+            color: #fff!important;
+            background-color: #2196F3!important
+      }
+      .barcls-contentright {
+            position: absolute;
+            z-index: 2225;
+            right: 0;
+            background-color: transparent;
+      }
+
+      .barcls-contentpercentage1 {
+            width: 85%;position: absolute;z-index: 2223;color:transparent;
+            text-align: left!important;
+      }
+
+      .barcls-contentpercentage2 {
+            width: 85%;position: absolute;z-index: 2223;color:#555;
+            text-align: left!important;
+      }
+
+      .barcls-contentpercentage3 {
+            width: 85%;position: absolute;z-index: 2223;color:#555;
+            text-align: left!important;
+      }
+
+      .barcls-barcolor1,
+      .barcls-hover-barcolor1:hover {
+            background-color: #4CAF50!important
+      }
+
+      .barcls-barcolor2,
+      .barcls-hover-barcolor2:hover {
+            background-color:#f38630!important
+      }
+
+      .barcls-barcolor3,
+      .barcls-hover-barcolor3:hover {
+            background-color: #fff59a!important
+      }
+
+      
+      .spanCurrent {
+            padding:5px;
+            background-color: #4CAF50!important;
+            color: #4CAF50!important;
+            font-size: 1px;vertical-align: super;
+            margin-right: 5px;
+      }
+
+
+      .spanNext1 {
+            padding:5px;
+            background-color: #f38630!important;
+            color: #f38630!important;
+            font-size: 1px;vertical-align: super;
+            margin-right: 5px;
+      }
+
+      .spanNext2 {
+            padding:5px;
+            background-color: #fff59a!important;
+            color: #fff59a!important;
+            font-size: 1px;vertical-align: super;
+            margin-right: 5px;
+      }
+
+      .barcls-contentfillgap {
+            position: absolute;
+            color:transparent;
+            z-index: 2221;
+            right: 0;
+            z-index: 100;
+            background-color: lightgrey;
+            width:100%;      
+      }
+      
+      .barclsHeader {
+            position:relative;display:block;height:15px;cursor: pointer;
+      }
+
+      .highlightbar {
+            border: 1px solid black;
+      }
+
+      .highlightbartopleft {
+            border-top : 1px solid black;
+            border-left : 1px solid black;
+      }
+      .headerCurrent {
+        border:1px solid blue;
+        padding:8px;
+        display:inline-block;
+        border-radius: 10px;
+        background-color:#4CAF50;
+      }
+      .headerNext1 {
+        border:1px solid blue;
+        padding:8px;
+        display:inline-block;
+        border-radius: 10px;
+        background-color:#f38630;
+
+      }
+      .headerNext2 {
+        border:1px solid blue;
+        padding:8px;
+        display:inline-block;
+        border-radius: 10px;
+        background-color: #fff59a;
+
+      }
+
+      .hideNews {
+            opacity:0; transition: opacity 1s;     
+      }
+      
+      .showNews {
+            opacity:1; transition: opacity 1s;     
+      }
+</style>
+
+
+</html>
