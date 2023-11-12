@@ -1,17 +1,18 @@
-{"currentPoints": [{"name": "GT", "desc": "Gujarat", "point": 20, "won": 0, "lost": 0,"runrate":"+0.809","awon":0,"alost":0,"aplayed":0},
-{ "name": "RR", "desc": "Rajasdan Royals", "point": 14, "won": 0, "lost": 0,"runrate":"+0.148","awon":0,"alost":0,"aplayed":0 },
-{ "name": "LSG", "desc": "Lucknow Super Giants", "point": 17, "won": 0, "lost": 0 ,"runrate":"+0.284","awon":0,"alost":0,"aplayed":0},
-{ "name": "DC", "desc": "Delhi Capitals", "point": 10, "won": 0, "lost": 0 ,"runrate":"-0.808","awon":0,"alost":0,"aplayed":0},
-{ "name": "RCB", "desc": "Royal Challengers", "point":14, "won": 0, "lost": 0 ,"runrate":"+0.135","awon":0,"alost":0,"aplayed":0},
-{ "name": "KKR", "desc": "Kolkota Knight Riders", "point": 12, "won": 0, "lost": 0 ,"runrate":"-0.239","awon":0,"alost":0,"aplayed":0},
-{ "name": "PBKS", "desc": "Punjab", "point": 12, "won": 0, "lost": 0 ,"runrate":"-0.304","awon":0,"alost":0,"aplayed":0},
-{ "name": "SRH", "desc": "Sun Risers Hydrabad", "point": 8, "won": 0, "lost": 0 ,"runrate":"-0.590","awon":0,"alost":0,"aplayed":0},
-{ "name": "CSK", "desc": "Chennai Super Kings", "point": 17, "won": 0, "lost": 0 ,"runrate":"+0.652","awon":0,"alost":0,"aplayed":0},
-{ "name": "MI", "desc": "Mumbai", "point": 16, "won": 0, "lost": 0 ,"runrate":"-0.044","awon":0,"alost":0,"aplayed":0}],
+{"currentPoints": [
+{"name": "BAN", "point": 4,"runrate":"-1.087",  "desc": "Gujarat", "won": 0, "lost": 0,"awon":0,"alost":0,"aplayed":0,"score_took":0,"score_given":0,"over_faced":0,"over_bowled":0},
+{ "name": "SA", "point": 14,"runrate":"+1.261",  "desc": "Rajasdan Royals",  "won": 0, "lost": 0,"runrate2":"+0.633","awon":0,"alost":0,"aplayed":0,"score_took":0,"score_given":0,"over_faced":0,"over_bowled":0 },
+{ "name": "IND","point": 18,"runrate":"+2.456",  "desc": "Lucknow Super Giants",  "won": 0, "lost": 0 ,"runrate2":"+0.294","awon":0,"alost":0,"aplayed":0,"score_took":0,"score_given":0,"over_faced":0,"over_bowled":0},
+{ "name": "AUS","point": 14,"runrate":"+0.841",  "desc": "Delhi Capitals", "won": 0, "lost": 0 ,"runrate2":"-0.605","awon":0,"alost":0,"aplayed":0,"score_took":0,"score_given":0,"over_faced":0,"over_bowled":0},
+{ "name": "PAK","point": 8,"runrate":"-0.199",  "desc": "Royal Challengers", "won": 0, "lost": 0 ,"runrate2":"-0.345","awon":0,"alost":0,"aplayed":0,"score_took":0,"score_given":0,"over_faced":0,"over_bowled":0},
+{ "name": "ENG","point": 6,"runrate":"-0.572",  "desc": "Kolkota Knight Riders", "won": 0, "lost": 0 ,"runrate2":"-0.357","awon":0,"alost":0,"aplayed":0,"score_took":0,"score_given":0,"over_faced":0,"over_bowled":0},
+{ "name": "NZ", "point": 10,"runrate":"+0.743",  "desc": "Punjab", "won": 0, "lost": 0 ,"runrate2":"-0.441","awon":0,"alost":0,"aplayed":0,"score_took":0,"score_given":0,"over_faced":0,"over_bowled":0},
+{ "name": "SL", "point": 4,"runrate":"-1.419",  "desc": "Sun Risers Hydrabad", "won": 0, "lost": 0 ,"runrate2":"-0.472","awon":0,"alost":0,"aplayed":0,"score_took":0,"score_given":0,"over_faced":0,"over_bowled":0},
+{ "name": "AFG","point": 8,"runrate":"-0.336",  "desc": "Chennai Super Kings", "won": 0, "lost": 0 ,"runrate2":"+0.493","awon":0,"alost":0,"aplayed":0,"score_took":0,"score_given":0,"over_faced":0,"over_bowled":0},
+{ "name": "NED","point": 4,"runrate":"-1.635",  "desc": "Mumbai", "won": 0, "lost": 0 ,"runrate2":"-0.790","awon":0,"alost":0,"aplayed":0,"score_took":0,"score_given":0,"over_faced":0,"over_bowled":0}],
 
-"rootPos" : 29911822142,
+"rootPos" :19919542016,
 "removeMatch" : 34,
-"nextLevelCounter":1,
+"nextLevelCounter":0,
 "commentssction" : "rootPos : 1, removeMatch1 : 29, removeMatch : 0, nextLevelCounter:3",
 "textFooter": ["No cookies are used to capture any user/system/network data.","","",""],
 "linkFooter": [{"link":"https://www.youtube.com/@IPLCalc","text":"Visit our channel for more details"},
@@ -20,5 +21,9 @@
 ,"linkFooter1": [{"link":"Link1","text":"Text1"},
 {"link":"Link2","text":"Text2"},
 {"link":"","text":"Text3"},{"link":"","text":"Text4"}]
-,"textFooter1": ["Test1","","Test3","Test4"]
+,"textFooter1": ["Test1","","Test3","Test4"],
+"news":[
+  "Teams : IND SA AUS qualified for semi final.",
+  "Minimum points to semi final raised from 8 to 10."
+]
 }
