@@ -353,11 +353,13 @@ for (var z = 0;  z < finalRes[y].length;z++)
 
       coredat = JSON.parse(JSON.stringify(finalRes));
       var totLength = coredat.length;
-      var timerval = 800;
+      var timerval = 1100;
 
       $("#root").click(function () {
         startCounter = 0;
-      process();
+
+        window.setTimeout(process, 3000);
+      //process();
 
       });
 
