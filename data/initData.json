@@ -1,14 +1,14 @@
 {"currentPoints": [
 {"name": "BAN", "point": 4,"runrate":"-1.087",  "desc": "Gujarat", "won": 0, "lost": 0,"awon":0,"alost":0,"aplayed":0,"score_took":0,"score_given":0,"over_faced":0,"over_bowled":0},
 { "name": "SA", "point": 14,"runrate":"+1.261",  "desc": "Rajasdan Royals",  "won": 0, "lost": 0,"runrate2":"+0.633","awon":0,"alost":0,"aplayed":0,"score_took":0,"score_given":0,"over_faced":0,"over_bowled":0 },
-{ "name": "IND","point": 18,"runrate":"+2.456",  "desc": "Lucknow Super Giants",  "won": 0, "lost": 0 ,"runrate2":"+0.294","awon":0,"alost":0,"aplayed":0,"score_took":0,"score_given":0,"over_faced":0,"over_bowled":0},
+{ "name": "IND","point": 18,"runrate":"+2.570",  "desc": "Lucknow Super Giants",  "won": 0, "lost": 0 ,"runrate2":"+0.294","awon":0,"alost":0,"aplayed":0,"score_took":0,"score_given":0,"over_faced":0,"over_bowled":0},
 { "name": "AUS","point": 14,"runrate":"+0.841",  "desc": "Delhi Capitals", "won": 0, "lost": 0 ,"runrate2":"-0.605","awon":0,"alost":0,"aplayed":0,"score_took":0,"score_given":0,"over_faced":0,"over_bowled":0},
 { "name": "PAK","point": 8,"runrate":"-0.199",  "desc": "Royal Challengers", "won": 0, "lost": 0 ,"runrate2":"-0.345","awon":0,"alost":0,"aplayed":0,"score_took":0,"score_given":0,"over_faced":0,"over_bowled":0},
 { "name": "ENG","point": 6,"runrate":"-0.572",  "desc": "Kolkota Knight Riders", "won": 0, "lost": 0 ,"runrate2":"-0.357","awon":0,"alost":0,"aplayed":0,"score_took":0,"score_given":0,"over_faced":0,"over_bowled":0},
 { "name": "NZ", "point": 10,"runrate":"+0.743",  "desc": "Punjab", "won": 0, "lost": 0 ,"runrate2":"-0.441","awon":0,"alost":0,"aplayed":0,"score_took":0,"score_given":0,"over_faced":0,"over_bowled":0},
 { "name": "SL", "point": 4,"runrate":"-1.419",  "desc": "Sun Risers Hydrabad", "won": 0, "lost": 0 ,"runrate2":"-0.472","awon":0,"alost":0,"aplayed":0,"score_took":0,"score_given":0,"over_faced":0,"over_bowled":0},
 { "name": "AFG","point": 8,"runrate":"-0.336",  "desc": "Chennai Super Kings", "won": 0, "lost": 0 ,"runrate2":"+0.493","awon":0,"alost":0,"aplayed":0,"score_took":0,"score_given":0,"over_faced":0,"over_bowled":0},
-{ "name": "NED","point": 4,"runrate":"-1.635",  "desc": "Mumbai", "won": 0, "lost": 0 ,"runrate2":"-0.790","awon":0,"alost":0,"aplayed":0,"score_took":0,"score_given":0,"over_faced":0,"over_bowled":0}],
+{ "name": "NED","point": 4,"runrate":"-1.825",  "desc": "Mumbai", "won": 0, "lost": 0 ,"runrate2":"-0.790","awon":0,"alost":0,"aplayed":0,"score_took":0,"score_given":0,"over_faced":0,"over_bowled":0}],
 
 "rootPos" :19919542016,
 "removeMatch" : 34,
