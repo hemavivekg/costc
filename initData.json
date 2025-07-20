@@ -1,0 +1,948 @@
+{
+  "currentPoints": [
+    {
+      "name": "GT",
+      "point": 6,
+      "runrate": "1.82",
+      "desc": "Gujarat",
+      "won": 0,
+      "lost": 0,
+      "awon": 0,
+      "alost": 0,
+      "aplayed": 0,
+      "score_took": 0,
+      "score_given": 0,
+      "over_faced": 0,
+      "over_bowled": 0
+    },
+    {
+      "name": "RR",
+      "point": 4,
+      "runrate": "0.555",
+      "desc": "Gujarat",
+      "won": 0,
+      "lost": 0,
+      "awon": 0,
+      "alost": 0,
+      "aplayed": 0,
+      "score_took": 0,
+      "score_given": 0,
+      "over_faced": 0,
+      "over_bowled": 0
+    },
+    {
+      "name": "LSG",
+      "point": 6,
+      "runrate": "-0.255",
+      "desc": "Gujarat",
+      "won": 0,
+      "lost": 0,
+      "awon": 0,
+      "alost": 0,
+      "aplayed": 0,
+      "score_took": 0,
+      "score_given": 0,
+      "over_faced": 0,
+      "over_bowled": 0
+    },
+    {
+      "name": "DC",
+      "point": 6,
+      "runrate": "1.365",
+      "desc": "Gujarat",
+      "won": 0,
+      "lost": 0,
+      "awon": 0,
+      "alost": 0,
+      "aplayed": 0,
+      "score_took": 0,
+      "score_given": 0,
+      "over_faced": 0,
+      "over_bowled": 0
+    },
+    {
+      "name": "RCB",
+      "point": 6,
+      "runrate": "2.255",
+      "desc": "Gujarat",
+      "won": 0,
+      "lost": 0,
+      "awon": 0,
+      "alost": 0,
+      "aplayed": 0,
+      "score_took": 0,
+      "score_given": 0,
+      "over_faced": 0,
+      "over_bowled": 0
+    },
+    {
+      "name": "KKR",
+      "point": 4,
+      "runrate": "1.255",
+      "desc": "Gujarat",
+      "won": 0,
+      "lost": 0,
+      "awon": 0,
+      "alost": 0,
+      "aplayed": 0,
+      "score_took": 0,
+      "score_given": 0,
+      "over_faced": 0,
+      "over_bowled": 0
+    },
+    {
+      "name": "PBKS",
+      "point": 6,
+      "runrate": "1.02",
+      "desc": "Gujarat",
+      "won": 0,
+      "lost": 0,
+      "awon": 0,
+      "alost": 0,
+      "aplayed": 0,
+      "score_took": 0,
+      "score_given": 0,
+      "over_faced": 0,
+      "over_bowled": 0
+    },
+    {
+      "name": "SRH",
+      "point": 2,
+      "runrate": "0.988",
+      "desc": "Gujarat",
+      "won": 0,
+      "lost": 0,
+      "awon": 0,
+      "alost": 0,
+      "aplayed": 0,
+      "score_took": 0,
+      "score_given": 0,
+      "over_faced": 0,
+      "over_bowled": 0
+    },
+    {
+      "name": "CSK",
+      "point": 2,
+      "runrate": "0.556",
+      "desc": "Gujarat",
+      "won": 0,
+      "lost": 0,
+      "awon": 0,
+      "alost": 0,
+      "aplayed": 0,
+      "score_took": 0,
+      "score_given": 0,
+      "over_faced": 0,
+      "over_bowled": 0
+    },
+    {
+      "name": "MI",
+      "point": 2,
+      "runrate": "0.444",
+      "desc": "Gujarat",
+      "won": 0,
+      "lost": 0,
+      "awon": 0,
+      "alost": 0,
+      "aplayed": 0,
+      "score_took": 0,
+      "score_given": 0,
+      "over_faced": 0,
+      "over_bowled": 0
+    }
+  ],
+  "winteam": "csk",
+  "highrunrate": { "CSK": true },
+  "rootPos": 64,
+  "removeMatch": 0,
+  "nextLevelCounter": 160,
+  "maxintegerhandling": 0,
+  "commentssction": "rootPos : 1, removeMatch1 : 29, removeMatch : 0, nextLevelCounter:3",
+  "textFooter": [
+    "No cookies are used to capture any user/system/network data.",
+    "",
+    "",
+    ""
+  ],
+  "linkFooter": [
+    {
+      "link": "https://www.youtube.com/@IPLCalc",
+      "text": "Visit our channel for more details.."
+    },
+    { "link": "Link2", "text": "" },
+    { "link": "Link3", "text": "" },
+    { "link": "", "text": "" }
+  ],
+  "linkFooter1": [
+    { "link": "Link1", "text": "Text1" },
+    { "link": "Link2", "text": "Text2" },
+    { "link": "", "text": "Text3" },
+    { "link": "", "text": "Text4" }
+  ],
+  "textFooter1": ["Test1", "", "Test3", "Test4"],
+  "news": [
+    "Teams : IND SA AUS qualified for semi final.",
+    "Minimum points to semi final raised from 8 to 10."
+  ],
+  "matches": [
+    {
+      "date": "05-Apr 15.30",
+      "team1": "CSK",
+      "team2": "DC",
+      "result": "",
+      "SlNo": "17"
+    },
+    {
+      "date": "05-Apr 19.30",
+      "team1": "PBKS",
+      "team2": "RR",
+      "result": "",
+      "SlNo": "18"
+    },
+    {
+      "date": "06-Apr 19.30",
+      "team1": "SRH",
+      "team2": "GT",
+      "result": "",
+      "SlNo": "19"
+    },
+    {
+      "date": "07-Apr 19.30",
+      "team1": "MI",
+      "team2": "RCB",
+      "result": "",
+      "SlNo": "20"
+    },
+    {
+      "date": "08-Apr 15.30",
+      "team1": "KKR",
+      "team2": "LSG",
+      "result": "",
+      "SlNo": "21"
+    },
+    {
+      "date": "08-Apr 19.30",
+      "team1": "PBKS",
+      "team2": "CSK",
+      "result": "",
+      "SlNo": "22"
+    },
+    {
+      "date": "09-Apr 19.30",
+      "team1": "GT",
+      "team2": "RR",
+      "result": "",
+      "SlNo": "23"
+    },
+    {
+      "date": "10-Apr 19.30",
+      "team1": "RCB",
+      "team2": "DC",
+      "result": "",
+      "SlNo": "24"
+    },
+    {
+      "date": "11-Apr 19.30",
+      "team1": "CSK",
+      "team2": "KKR",
+      "result": "",
+      "SlNo": "25"
+    },
+    {
+      "date": "12-Apr 15.30",
+      "team1": "LSG",
+      "team2": "GT",
+      "result": "",
+      "SlNo": "26"
+    },
+    {
+      "date": "12-Apr 19.30",
+      "team1": "SRH",
+      "team2": "PBKS",
+      "result": "",
+      "SlNo": "27"
+    },
+    {
+      "date": "13-Apr 15.30",
+      "team1": "RR",
+      "team2": "RCB",
+      "result": "",
+      "SlNo": "28"
+    },
+    {
+      "date": "13-Apr 19.30",
+      "team1": "DC",
+      "team2": "MI",
+      "result": "",
+      "SlNo": "29"
+    },
+    {
+      "date": "14-Apr 19.30",
+      "team1": "LSG",
+      "team2": "CSK",
+      "result": "",
+      "SlNo": "30"
+    },
+    {
+      "date": "15-Apr 19.30",
+      "team1": "PBKS",
+      "team2": "KKR",
+      "result": "",
+      "SlNo": "31"
+    },
+    {
+      "date": "16-Apr 19.30",
+      "team1": "DC",
+      "team2": "RR",
+      "result": "",
+      "SlNo": "32"
+    },
+    {
+      "date": "17-Apr 19.30",
+      "team1": "MI",
+      "team2": "SRH",
+      "result": "",
+      "SlNo": "33"
+    },
+    {
+      "date": "18-Apr 19.30",
+      "team1": "RCB",
+      "team2": "PBKS",
+      "result": "",
+      "SlNo": "34"
+    },
+    {
+      "date": "19-Apr 15.30",
+      "team1": "GT",
+      "team2": "DC",
+      "result": "",
+      "SlNo": "35"
+    },
+    {
+      "date": "19-Apr 19.30",
+      "team1": "RR",
+      "team2": "LSG",
+      "result": "",
+      "SlNo": "36"
+    },
+    {
+      "date": "20-Apr 15.30",
+      "team1": "PBKS",
+      "team2": "RCB",
+      "result": "",
+      "SlNo": "37"
+    },
+    {
+      "date": "20-Apr 19.30",
+      "team1": "MI",
+      "team2": "CSK",
+      "result": "",
+      "SlNo": "38"
+    },
+    {
+      "date": "21-Apr 19.30",
+      "team1": "KKR",
+      "team2": "GT",
+      "result": "",
+      "SlNo": "39"
+    },
+    {
+      "date": "22-Apr 19.30",
+      "team1": "LSG",
+      "team2": "DC",
+      "result": "",
+      "SlNo": "40"
+    },
+    {
+      "date": "23-Apr 19.30",
+      "team1": "SRH",
+      "team2": "MI",
+      "result": "",
+      "SlNo": "41"
+    },
+    {
+      "date": "24-Apr 19.30",
+      "team1": "RCB",
+      "team2": "RR",
+      "result": "",
+      "SlNo": "42"
+    },
+    {
+      "date": "25-Apr 19.30",
+      "team1": "CSK",
+      "team2": "SRH",
+      "result": "",
+      "SlNo": "43"
+    },
+    {
+      "date": "26-Apr 19.30",
+      "team1": "KKR",
+      "team2": "PBKS",
+      "result": "",
+      "SlNo": "44"
+    },
+    {
+      "date": "27-Apr 15.30",
+      "team1": "MI",
+      "team2": "LSG",
+      "result": "",
+      "SlNo": "45"
+    },
+    {
+      "date": "27-Apr 19.30",
+      "team1": "DC",
+      "team2": "RCB",
+      "result": "",
+      "SlNo": "46"
+    },
+    {
+      "date": "28-Apr 19.30",
+      "team1": "RR",
+      "team2": "GT",
+      "result": "",
+      "SlNo": "47"
+    },
+    {
+      "date": "29-Apr 19.30",
+      "team1": "DC",
+      "team2": "KKR",
+      "result": "",
+      "SlNo": "48"
+    },
+    {
+      "date": "30-Apr 19.30",
+      "team1": "CSK",
+      "team2": "PBKS",
+      "result": "",
+      "SlNo": "49"
+    },
+    {
+      "date": "01-May 19.30",
+      "team1": "RR",
+      "team2": "MI",
+      "result": "",
+      "SlNo": "50"
+    },
+    {
+      "date": "02-May 19.30",
+      "team1": "GT",
+      "team2": "SRH",
+      "result": "",
+      "SlNo": "51"
+    },
+    {
+      "date": "03-May 19.30",
+      "team1": "RCB",
+      "team2": "CSK",
+      "result": "",
+      "SlNo": "52"
+    },
+    {
+      "date": "04-May 15.30",
+      "team1": "KKR",
+      "team2": "RR",
+      "result": "",
+      "SlNo": "53"
+    },
+    {
+      "date": "04-May 19.30",
+      "team1": "PBKS",
+      "team2": "LSG",
+      "result": "",
+      "SlNo": "54"
+    },
+    {
+      "date": "05-May 19.30",
+      "team1": "SRH",
+      "team2": "DC",
+      "result": "",
+      "SlNo": "55"
+    },
+    {
+      "date": "06-May 19.30",
+      "team1": "MI",
+      "team2": "GT",
+      "result": "",
+      "SlNo": "56"
+    },
+    {
+      "date": "07-May 19.30",
+      "team1": "KKR",
+      "team2": "CSK",
+      "result": "",
+      "SlNo": "57"
+    },
+    {
+      "date": "17-May 19.30",
+      "team1": "RCB",
+      "team2": "KKR",
+      "result": "",
+      "SlNo": "58"
+    },
+    {
+      "date": "18-May 19.30",
+      "team1": "RR",
+      "team2": "PBKS",
+      "result": "",
+      "SlNo": "59"
+    },
+    {
+      "date": "18-May 19.30",
+      "team1": "DC",
+      "team2": "GT",
+      "result": "",
+      "SlNo": "60"
+    },
+    {
+      "date": "19-May 15.30",
+      "team1": "LSG",
+      "team2": "SRH",
+      "result": "",
+      "SlNo": "61"
+    },
+    {
+      "date": "20-May 19.30",
+      "team1": "CSK",
+      "team2": "RR",
+      "result": "",
+      "SlNo": "62"
+    },
+    {
+      "date": "21-May 19.30",
+      "team1": "MI",
+      "team2": "DC",
+      "result": "",
+      "SlNo": "63"
+    },
+    {
+      "date": "22-May 19.30",
+      "team1": "GT",
+      "team2": "LSG",
+      "result": "",
+      "SlNo": "64"
+    },
+    {
+      "date": "23-May 19.30",
+      "team1": "RCB",
+      "team2": "SRH",
+      "result": "",
+      "SlNo": "65"
+    },
+    {
+      "date": "24-May 19.30",
+      "team1": "PBKS",
+      "team2": "DC",
+      "result": "",
+      "SlNo": "66"
+    },
+    {
+      "date": "25-May 19.30",
+      "team1": "GT",
+      "team2": "CSK",
+      "result": "",
+      "SlNo": "67"
+    },
+    {
+      "date": "25-May 19.30",
+      "team1": "SRH",
+      "team2": "KKR",
+      "result": "",
+      "SlNo": "68"
+    },
+    {
+      "date": "26-May 15.30",
+      "team1": "PBKS",
+      "team2": "MI",
+      "result": "",
+      "SlNo": "69"
+    },
+    {
+      "date": "27-May 19.30",
+      "team1": "LSG",
+      "team2": "RCB",
+      "result": "",
+      "SlNo": "70"
+    }
+  ],
+
+  "matches111": [
+    {
+      "date": "05-Apr 15.30",
+      "team1": "CSK",
+      "team2": "DC",
+      "result": "",
+      "SlNo": "17"
+    },
+    {
+      "date": "05-Apr 19.30",
+      "team1": "PBKS",
+      "team2": "RR",
+      "result": "",
+      "SlNo": "18"
+    },
+    {
+      "date": "06-Apr 19.30",
+      "team1": "SRH",
+      "team2": "GT",
+      "result": "",
+      "SlNo": "19"
+    },
+    {
+      "date": "07-Apr 19.30",
+      "team1": "MI",
+      "team2": "RCB",
+      "result": "",
+      "SlNo": "20"
+    },
+    {
+      "date": "08-Apr 15.30",
+      "team1": "KKR",
+      "team2": "LSG",
+      "result": "",
+      "SlNo": "21"
+    },
+    {
+      "date": "08-Apr 19.30",
+      "team1": "PBKS",
+      "team2": "CSK",
+      "result": "",
+      "SlNo": "22"
+    },
+    {
+      "date": "09-Apr 19.30",
+      "team1": "GT",
+      "team2": "RR",
+      "result": "",
+      "SlNo": "23"
+    },
+    {
+      "date": "10-Apr 19.30",
+      "team1": "RCB",
+      "team2": "DC",
+      "result": "",
+      "SlNo": "24"
+    },
+    {
+      "date": "11-Apr 19.30",
+      "team1": "CSK",
+      "team2": "KKR",
+      "result": "",
+      "SlNo": "25"
+    },
+    {
+      "date": "12-Apr 15.30",
+      "team1": "LSG",
+      "team2": "GT",
+      "result": "",
+      "SlNo": "26"
+    },
+    {
+      "date": "12-Apr 19.30",
+      "team1": "SRH",
+      "team2": "PBKS",
+      "result": "",
+      "SlNo": "27"
+    },
+    {
+      "date": "13-Apr 15.30",
+      "team1": "RR",
+      "team2": "RCB",
+      "result": "",
+      "SlNo": "28"
+    },
+    {
+      "date": "13-Apr 19.30",
+      "team1": "DC",
+      "team2": "MI",
+      "result": "",
+      "SlNo": "29"
+    },
+    {
+      "date": "14-Apr 19.30",
+      "team1": "LSG",
+      "team2": "CSK",
+      "result": "",
+      "SlNo": "30"
+    },
+    {
+      "date": "15-Apr 19.30",
+      "team1": "PBKS",
+      "team2": "KKR",
+      "result": "",
+      "SlNo": "31"
+    },
+    {
+      "date": "16-Apr 19.30",
+      "team1": "DC",
+      "team2": "RR",
+      "result": "",
+      "SlNo": "32"
+    },
+    {
+      "date": "17-Apr 19.30",
+      "team1": "MI",
+      "team2": "SRH",
+      "result": "",
+      "SlNo": "33"
+    },
+    {
+      "date": "18-Apr 19.30",
+      "team1": "RCB",
+      "team2": "PBKS",
+      "result": "",
+      "SlNo": "34"
+    },
+    {
+      "date": "19-Apr 15.30",
+      "team1": "GT",
+      "team2": "DC",
+      "result": "",
+      "SlNo": "35"
+    },
+    {
+      "date": "19-Apr 19.30",
+      "team1": "RR",
+      "team2": "LSG",
+      "result": "",
+      "SlNo": "36"
+    },
+    {
+      "date": "20-Apr 15.30",
+      "team1": "PBKS",
+      "team2": "RCB",
+      "result": "",
+      "SlNo": "37"
+    },
+    {
+      "date": "20-Apr 19.30",
+      "team1": "MI",
+      "team2": "CSK",
+      "result": "",
+      "SlNo": "38"
+    },
+    {
+      "date": "21-Apr 19.30",
+      "team1": "KKR",
+      "team2": "GT",
+      "result": "",
+      "SlNo": "39"
+    },
+    {
+      "date": "22-Apr 19.30",
+      "team1": "LSG",
+      "team2": "DC",
+      "result": "",
+      "SlNo": "40"
+    },
+    {
+      "date": "23-Apr 19.30",
+      "team1": "SRH",
+      "team2": "MI",
+      "result": "",
+      "SlNo": "41"
+    },
+    {
+      "date": "24-Apr 19.30",
+      "team1": "RCB",
+      "team2": "RR",
+      "result": "",
+      "SlNo": "42"
+    },
+    {
+      "date": "25-Apr 19.30",
+      "team1": "CSK",
+      "team2": "SRH",
+      "result": "",
+      "SlNo": "43"
+    },
+    {
+      "date": "26-Apr 19.30",
+      "team1": "KKR",
+      "team2": "PBKS",
+      "result": "",
+      "SlNo": "44"
+    },
+    {
+      "date": "27-Apr 15.30",
+      "team1": "MI",
+      "team2": "LSG",
+      "result": "",
+      "SlNo": "45"
+    },
+    {
+      "date": "27-Apr 19.30",
+      "team1": "DC",
+      "team2": "RCB",
+      "result": "",
+      "SlNo": "46"
+    },
+    {
+      "date": "28-Apr 19.30",
+      "team1": "RR",
+      "team2": "GT",
+      "result": "",
+      "SlNo": "47"
+    },
+    {
+      "date": "29-Apr 19.30",
+      "team1": "DC",
+      "team2": "KKR",
+      "result": "",
+      "SlNo": "48"
+    },
+    {
+      "date": "30-Apr 19.30",
+      "team1": "CSK",
+      "team2": "PBKS",
+      "result": "",
+      "SlNo": "49"
+    },
+    {
+      "date": "01-May 19.30",
+      "team1": "RR",
+      "team2": "MI",
+      "result": "",
+      "SlNo": "50"
+    },
+    {
+      "date": "02-May 19.30",
+      "team1": "GT",
+      "team2": "SRH",
+      "result": "",
+      "SlNo": "51"
+    },
+    {
+      "date": "03-May 19.30",
+      "team1": "RCB",
+      "team2": "CSK",
+      "result": "",
+      "SlNo": "52"
+    },
+    {
+      "date": "04-May 15.30",
+      "team1": "KKR",
+      "team2": "RR",
+      "result": "",
+      "SlNo": "53"
+    },
+    {
+      "date": "04-May 19.30",
+      "team1": "PBKS",
+      "team2": "LSG",
+      "result": "",
+      "SlNo": "54"
+    },
+    {
+      "date": "05-May 19.30",
+      "team1": "SRH",
+      "team2": "DC",
+      "result": "",
+      "SlNo": "55"
+    },
+    {
+      "date": "06-May 19.30",
+      "team1": "MI",
+      "team2": "GT",
+      "result": "",
+      "SlNo": "56"
+    },
+    {
+      "date": "07-May 19.30",
+      "team1": "KKR",
+      "team2": "CSK",
+      "result": "",
+      "SlNo": "57"
+    },
+    {
+      "date": "08-May 19.30",
+      "team1": "PBKS",
+      "team2": "DC",
+      "result": "",
+      "SlNo": "58"
+    },
+    {
+      "date": "09-May 19.30",
+      "team1": "LSG",
+      "team2": "RCB",
+      "result": "",
+      "SlNo": "59"
+    },
+    {
+      "date": "10-May 19.30",
+      "team1": "SRH",
+      "team2": "KKR",
+      "result": "",
+      "SlNo": "60"
+    },
+    {
+      "date": "11-May 15.30",
+      "team1": "PBKS",
+      "team2": "MI",
+      "result": "",
+      "SlNo": "61"
+    },
+    {
+      "date": "11-May 19.30",
+      "team1": "DC",
+      "team2": "GT",
+      "result": "",
+      "SlNo": "62"
+    },
+    {
+      "date": "12-May 19.30",
+      "team1": "CSK",
+      "team2": "RR",
+      "result": "",
+      "SlNo": "63"
+    },
+    {
+      "date": "13-May 19.30",
+      "team1": "RCB",
+      "team2": "SRH",
+      "result": "",
+      "SlNo": "64"
+    },
+    {
+      "date": "14-May 19.30",
+      "team1": "GT",
+      "team2": "LSG",
+      "result": "",
+      "SlNo": "65"
+    },
+    {
+      "date": "15-May 19.30",
+      "team1": "MI",
+      "team2": "DC",
+      "result": "",
+      "SlNo": "66"
+    },
+    {
+      "date": "16-May 19.30",
+      "team1": "RR",
+      "team2": "PBKS",
+      "result": "",
+      "SlNo": "67"
+    },
+    {
+      "date": "17-May 19.30",
+      "team1": "RCB",
+      "team2": "KKR",
+      "result": "",
+      "SlNo": "68"
+    },
+    {
+      "date": "18-May 15.30",
+      "team1": "GT",
+      "team2": "CSK",
+      "result": "",
+      "SlNo": "69"
+    },
+    {
+      "date": "18-May 19.30",
+      "team1": "LSG",
+      "team2": "SRH",
+      "result": "",
+      "SlNo": "70"
+    }
+  ]
+}
