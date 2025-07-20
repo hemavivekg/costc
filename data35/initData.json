@@ -153,6 +153,8 @@
   ],
   "winteam": "csk",
   "highrunrate": { "CSK": true },
+  "message": "CSK - Exit even if winning all remaining matches",
+
   "rootPos": 64,
   "removeMatch": 0,
   "nextLevelCounter": 160,
