@@ -110,6 +110,7 @@
                         $scope.nextLevelCounter = response.data.nextLevelCounter;
                         teams.sort((a, b) => (b.point == a.point ? parseFloat(b.runrate) - parseFloat(a.runrate) : b.point - a.point));
 
+                        $scope.message = response.data.message;
                         
 
                         $scope.teamsNew = JSON.parse(JSON.stringify(teams));
@@ -1466,17 +1467,14 @@ font-size: 21px;
 font-family: Calibri;
 color: cornflowerblue;
 margin-bottom: 0px;
-">ODI World Cup 2023 - Point Calculator</p>
-      <p class="text-secondary" style="
+">{{message}}</p>
+<!--       <p class="text-secondary" style="
 text-align: center;
-/* padding-top: 20px; */
-/* padding-bottom: 5px; */
 font-size: 13px;
 font-family: Calibri;
-/* color: cornflowerblue; */
 ">Calculates points and position for each team based on all possible outcome of the series from now. <a href="sample.html" target="_blank">more details</a>
       </p>
-      <div class="row" style="border-radius: 10px;border: 1px solid #337ab7;padding-top: 10px;padding-bottom: 10px;">
+ -->      <div class="row" style="border-radius: 10px;border: 1px solid #337ab7;padding-top: 10px;padding-bottom: 10px;">
             <span style="
 /* background-color: white; */
 margin: -20px 0px 0px 10px;
@@ -1698,13 +1696,13 @@ text-align: center;
 
                   </div>      
 
-<br>
+<!-- <br>
 <br>
 <br>
                   <input id="myInput"  type="text" value="{{copycontent}}" style="display: none;">
                   <button ng-click="myFunction()">Copy text</button>
                                                       
-
+ -->
             </div>
       </div>
 
@@ -1717,11 +1715,12 @@ text-align: center;
             Disclaimer: Thanks for visiting the site. Above information provided is for illustration purpose only. IPLCalc.com is not
             responsible for any error in the above data presentated. Please provide your suggessions/issues/feedback
             to iplcalc@gmail.com. Please <a href="sample.html" target="_blank">click here</a> for more details about IPLCalc.com
+<!--             
             <span ng-if="textFooter[0]">{{textFooter[0]}}</span><a ng-if="linkFooter[0].link" target="_blank" href="{{linkFooter[0].link}}">{{linkFooter[0].text}}</a>
             <span ng-if="textFooter[1]">{{textFooter[1]}}</span><a ng-if="linkFooter[1].link" target="_blank" href="{{linkFooter[1].link}}">{{linkFooter[1].text}}</a>
             <span ng-if="textFooter[2]">{{textFooter[2]}}</span><a ng-if="linkFooter[2].link" target="_blank" href="{{linkFooter[2].link}}">{{linkFooter[2].text}}</a>
             <span ng-if="textFooter[3]">{{textFooter[3]}}</span><a ng-if="linkFooter[3].link" target="_blank" href="{{linkFooter[3].link}}">{{linkFooter[3].text}}</a>
-      </div>
+ -->      </div>
 
 
       <footer class="bg-info text-center text-lg-start fixed-bottom" style="margin-left: -15px;margin-right: -15px;">
