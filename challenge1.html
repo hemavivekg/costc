@@ -38,21 +38,6 @@
             {
                readPath = "data" + objParams["source"];      
             }
-            else 
-            readPath = "data25";
-
-            $interval(function() {
-                  $scope.newsClass = "hideNews";
-                  $timeout(function() {
-                        $scope.newsClass = "showNews";
-                        if ($scope.newsCount == $scope.news.length -1)
-                              $scope.newsCount = 0;
-                        else
-                              $scope.newsCount++;    
-                  },550);
-            }
-            , 5000);
-
 
             function GetWinDataFromServer(pos) {
                   var parm = '';
