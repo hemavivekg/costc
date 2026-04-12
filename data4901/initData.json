@@ -155,7 +155,7 @@
   "highlightteam": "csk",
   "highrunrate": { "RR": true },
   "lowrunrate": { "RCB": true },
-  "message": "CSK - Enter Qualifier 1 with six wins (14 points) in the remaining matches based on point (i.e assume run rate lower than other teams)",
+  "message": "RCB - Enter Qualifier 1 with 4 wins (14 points) in the remaining matches based on point (i.e assume run rate lower than other teams)",
   "rootPos": 19,
   "removeMatch": 0,
   "nextLevelCounter": 160,
