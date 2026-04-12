@@ -151,8 +151,8 @@
       "over_bowled": 0
     }
   ],
-  "winteam": "csk",
-  "highlightteam": "csk",
+  "winteam": "rcb",
+  "highlightteam": "rcb",
   "highrunrate": { "RR": true },
   "lowrunrate": { "RCB": true },
   "message": "RCB - Enter Qualifier 1 with 4 wins (14 points) in the remaining matches based on point (i.e assume run rate lower than other teams)",
